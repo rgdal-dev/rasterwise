@@ -25,3 +25,9 @@ I put the stars issue number into the folder name https://github.com/r-spatial/s
 
 There are some weird and wonderful files in the extdata/ on their own, from my personal collections. 
 
+
+## The list
+
+```{r, echo=FALSE}
+writeLines(readLines("weirdlist.txt"))
+```

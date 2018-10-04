@@ -19,3 +19,19 @@ I put the stars issue number into the folder name
 
 There are some weird and wonderful files in the extdata/ on their own,
 from my personal collections.
+
+## The list
+
+    #> bad_examples_62/example1.nc
+    #> bad_examples_62/example2.nc
+    #> bad_examples_62/example3.nc
+    #> dt_ref_global_merged_madt_uv_19921014_19921014_20060315.nc
+    #> EURO-CORDEX_81_DOMAIN000_54/EURO-CORDEX_81_DOMAIN000.nc
+    #> file.nc
+    #> hmr_ita.nc
+    #> nhsce_v01r01_19661004_20140203.nc
+    #> oscar_gdr_5d1993.nc
+    #> R13352.nc
+    #> ssh05d19921006.nc
+    #> test.nc_60/test.nc
+    #> timeseries.nc
