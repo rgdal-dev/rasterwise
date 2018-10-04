@@ -7,7 +7,7 @@ output: github_document
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = ""
 )
 ```
 # weird.nc
@@ -29,5 +29,21 @@ There are some weird and wonderful files in the extdata/ on their own, from my p
 ## The list
 
 ```{r, echo=FALSE}
-writeLines(readLines("weirdlist.txt"))
+files <- readLines("weirdlist.txt")
+writeLines(files)
+```
+
+
+## The ncdumps -h 
+
+
+```{r,echo=FALSE}
+for (i in seq_along(files)) {
+  cat("###############################################################################\n")
+  cat(files[i])
+  cat("\n\n\n\n")
+  dump <- system(sprintf("ncdump -h %s", file.path("extdata", files[i])), intern = TRUE)
+  writeLines(dump)
+  cat("\n\n\n\n")
+}
 ```
