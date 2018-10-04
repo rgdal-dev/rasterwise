@@ -1,4 +1,6 @@
 unlink("weird.tar.gz")
 system("tar cvzf weird.tar.gz extdata")
+files <- list.files("extdata", recursive = TRUE)
+writeLines(files, "weirdlist.txt")
 library(piggyback)
-pb_upload("weird.tar.gz", tag = "v0.0.2")
+pb_upload("weird.tar.gz", tag = "v0.0.3")
