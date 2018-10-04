@@ -1,3 +1,7 @@
+bad_examples_62/bad_examples.R
+bad_examples_62/example1.nc
+bad_examples_62/example2.nc
+bad_examples_62/example3.nc
 dt_ref_global_merged_madt_uv_19921014_19921014_20060315.nc
 EURO-CORDEX_81_DOMAIN000_54/EURO-CORDEX_81_DOMAIN000.nc
 EURO-CORDEX_81_DOMAIN000_54/issue_54.R
