@@ -4,6 +4,7 @@ bad_examples_62/example3.nc
 dt_ref_global_merged_madt_uv_19921014_19921014_20060315.nc
 EURO-CORDEX_81_DOMAIN000_54/EURO-CORDEX_81_DOMAIN000.nc
 file.nc
+get1index_64/test.nc
 hmr_ita.nc
 nhsce_v01r01_19661004_20140203.nc
 oscar_gdr_5d1993.nc
