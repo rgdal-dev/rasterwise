@@ -28,11 +28,13 @@ from my personal collections.
     dt_ref_global_merged_madt_uv_19921014_19921014_20060315.nc
     EURO-CORDEX_81_DOMAIN000_54/EURO-CORDEX_81_DOMAIN000.nc
     file.nc
+    get1index_64/test.nc
     hmr_ita.nc
     nhsce_v01r01_19661004_20140203.nc
     oscar_gdr_5d1993.nc
     R13352.nc
     ssh05d19921006.nc
+    swapped/3A-DAY.nc
     test.nc_60/test.nc
     timeseries.nc
 
@@ -590,6 +592,80 @@ from my personal collections.
     
     
     ###############################################################################
+    get1index_64/test.nc
+    
+    
+    
+    netcdf test {
+    dimensions:
+        time = UNLIMITED ; // (1 currently)
+        bnds = 2 ;
+        x = 424 ;
+        y = 412 ;
+    variables:
+        double time(time) ;
+            time:standard_name = "time" ;
+            time:bounds = "time_bnds" ;
+            time:units = "days since 1949-12-01 00:00:00" ;
+            time:calendar = "proleptic_gregorian" ;
+            time:axis = "T" ;
+        double time_bnds(time, bnds) ;
+        double lon(y, x) ;
+            lon:standard_name = "longitude" ;
+            lon:long_name = "longitude" ;
+            lon:units = "degrees_east" ;
+            lon:_CoordinateAxisType = "Lon" ;
+        double lat(y, x) ;
+            lat:standard_name = "latitude" ;
+            lat:long_name = "latitude" ;
+            lat:units = "degrees_north" ;
+            lat:_CoordinateAxisType = "Lat" ;
+        float pr(time, y, x) ;
+            pr:standard_name = "precipitation_flux" ;
+            pr:long_name = "Precipitation" ;
+            pr:units = "kg m-2 s-1" ;
+            pr:coordinates = "lat lon" ;
+            pr:_FillValue = 1.e+20f ;
+            pr:missing_value = 1.e+20f ;
+            pr:cell_methods = "time: mean" ;
+    
+    // global attributes:
+            :CDI = "Climate Data Interface version 1.9.1 (http://mpimet.mpg.de/cdi)" ;
+            :history = "Wed Oct 03 11:53:06 2018: cdo -C seltimestep,1 /home/netapp-clima-scratch/fraffael/SPI/EC-EARTH_HIRHAM5/prOK_mon_2071-2098.nc /dev/shm/test.nc\n",
+                "Mon Oct 01 18:02:40 2018: cdo mulc,86400 pr_mon_2071-2098.nc prOK_mon_2071-2098.nc\n",
+                "Mon Oct 01 12:24:12 2018: cdo selyear,2071/2098 pr_mon_2071-2100.nc pr_mon_2071-2098.nc\n",
+                "Mon Oct  1 12:23:45 2018: ncrcat /home/esp-shared-a/RegionalModels/CORDEX/EUR-11/rcp85/MM/EC-EARTH_HIRHAM5/pr_EUR-11_ICHEC-EC-EARTH_rcp85_r3i1p1_DMI-HIRHAM5_v1_mon_207101-208012.nc /home/esp-shared-a/RegionalModels/CORDEX/EUR-11/rcp85/MM/EC-EARTH_HIRHAM5/pr_EUR-11_ICHEC-EC-EARTH_rcp85_r3i1p1_DMI-HIRHAM5_v1_mon_208101-209012.nc /home/esp-shared-a/RegionalModels/CORDEX/EUR-11/rcp85/MM/EC-EARTH_HIRHAM5/pr_EUR-11_ICHEC-EC-EARTH_rcp85_r3i1p1_DMI-HIRHAM5_v1_mon_209101-210012.nc pr_mon_2071-2100.nc\n",
+                "Mon Nov 18 04:53:38 2013: /usr/local/bin/ncks --mk_rec_dmn time pr_EUR-11_ICHEC-EC-EARTH_rcp85_r3i1p1_DMI-HIRHAM5_v1_mon_207101-208012.nc out1.nc\n",
+                "Fri Dec 07 08:23:08 2012: cdo setday,16 NAM-44/DMI/DMI-ECEARTH/rcp85/r3i1p1/DMI-HIRHAM5/v1/mon/tas/tas_NAM-44_DMI-ECEARTH_rcp85_r3i1p1_DMI-HIRHAM5_v1_mon_207101-208012.nc NAM-44/DMI/DMI-ECEARTH/rcp85/r3i1p1/DMI-HIRHAM5/v1/mon/tas/tas_NAM-44_DMI-ECEARTH_rcp85_r3i1p1_DMI-HIRHAM5_v1_mon_207101-208012_sub.nc\n",
+                "Fri Dec 07 08:23:07 2012: cdo monmean NAM-44/DMI/DMI-ECEARTH/rcp85/r3i1p1/DMI-HIRHAM5/v1/mon/tas/tas_NAM-44_DMI-ECEARTH_rcp85_r3i1p1_DMI-HIRHAM5_v1_mon_20710101-20801231.nc NAM-44/DMI/DMI-ECEARTH/rcp85/r3i1p1/DMI-HIRHAM5/v1/mon/tas/tas_NAM-44_DMI-ECEARTH_rcp85_r3i1p1_DMI-HIRHAM5_v1_mon_207101-208012.nc\n",
+                "Fri Dec 07 08:22:56 2012: cdo mergetime NAM-44/DMI/DMI-ECEARTH/rcp85/r3i1p1/DMI-HIRHAM5/v1/day/tas/tas_NAM-44_DMI-ECEARTH_rcp85_r3i1p1_DMI-HIRHAM5_v1_day_20710101-20751231.nc NAM-44/DMI/DMI-ECEARTH/rcp85/r3i1p1/DMI-HIRHAM5/v1/day/tas/tas_NAM-44_DMI-ECEARTH_rcp85_r3i1p1_DMI-HIRHAM5_v1_day_20760101-20801231.nc NAM-44/DMI/DMI-ECEARTH/rcp85/r3i1p1/DMI-HIRHAM5/v1/mon/tas/tas_NAM-44_DMI-ECEARTH_rcp85_r3i1p1_DMI-HIRHAM5_v1_mon_20710101-20801231.nc" ;
+            :institution = "Danish Meteorological Institute" ;
+            :Conventions = "CF-1.6" ;
+            :tracking_id = "e9cc9b3b-9755-400b-b101-49c24b811781" ;
+            :contact = "obc@dmi.dk" ;
+            :creation_date = "2012-12-03 03:14:15" ;
+            :driving_model_ensemble_member = "r3i1p1" ;
+            :institute_id = "DMI" ;
+            :model_id = "DMI-HIRHAM5" ;
+            :rcm_version_id = "v1" ;
+            :project_id = "CORDEX" ;
+            :product = "output" ;
+            :frequency = "mon" ;
+            :NCO = "\"4.6.4\"" ;
+            :experiment = "Scenario run using ECEARTH as driving model" ;
+            :experiment_id = "rcp85" ;
+            :driving_experiment_name = "rcp85" ;
+            :CORDEX_domain = "EUR-11" ;
+            :driving_experiment = "ICHEC-EC-EARTH,rcp85,r3i1p1" ;
+            :driving_model_id = "ICHEC-EC-EARTH" ;
+            :nco_openmp_thread_number = 1 ;
+            :CDO = "Climate Data Operators version 1.9.1 (http://mpimet.mpg.de/cdo)" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
     hmr_ita.nc
     
     
@@ -1124,6 +1200,102 @@ from my personal collections.
             :version = "WOCE CD-ROM V2.00-MGDRB" ;
             :creation_date = "Wed Jul  5 13:51:06 2000" ;
             :originating_center = "NASA JPL PO.DAAC" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    swapped/3A-DAY.nc
+    
+    
+    
+    netcdf \3A-DAY {
+    dimensions:
+        AD = 2 ;
+        chn = 2 ;
+        nlon = 1440 ;
+        nlat = 536 ;
+    variables:
+        float precipRateNearSurfMean(AD, chn, nlon, nlat) ;
+            precipRateNearSurfMean:DimensionNames = "AD,chn,nlon,nlat" ;
+            precipRateNearSurfMean:Units = "mm/hr" ;
+            precipRateNearSurfMean:units = "mm/hr" ;
+            precipRateNearSurfMean:CodeMissingValue = "-9999.9" ;
+            precipRateNearSurfMean:origname = "precipRateNearSurfMean" ;
+            precipRateNearSurfMean:fullnamepath = "/GRID/precipRateNearSurfMean" ;
+            precipRateNearSurfMean:_FillValue = -9999.9f ;
+        int AD(AD) ;
+            AD:comment = "Ascending or descending half of the orbit." ;
+            AD:units = "level" ;
+        int chn(chn) ;
+            chn:comment = "Number of channels:Ku,Ka,KaHS,DPR." ;
+            chn:units = "level" ;
+        float nlat(nlat) ;
+            nlat:units = "degrees_north" ;
+        float nlon(nlon) ;
+            nlon:units = "degrees_east" ;
+    
+    // global attributes:
+            :FileHeader = "DOI=10.5067/GPM/DPR/3A-DAY/05;\n",
+                "DOIauthority=http://dx.doi/org/;\n",
+                "DOIshortName=3DPRD;\n",
+                "AlgorithmID=3DPRD;\n",
+                "AlgorithmVersion=V2.20170410;\n",
+                "FileName=3A-DAY.GPM.DPR.V2-20170410.20180915-S000000-E235959.258.V05B.HDF5;\n",
+                "SatelliteName=GPM;\n",
+                "InstrumentName=DPR;\n",
+                "GenerationDateTime=2018-09-17T08:43:57.000Z;\n",
+                "StartGranuleDateTime=2018-09-15T00:00:00.000Z;\n",
+                "StopGranuleDateTime=2018-09-15T23:59:59.999Z;\n",
+                "GranuleNumber=;\n",
+                "NumberOfSwaths=0;\n",
+                "NumberOfGrids=1;\n",
+                "GranuleStart=;\n",
+                "TimeInterval=DAY;\n",
+                "ProcessingSystem=PPS;\n",
+                "ProductVersion=V05B;\n",
+                "EmptyGranule=NOT_EMPTY;\n",
+                "MissingData=;\n",
+                "" ;
+            :FileInfo = "DataFormatVersion=ch;\n",
+                "TKCodeBuildVersion=1;\n",
+                "MetadataVersion=ch;\n",
+                "FormatPackage=HDF5-1.8.9;\n",
+                "BlueprintFilename=GPM.V1.3DPRD.blueprint.xml;\n",
+                "BlueprintVersion=BV_53;\n",
+                "TKIOVersion=3.80.26;\n",
+                "MetadataStyle=PVL;\n",
+                "EndianType=LITTLE_ENDIAN;\n",
+                "" ;
+            :JAXAInfo = "GranuleFirstScanUTCDateTime=;\n",
+                "GranuleLastScanUTCDateTime=;\n",
+                "TotalQualityCode=Good;\n",
+                "FirstScanLat=;\n",
+                "FirstScanLon=;\n",
+                "LastScanLat=;\n",
+                "LastScanLon=;\n",
+                "NumberOfRainPixelsNS=;\n",
+                "NumberOfRainPixelsMS=;\n",
+                "NumberOfRainPixelsHS=;\n",
+                "ProcessingSubSystem=;\n",
+                "ProcessingMode=;\n",
+                "LightSpeed=;\n",
+                "DielectricConstantKa=;\n",
+                "DielectricConstantKu=;\n",
+                "" ;
+            :GRID.GridHeader = "BinMethod=ARITHMETIC_MEAN;\n",
+                "Registration=CENTER;\n",
+                "LatitudeResolution=0.25;\n",
+                "LongitudeResolution=0.25;\n",
+                "NorthBoundingCoordinate=67;\n",
+                "SouthBoundingCoordinate=-67;\n",
+                "EastBoundingCoordinate=180;\n",
+                "WestBoundingCoordinate=-180;\n",
+                "Origin=SOUTHWEST;\n",
+                "" ;
+            :GRID.fullnamepath = "/GRID" ;
+            :history = "2018-10-11 12:37:07 GMT Hyrax-1.13.4 https://gpm1.gesdisc.eosdis.nasa.gov:443/opendap/GPM_L3/GPM_3DPRD.05/2018/09/3A-DAY.GPM.DPR.V2-20170410.20180915-S000000-E235959.258.V05B.HDF5.nc?precipRateNearSurfMean,AD,chn,nlon,nlat" ;
     }
     
     
