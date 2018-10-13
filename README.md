@@ -33,6 +33,7 @@ from my personal collections.
     nhsce_v01r01_19661004_20140203.nc
     oscar_gdr_5d1993.nc
     R13352.nc
+    rectlinear/19911203.nc
     ssh05d19921006.nc
     swapped/3A-DAY.nc
     test.nc_60/test.nc
@@ -1120,6 +1121,55 @@ from my personal collections.
             :author = "Paola Petrelli" ;
             :institution = "TPAC - University of Tasmania" ;
             :history = "" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    rectlinear/19911203.nc
+    
+    
+    
+    netcdf \19911203 {
+    dimensions:
+        ni = 632 ;
+        nj = 664 ;
+        time = 1 ;
+    variables:
+        int time(time) ;
+            time:long_name = "time" ;
+            time:units = "hours since 1900-1-1 0:0:0" ;
+        byte concentration(time, nj, ni) ;
+            concentration:long_name = "sea-ice concentration" ;
+            concentration:units = "percent" ;
+            concentration:scale_factor = 1. ;
+            concentration:add_offset = 0. ;
+            concentration:missing_value = -128b ;
+            concentration:_FillValue = -128b ;
+        byte quality_flag(time, nj, ni) ;
+            quality_flag:long_name = "quality_flag" ;
+            quality_flag:units = "n/a" ;
+            quality_flag:scale_factor = 1. ;
+            quality_flag:add_offset = 0. ;
+            quality_flag:missing_value = -128b ;
+            quality_flag:_FillValue = -128b ;
+    
+    // global attributes:
+            :CONVENTIONS = "COARDS" ;
+            :long_name = "Sea-ice concentration as observed by SSM/I" ;
+            :short_name = "PSI-F13-Concentration" ;
+            :producer_agency = "IFREMER" ;
+            :producer_institution = "CERSAT" ;
+            :netcdf_version_id = "3.4" ;
+            :product_version = "2.0" ;
+            :creation_time = "2007-016T10:51:07.000" ;
+            :time_resolution = "daily" ;
+            :grid = "NSIDC" ;
+            :pole = "south" ;
+            :spatial_resolution = "12.5 km" ;
+            :platform_id = "F13" ;
+            :instrument = "SSM/I" ;
     }
     
     
