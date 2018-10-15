@@ -22,6 +22,7 @@ from my personal collections.
 
 ## The list
 
+    19911203.nc
     bad_examples_62/example1.nc
     bad_examples_62/example2.nc
     bad_examples_62/example3.nc
@@ -33,7 +34,7 @@ from my personal collections.
     nhsce_v01r01_19661004_20140203.nc
     oscar_gdr_5d1993.nc
     R13352.nc
-    rectlinear/19911203.nc
+    rectlinear/ACCfronts_nc4.nc
     ssh05d19921006.nc
     swapped/3A-DAY.nc
     test.nc_60/test.nc
@@ -41,6 +42,55 @@ from my personal collections.
 
 ## The ncdumps -h
 
+    ###############################################################################
+    19911203.nc
+    
+    
+    
+    netcdf \19911203 {
+    dimensions:
+        ni = 632 ;
+        nj = 664 ;
+        time = 1 ;
+    variables:
+        int time(time) ;
+            time:long_name = "time" ;
+            time:units = "hours since 1900-1-1 0:0:0" ;
+        byte concentration(time, nj, ni) ;
+            concentration:long_name = "sea-ice concentration" ;
+            concentration:units = "percent" ;
+            concentration:scale_factor = 1. ;
+            concentration:add_offset = 0. ;
+            concentration:missing_value = -128b ;
+            concentration:_FillValue = -128b ;
+        byte quality_flag(time, nj, ni) ;
+            quality_flag:long_name = "quality_flag" ;
+            quality_flag:units = "n/a" ;
+            quality_flag:scale_factor = 1. ;
+            quality_flag:add_offset = 0. ;
+            quality_flag:missing_value = -128b ;
+            quality_flag:_FillValue = -128b ;
+    
+    // global attributes:
+            :CONVENTIONS = "COARDS" ;
+            :long_name = "Sea-ice concentration as observed by SSM/I" ;
+            :short_name = "PSI-F13-Concentration" ;
+            :producer_agency = "IFREMER" ;
+            :producer_institution = "CERSAT" ;
+            :netcdf_version_id = "3.4" ;
+            :product_version = "2.0" ;
+            :creation_time = "2007-016T10:51:07.000" ;
+            :time_resolution = "daily" ;
+            :grid = "NSIDC" ;
+            :pole = "south" ;
+            :spatial_resolution = "12.5 km" ;
+            :platform_id = "F13" ;
+            :instrument = "SSM/I" ;
+    }
+    
+    
+    
+    
     ###############################################################################
     bad_examples_62/example1.nc
     
@@ -1127,49 +1177,40 @@ from my personal collections.
     
     
     ###############################################################################
-    rectlinear/19911203.nc
+    rectlinear/ACCfronts_nc4.nc
     
     
     
-    netcdf \19911203 {
+    netcdf ACCfronts_nc4 {
     dimensions:
-        ni = 632 ;
-        nj = 664 ;
-        time = 1 ;
+        lon = 1081 ;
+        lat = 363 ;
+        time = 854 ;
     variables:
-        int time(time) ;
-            time:long_name = "time" ;
-            time:units = "hours since 1900-1-1 0:0:0" ;
-        byte concentration(time, nj, ni) ;
-            concentration:long_name = "sea-ice concentration" ;
-            concentration:units = "percent" ;
-            concentration:scale_factor = 1. ;
-            concentration:add_offset = 0. ;
-            concentration:missing_value = -128b ;
-            concentration:_FillValue = -128b ;
-        byte quality_flag(time, nj, ni) ;
-            quality_flag:long_name = "quality_flag" ;
-            quality_flag:units = "n/a" ;
-            quality_flag:scale_factor = 1. ;
-            quality_flag:add_offset = 0. ;
-            quality_flag:missing_value = -128b ;
-            quality_flag:_FillValue = -128b ;
+        float lon(lon) ;
+            lon:units = "degrees_east" ;
+            lon:long_name = "longitude" ;
+        float lat(lat) ;
+            lat:units = "degrees_north" ;
+            lat:long_name = "latitude" ;
+        float month(time) ;
+            month:long_name = "month" ;
+        float year(time) ;
+            year:long_name = "year" ;
+        float day(time) ;
+            day:long_name = "day" ;
+            day:units = "central time of +/- 10-15 day window" ;
+        float front(time, lat, lon) ;
+            front:units = "valid range from 0 to 12" ;
+            front:long_name = "frontal indices" ;
+            front:description = "Indices:   0 - south of sBdy;  1 - between SACCF-S & sBdy;  2 - SACCF-N & SACCF-S;  3 - PF-S & SACCF-N;  4 - PF-M & PF-S;  5 - PF-N & PF-M;  6 - SAF-S & PF-N;  7 - SAF-M & SAF-S;  8 - SAF-N & SAF-M;  9 - SAZ-S & SAF-N; 10 - SAZ-M & SAZ-S; 11 - SAZ-N & SAZ-M; 12 - north of SAZ-N. " ;
     
     // global attributes:
-            :CONVENTIONS = "COARDS" ;
-            :long_name = "Sea-ice concentration as observed by SSM/I" ;
-            :short_name = "PSI-F13-Concentration" ;
-            :producer_agency = "IFREMER" ;
-            :producer_institution = "CERSAT" ;
-            :netcdf_version_id = "3.4" ;
-            :product_version = "2.0" ;
-            :creation_time = "2007-016T10:51:07.000" ;
-            :time_resolution = "daily" ;
-            :grid = "NSIDC" ;
-            :pole = "south" ;
-            :spatial_resolution = "12.5 km" ;
-            :platform_id = "F13" ;
-            :instrument = "SSM/I" ;
+            :Conventions = "none" ;
+            :institution = "CSIRO Marine and Atmospheric Research" ;
+            :title = "ACC frontal indices: ACC fronts are mapped using combined MSLA data; Sokolov & Rintoul, JGR, 2009.  " ;
+            :description = "ACC fronts are mapped using local (estimated in  30-deg sectors) frontal labels. Navigation of the ACC jets around shallow bottom topography is also taken into account. For further details see Sokolov & Rintoul, JGR, 2009a,b.            " ;
+            :history = "Generated on Tue Nov  3 10:49:18 EST 2009." ;
     }
     
     
