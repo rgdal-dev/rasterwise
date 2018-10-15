@@ -14,6 +14,15 @@ Files are put into “extdata/”, and then a script is run to
   - push the tarball artefact out into the Releases files (using R’s
     piggyback)
 
+## Get the files
+
+To download the entire file bundle run this code:
+
+``` r
+library(piggyback)
+pb_download("weird.tar.gz", dest = ".", repo = "mdsumner/weird.nc")
+```
+
 I put the stars issue number into the folder name
 <https://github.com/r-spatial/stars/issues>
 
@@ -22,6 +31,7 @@ from my personal collections.
 
 ## The list
 
+    19911203.nc
     bad_examples_62/example1.nc
     bad_examples_62/example2.nc
     bad_examples_62/example3.nc
@@ -31,9 +41,11 @@ from my personal collections.
     get1index_64/test.nc
     hmr_ita.nc
     nhsce_v01r01_19661004_20140203.nc
+    ob_tran/example_ob_tran.nc
+    ob_tran/example_ob_tran2.nc
     oscar_gdr_5d1993.nc
     R13352.nc
-    rectlinear/19911203.nc
+    rectlinear/ACCfronts_nc4.nc
     ssh05d19921006.nc
     swapped/3A-DAY.nc
     test.nc_60/test.nc
@@ -41,6 +53,55 @@ from my personal collections.
 
 ## The ncdumps -h
 
+    ###############################################################################
+    19911203.nc
+    
+    
+    
+    netcdf \19911203 {
+    dimensions:
+        ni = 632 ;
+        nj = 664 ;
+        time = 1 ;
+    variables:
+        int time(time) ;
+            time:long_name = "time" ;
+            time:units = "hours since 1900-1-1 0:0:0" ;
+        byte concentration(time, nj, ni) ;
+            concentration:long_name = "sea-ice concentration" ;
+            concentration:units = "percent" ;
+            concentration:scale_factor = 1. ;
+            concentration:add_offset = 0. ;
+            concentration:missing_value = -128b ;
+            concentration:_FillValue = -128b ;
+        byte quality_flag(time, nj, ni) ;
+            quality_flag:long_name = "quality_flag" ;
+            quality_flag:units = "n/a" ;
+            quality_flag:scale_factor = 1. ;
+            quality_flag:add_offset = 0. ;
+            quality_flag:missing_value = -128b ;
+            quality_flag:_FillValue = -128b ;
+    
+    // global attributes:
+            :CONVENTIONS = "COARDS" ;
+            :long_name = "Sea-ice concentration as observed by SSM/I" ;
+            :short_name = "PSI-F13-Concentration" ;
+            :producer_agency = "IFREMER" ;
+            :producer_institution = "CERSAT" ;
+            :netcdf_version_id = "3.4" ;
+            :product_version = "2.0" ;
+            :creation_time = "2007-016T10:51:07.000" ;
+            :time_resolution = "daily" ;
+            :grid = "NSIDC" ;
+            :pole = "south" ;
+            :spatial_resolution = "12.5 km" ;
+            :platform_id = "F13" ;
+            :instrument = "SSM/I" ;
+    }
+    
+    
+    
+    
     ###############################################################################
     bad_examples_62/example1.nc
     
@@ -824,6 +885,205 @@ from my personal collections.
     
     
     ###############################################################################
+    ob_tran/example_ob_tran.nc
+    
+    
+    
+    netcdf example_ob_tran {
+    dimensions:
+        time = UNLIMITED ; // (1 currently)
+        bnds = 2 ;
+        rlon = 106 ;
+        rlat = 103 ;
+        vertices = 4 ;
+    variables:
+        double time(time) ;
+            time:standard_name = "time" ;
+            time:long_name = "time" ;
+            time:bounds = "time_bnds" ;
+            time:units = "days since 1949-12-01T00:00:00Z" ;
+            time:calendar = "proleptic_gregorian" ;
+            time:axis = "T" ;
+        double time_bnds(time, bnds) ;
+        float lon(rlat, rlon) ;
+            lon:standard_name = "longitude" ;
+            lon:long_name = "longitude coordinate" ;
+            lon:units = "degrees_east" ;
+            lon:_CoordinateAxisType = "Lon" ;
+            lon:bounds = "lon_bnds" ;
+        float lon_bnds(rlat, rlon, vertices) ;
+        float lat(rlat, rlon) ;
+            lat:standard_name = "latitude" ;
+            lat:long_name = "latitude coordinate" ;
+            lat:units = "degrees_north" ;
+            lat:_CoordinateAxisType = "Lat" ;
+            lat:bounds = "lat_bnds" ;
+        float lat_bnds(rlat, rlon, vertices) ;
+        double rlon(rlon) ;
+            rlon:standard_name = "grid_longitude" ;
+            rlon:long_name = "longitude in rotated pole grid" ;
+            rlon:units = "degrees" ;
+            rlon:axis = "X" ;
+        double rlat(rlat) ;
+            rlat:standard_name = "grid_latitude" ;
+            rlat:long_name = "latitude in rotated pole grid" ;
+            rlat:units = "degrees" ;
+            rlat:axis = "Y" ;
+        int rotated_latitude_longitude ;
+            rotated_latitude_longitude:grid_mapping_name = "rotated_latitude_longitude" ;
+            rotated_latitude_longitude:grid_north_pole_latitude = 39.25 ;
+            rotated_latitude_longitude:grid_north_pole_longitude = -162. ;
+            rotated_latitude_longitude:north_pole_grid_longitude = 0. ;
+        double height ;
+            height:standard_name = "height" ;
+            height:long_name = "height" ;
+            height:units = "m" ;
+            height:positive = "up" ;
+            height:axis = "Z" ;
+        float tas(time, rlat, rlon) ;
+            tas:standard_name = "air_temperature" ;
+            tas:long_name = "Near-Surface Air Temperature" ;
+            tas:units = "K" ;
+            tas:grid_mapping = "rotated_latitude_longitude" ;
+            tas:coordinates = "height lat lon" ;
+            tas:_FillValue = 1.e+20f ;
+            tas:missing_value = 1.e+20f ;
+            tas:comment = "daily-mean near-surface (usually, 2 meter) air temperature." ;
+            tas:cell_methods = "time: mean" ;
+            tas:history = "2014-03-17T13:06:43Z altered by CMOR: Treated scalar dimension: \'height\'. 2014-03-17T13:06:43Z altered by CMOR: replaced missing value flag (-1e+20) with standard missing value (1e+20)." ;
+            tas:associated_files = "gridspecFile: gridspec_atmos_fx_CLMcom-CCLM4-8-17_evaluation_r0i0p0.nc" ;
+    
+    // global attributes:
+            :CDI = "Climate Data Interface version 1.9.1 (http://mpimet.mpg.de/cdi)" ;
+            :history = "Wed Oct 17 10:54:49 2018: cdo -C seltimestep,1 evaluation/MM/CLMcom-CCLM4-8-17/tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_CLMcom-CCLM4-8-17_v1_mon_197901-198012.nc /dev/shm/example_ob_tran.nc\n",
+                "Processing for CORDEX archive at DKRZ (SVN revision 4244 http://svn-mad.zmaw.de/svn/mad/Model/IMDI/tags/cclm/cosmo_090213_4.8_clm17_cordex/util/running) 2014-03-17T13:06:43Z CMOR rewrote data to comply with CF standards and CORDEX requirements." ;
+            :source = "CLMcom-CCLM4-8-17" ;
+            :institution = "Climate Limited-area Modelling Community (CLM-Community)" ;
+            :Conventions = "CF-1.4" ;
+            :institute_id = "CLMcom" ;
+            :experiment_id = "evaluation" ;
+            :model_id = "CLMcom-CCLM4-8-17" ;
+            :contact = "cordex-cclm@dkrz.de" ;
+            :comment = "CORDEX Europe RCM CCLM 0.44 deg EUR-44" ;
+            :references = "http://www.clm-community.eu/" ;
+            :initialization_method = 1 ;
+            :physics_version = 1 ;
+            :tracking_id = "63986e70-d227-4b5c-a4c1-2af6224616a3" ;
+            :title = "CLMcom-CCLM4-8-17 model output prepared for CORDEX Evaluation run with reanalysis forcing" ;
+            :CORDEX_domain = "EUR-44" ;
+            :driving_experiment = "ECMWF-ERAINT, evaluation, r1i1p1" ;
+            :driving_model_id = "ECMWF-ERAINT" ;
+            :driving_model_ensemble_member = "r1i1p1" ;
+            :driving_experiment_name = "evaluation" ;
+            :rcm_version_id = "v1" ;
+            :product = "output" ;
+            :experiment = "Evaluation run with reanalysis forcing" ;
+            :frequency = "mon" ;
+            :creation_date = "2014-03-17T13:06:43Z" ;
+            :project_id = "CORDEX" ;
+            :table_id = "Table mon (Sept 2013) 1a8d24384e63c141a57dbedfd6710546" ;
+            :modeling_realm = "atmos" ;
+            :realization = 1 ;
+            :cmor_version = "2.9.1" ;
+            :CDO = "Climate Data Operators version 1.9.1 (http://mpimet.mpg.de/cdo)" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    ob_tran/example_ob_tran2.nc
+    
+    
+    
+    netcdf example_ob_tran2 {
+    dimensions:
+        time = UNLIMITED ; // (1 currently)
+        bnds = 2 ;
+        rlon = 106 ;
+        rlat = 103 ;
+    variables:
+        double time(time) ;
+            time:standard_name = "time" ;
+            time:long_name = "time" ;
+            time:bounds = "time_bnds" ;
+            time:units = "days since 1949-12-01 00:00:00" ;
+            time:calendar = "standard" ;
+            time:axis = "T" ;
+        double time_bnds(time, bnds) ;
+        double lon(rlat, rlon) ;
+            lon:standard_name = "longitude" ;
+            lon:long_name = "longitude" ;
+            lon:units = "degrees_east" ;
+            lon:_CoordinateAxisType = "Lon" ;
+        double lat(rlat, rlon) ;
+            lat:standard_name = "latitude" ;
+            lat:long_name = "latitude" ;
+            lat:units = "degrees_north" ;
+            lat:_CoordinateAxisType = "Lat" ;
+        double rlon(rlon) ;
+            rlon:standard_name = "grid_longitude" ;
+            rlon:long_name = "longitude in rotated pole grid" ;
+            rlon:units = "degrees" ;
+            rlon:axis = "X" ;
+        double rlat(rlat) ;
+            rlat:standard_name = "grid_latitude" ;
+            rlat:long_name = "latitude in rotated pole grid" ;
+            rlat:units = "degrees" ;
+            rlat:axis = "Y" ;
+        int rotated_pole ;
+            rotated_pole:grid_mapping_name = "rotated_latitude_longitude" ;
+            rotated_pole:grid_north_pole_latitude = 39.25f ;
+            rotated_pole:grid_north_pole_longitude = -162.f ;
+        double height ;
+            height:standard_name = "height" ;
+            height:long_name = "height" ;
+            height:units = "m" ;
+            height:positive = "up" ;
+            height:axis = "Z" ;
+        float tas(time, rlat, rlon) ;
+            tas:standard_name = "air_temperature" ;
+            tas:long_name = "Near-Surface Air Temperature" ;
+            tas:units = "K" ;
+            tas:grid_mapping = "rotated_pole" ;
+            tas:coordinates = "height lat lon" ;
+            tas:_FillValue = 1.e+20f ;
+            tas:missing_value = 1.e+20f ;
+            tas:cell_methods = "time: mean" ;
+    
+    // global attributes:
+            :CDI = "Climate Data Interface version 1.9.1 (http://mpimet.mpg.de/cdi)" ;
+            :history = "Wed Oct 17 11:05:07 2018: cdo -C seltimestep,1 /home/esp-shared-a/RegionalModels/CORDEX/EUR-44/evaluation/MM/KNMI-RACMO22E/tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_KNMI-RACMO22E_v1_mon_197901-198012.nc example_ob_tran2.nc" ;
+            :institution = "Royal Netherlands Meteorological Institute" ;
+            :Conventions = "CF-1.4" ;
+            :contact = "Erik van Meijgaard, KNMI, Regional Climate division (vanmeijg@knmi.nl)" ;
+            :experiment = "Evaluation run with reanalysis forcing" ;
+            :experiment_id = "evaluation" ;
+            :realization = "1" ;
+            :driving_experiment = "ECMWF-ERAINT,evaluation,r1i1p1" ;
+            :driving_model_id = "ECMWF-ERAINT" ;
+            :driving_model_ensemble_member = "r1i1p1" ;
+            :driving_experiment_name = "evaluation" ;
+            :institute_id = "KNMI" ;
+            :model_id = "KNMI-RACMO22E" ;
+            :rcm_version_id = "v1" ;
+            :references = "http://www.knmi.nl/research/regional_climate" ;
+            :project_id = "CORDEX" ;
+            :CORDEX_domain = "EUR-44" ;
+            :product = "output" ;
+            :frequency = "mon" ;
+            :knmi_model_comment = "RACMO22E: baseline physics from ECMWF CY31r1; modifications include HTESSEL CY33r1, patch K-diffusion CY32r3, moist Turbulent Kinetic Energy, satellite inferred Leaf Area Index" ;
+            :knmi_version_comment = "v1: reference version for Europe and other midlatitude regions" ;
+            :knmi_grib_path = "mos.knmi.nl:/climreg/CXEUR50/eCS6-v420-fERAIN/GRIB_data" ;
+            :creation_date = "2014-01-09T21:35:03Z" ;
+            :tracking_id = "60ab205f-db71-421e-a257-fd0843ca77a8" ;
+            :CDO = "Climate Data Operators version 1.9.1 (http://mpimet.mpg.de/cdo)" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
     oscar_gdr_5d1993.nc
     
     
@@ -1127,49 +1387,40 @@ from my personal collections.
     
     
     ###############################################################################
-    rectlinear/19911203.nc
+    rectlinear/ACCfronts_nc4.nc
     
     
     
-    netcdf \19911203 {
+    netcdf ACCfronts_nc4 {
     dimensions:
-        ni = 632 ;
-        nj = 664 ;
-        time = 1 ;
+        lon = 1081 ;
+        lat = 363 ;
+        time = 854 ;
     variables:
-        int time(time) ;
-            time:long_name = "time" ;
-            time:units = "hours since 1900-1-1 0:0:0" ;
-        byte concentration(time, nj, ni) ;
-            concentration:long_name = "sea-ice concentration" ;
-            concentration:units = "percent" ;
-            concentration:scale_factor = 1. ;
-            concentration:add_offset = 0. ;
-            concentration:missing_value = -128b ;
-            concentration:_FillValue = -128b ;
-        byte quality_flag(time, nj, ni) ;
-            quality_flag:long_name = "quality_flag" ;
-            quality_flag:units = "n/a" ;
-            quality_flag:scale_factor = 1. ;
-            quality_flag:add_offset = 0. ;
-            quality_flag:missing_value = -128b ;
-            quality_flag:_FillValue = -128b ;
+        float lon(lon) ;
+            lon:units = "degrees_east" ;
+            lon:long_name = "longitude" ;
+        float lat(lat) ;
+            lat:units = "degrees_north" ;
+            lat:long_name = "latitude" ;
+        float month(time) ;
+            month:long_name = "month" ;
+        float year(time) ;
+            year:long_name = "year" ;
+        float day(time) ;
+            day:long_name = "day" ;
+            day:units = "central time of +/- 10-15 day window" ;
+        float front(time, lat, lon) ;
+            front:units = "valid range from 0 to 12" ;
+            front:long_name = "frontal indices" ;
+            front:description = "Indices:   0 - south of sBdy;  1 - between SACCF-S & sBdy;  2 - SACCF-N & SACCF-S;  3 - PF-S & SACCF-N;  4 - PF-M & PF-S;  5 - PF-N & PF-M;  6 - SAF-S & PF-N;  7 - SAF-M & SAF-S;  8 - SAF-N & SAF-M;  9 - SAZ-S & SAF-N; 10 - SAZ-M & SAZ-S; 11 - SAZ-N & SAZ-M; 12 - north of SAZ-N. " ;
     
     // global attributes:
-            :CONVENTIONS = "COARDS" ;
-            :long_name = "Sea-ice concentration as observed by SSM/I" ;
-            :short_name = "PSI-F13-Concentration" ;
-            :producer_agency = "IFREMER" ;
-            :producer_institution = "CERSAT" ;
-            :netcdf_version_id = "3.4" ;
-            :product_version = "2.0" ;
-            :creation_time = "2007-016T10:51:07.000" ;
-            :time_resolution = "daily" ;
-            :grid = "NSIDC" ;
-            :pole = "south" ;
-            :spatial_resolution = "12.5 km" ;
-            :platform_id = "F13" ;
-            :instrument = "SSM/I" ;
+            :Conventions = "none" ;
+            :institution = "CSIRO Marine and Atmospheric Research" ;
+            :title = "ACC frontal indices: ACC fronts are mapped using combined MSLA data; Sokolov & Rintoul, JGR, 2009.  " ;
+            :description = "ACC fronts are mapped using local (estimated in  30-deg sectors) frontal labels. Navigation of the ACC jets around shallow bottom topography is also taken into account. For further details see Sokolov & Rintoul, JGR, 2009a,b.            " ;
+            :history = "Generated on Tue Nov  3 10:49:18 EST 2009." ;
     }
     
     
