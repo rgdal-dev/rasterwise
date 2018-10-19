@@ -12,8 +12,9 @@ ob_tran/example_ob_tran.nc
 ob_tran/example_ob_tran2.nc
 oscar_gdr_5d1993.nc
 R13352.nc
-rectlinear/ACCfronts_nc4.nc
-rectlinear/CM2.1_regionmask.nc
+rectilinear/ACCfronts_nc4.nc
+rectilinear/CM2.1_regionmask.nc
+rectilinear/test_3_.nc
 ssh05d19921006.nc
 swapped/3A-DAY.nc
 test.nc_60/test.nc

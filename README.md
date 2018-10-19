@@ -45,8 +45,9 @@ from my personal collections.
     ob_tran/example_ob_tran2.nc
     oscar_gdr_5d1993.nc
     R13352.nc
-    rectlinear/ACCfronts_nc4.nc
-    rectlinear/CM2.1_regionmask.nc
+    rectilinear/ACCfronts_nc4.nc
+    rectilinear/CM2.1_regionmask.nc
+    rectilinear/test_3_.nc
     ssh05d19921006.nc
     swapped/3A-DAY.nc
     test.nc_60/test.nc
@@ -1388,7 +1389,7 @@ from my personal collections.
     
     
     ###############################################################################
-    rectlinear/ACCfronts_nc4.nc
+    rectilinear/ACCfronts_nc4.nc
     
     
     
@@ -1428,7 +1429,7 @@ from my personal collections.
     
     
     ###############################################################################
-    rectlinear/CM2.1_regionmask.nc
+    rectilinear/CM2.1_regionmask.nc
     
     
     
@@ -1473,6 +1474,62 @@ from my personal collections.
     // global attributes:
             :filename = "regionmask.nc" ;
             :MPP_IO_VERSION = "$Id: mpp_io.F90,v 6.5.6.1.2.1.2.1.2.1 2003/02/19 15:47:51 fms Exp $" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    rectilinear/test_3_.nc
+    
+    
+    
+    netcdf test_3_ {
+    dimensions:
+        time = UNLIMITED ; // (2 currently)
+        bnds = 2 ;
+        xt = 360 ;
+        yt = 200 ;
+    variables:
+        double time(time) ;
+            time:standard_name = "time" ;
+            time:long_name = "time" ;
+            time:bounds = "time_bnds" ;
+            time:units = "days since 0001-01-01 00:00:00" ;
+            time:calendar = "365_day" ;
+            time:axis = "T" ;
+        double time_bnds(time, bnds) ;
+        float xt(xt) ;
+            xt:standard_name = "longitude" ;
+            xt:long_name = "longitude" ;
+            xt:units = "degrees_E" ;
+            xt:axis = "X" ;
+        float yt(yt) ;
+            yt:standard_name = "latitude" ;
+            yt:long_name = "latitude" ;
+            yt:units = "degrees_N" ;
+            yt:axis = "Y" ;
+        float SST(time, yt, xt) ;
+            SST:long_name = "sea surface temperature" ;
+            SST:units = "deg-C" ;
+            SST:_FillValue = -1.e+34f ;
+            SST:missing_value = -1.e+34f ;
+            SST:cell_methods = "time: mean" ;
+            SST:time_avg_info = "average_T1,average_T2,average_DT" ;
+        double average_DT(time) ;
+            average_DT:long_name = "Length of average period" ;
+            average_DT:units = "days" ;
+    
+    // global attributes:
+            :CDI = "Climate Data Interface version 1.9.1 (http://mpimet.mpg.de/cdi)" ;
+            :Conventions = "CF-1.6" ;
+            :history = "Fri Oct 19 13:55:32 2018: cdo -C seltimestep,1,2 /home/esp-shared-a/GlobalModels/CMIP5/OCEAN/Control/CM2.1/control-1860_CM2.1.sst.nc /dev/shm/test.nc\n",
+                "Thu Jul 13 07:02:40 2017: ncrcat /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.0001-0100.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.0101-0200.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.0201-0300.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.0301-0400.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.0401-0500.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.0501-0600.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.0601-0700.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.0701-0800.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.0801-0900.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.0901-1000.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.1001-1100.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.1101-1200.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.1201-1300.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.1301-1400.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.1401-1500.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.1501-1600.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.1601-1700.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.1701-1800.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.1801-1900.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.1901-2000.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.2001-2100.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.2101-2200.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.2201-2300.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.2301-2400.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.2401-2500.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.2501-2600.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.2601-2700.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.2701-2800.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.2801-2900.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.2901-3000.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.3001-3100.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.3101-3200.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.3201-3300.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.3301-3400.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.3401-3500.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.3501-3600.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.3601-3700.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.3701-3800.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.3801-3900.SST.nc /archive/ccsp/ipcc_ar4/CM2.1U_Control-1860_D4/pp/ice/ts/annual/100yr/ice.3901-4000.SST.nc CM21_Control-1860_sst.nc" ;
+            :filename = "ice.0001-0100.SST.nc" ;
+            :title = "CM2.1U_Control-1860_D4" ;
+            :comment = "FMS time averaging, version 3.0, precision=float" ;
+            :nco_openmp_thread_number = 1 ;
+            :CDO = "Climate Data Operators version 1.9.1 (http://mpimet.mpg.de/cdo)" ;
     }
     
     
