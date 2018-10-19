@@ -46,6 +46,7 @@ from my personal collections.
     oscar_gdr_5d1993.nc
     R13352.nc
     rectlinear/ACCfronts_nc4.nc
+    rectlinear/CM2.1_regionmask.nc
     ssh05d19921006.nc
     swapped/3A-DAY.nc
     test.nc_60/test.nc
@@ -1421,6 +1422,57 @@ from my personal collections.
             :title = "ACC frontal indices: ACC fronts are mapped using combined MSLA data; Sokolov & Rintoul, JGR, 2009.  " ;
             :description = "ACC fronts are mapped using local (estimated in  30-deg sectors) frontal labels. Navigation of the ACC jets around shallow bottom topography is also taken into account. For further details see Sokolov & Rintoul, JGR, 2009a,b.            " ;
             :history = "Generated on Tue Nov  3 10:49:18 EST 2009." ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    rectlinear/CM2.1_regionmask.nc
+    
+    
+    
+    netcdf CM2.1_regionmask {
+    dimensions:
+        gridlon_t = 360 ;
+        gridlat_t = 200 ;
+        gridlon_c = 360 ;
+        gridlat_c = 200 ;
+    variables:
+        float gridlon_t(gridlon_t) ;
+            gridlon_t:long_name = "zonal" ;
+            gridlon_t:units = "degree" ;
+        float gridlat_t(gridlat_t) ;
+            gridlat_t:long_name = "meridional" ;
+            gridlat_t:units = "degree" ;
+        float gridlon_c(gridlon_c) ;
+            gridlon_c:long_name = "zonal" ;
+            gridlon_c:units = "degree" ;
+        float gridlat_c(gridlat_c) ;
+            gridlat_c:long_name = "meridional" ;
+            gridlat_c:units = "degree" ;
+        float tmask(gridlat_t, gridlon_t) ;
+            tmask:long_name = "tmask" ;
+            tmask:units = "none" ;
+        float umask(gridlat_c, gridlon_c) ;
+            umask:long_name = "umask" ;
+            umask:units = "none" ;
+        float geolon_t(gridlat_t, gridlon_t) ;
+            geolon_t:long_name = "geolon_t" ;
+            geolon_t:units = "degree" ;
+        float geolon_c(gridlat_c, gridlon_c) ;
+            geolon_c:long_name = "geolon_c" ;
+            geolon_c:units = "degree" ;
+        float geolat_t(gridlat_t, gridlon_t) ;
+            geolat_t:long_name = "geolat_t" ;
+            geolat_t:units = "degree" ;
+        float geolat_c(gridlat_c, gridlon_c) ;
+            geolat_c:long_name = "geolat_c" ;
+            geolat_c:units = "degree" ;
+    
+    // global attributes:
+            :filename = "regionmask.nc" ;
+            :MPP_IO_VERSION = "$Id: mpp_io.F90,v 6.5.6.1.2.1.2.1.2.1 2003/02/19 15:47:51 fms Exp $" ;
     }
     
     
