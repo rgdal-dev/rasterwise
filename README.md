@@ -1,10 +1,19 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# weird.nc
+# rasterwise
 
-The goal of weird.nc is to collect illustrative NetCDF files so our R
-code works right.
+The goal of rasterwise is to collate hard-won knowledge of what’s wrong
+and what’s right about various data sets.
+
+It began as a collection of iillustrative NetCDF files, used for testing
+so our R code works right.
+
+## raadtools - a code collection of raster wise-dom
+
+TBD
+
+## Rogue NetCDF files
 
 Files are put into “extdata/”, and then a script is run to
 
