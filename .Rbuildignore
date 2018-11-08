@@ -1,3 +1,5 @@
+^data-raw$
 ^rasterwise\.Rproj$
 ^\.Rproj\.user$
 ^README\.Rmd$
+weird_update.R

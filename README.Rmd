@@ -10,6 +10,7 @@ knitr::opts_chunk$set(
   comment = ""
 )
 ```
+
 # rasterwise
 
 The goal of rasterwise is to collate hard-won knowledge of what's wrong and what's right about various data sets. 
@@ -19,6 +20,17 @@ It began as a collection of iillustrative NetCDF files, used for testing so our 
 ## raadtools - a code collection of raster wise-dom
 
 TBD
+
+A classic example is old ocean surface data (Aviso) that was in a regular Mercator grid, but published with 
+rectlinear lon-lat arrays
+
+https://github.com/AustralianAntarcticDivision/raadtools/blob/master/R/fronts.R#L129-L142
+
+There are many others https://twitter.com/mdsumner/status/1057504207043997697
+
+## Contributing
+
+Raise issues, send PRs, tell us your war stories! 
 
 ## Rogue NetCDF files
 

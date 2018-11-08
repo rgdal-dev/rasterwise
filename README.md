@@ -13,6 +13,19 @@ so our R code works right.
 
 TBD
 
+A classic example is old ocean surface data (Aviso) that was in a
+regular Mercator grid, but published with rectlinear lon-lat
+arrays
+
+<https://github.com/AustralianAntarcticDivision/raadtools/blob/master/R/fronts.R#L129-L142>
+
+There are many others
+<https://twitter.com/mdsumner/status/1057504207043997697>
+
+## Contributing
+
+Raise issues, send PRs, tell us your war stories\!
+
 ## Rogue NetCDF files
 
 Files are put into “extdata/”, and then a script is run to
@@ -48,6 +61,7 @@ from my personal collections.
     EURO-CORDEX_81_DOMAIN000_54/EURO-CORDEX_81_DOMAIN000.nc
     file.nc
     get1index_64/test.nc
+    high-dim/test-1.nc
     hmr_ita.nc
     nhsce_v01r01_19661004_20140203.nc
     ob_tran/example_ob_tran.nc
@@ -733,6 +747,30 @@ from my personal collections.
             :driving_model_id = "ICHEC-EC-EARTH" ;
             :nco_openmp_thread_number = 1 ;
             :CDO = "Climate Data Operators version 1.9.1 (http://mpimet.mpg.de/cdo)" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    high-dim/test-1.nc
+    
+    
+    
+    netcdf test-1 {
+    dimensions:
+        x = 2 ;
+        y = 3 ;
+        c3 = 2 ;
+        c4 = 2 ;
+        c5 = 3 ;
+    variables:
+        double a(c5, c4, c3, y, x) ;
+        double x(x) ;
+        double y(y) ;
+        double c3(c3) ;
+        double c4(c4) ;
+        double c5(c5) ;
     }
     
     
