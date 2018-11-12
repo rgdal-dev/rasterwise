@@ -57,12 +57,17 @@ from my personal collections.
     bad_examples_62/example1.nc
     bad_examples_62/example2.nc
     bad_examples_62/example3.nc
+    copernicus/cout-perc1_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap0.5.nc
+    copernicus/cout-perc1_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap215.nc
+    copernicus/cout-perc5_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap0.5.nc
+    copernicus/cout-perc5_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap215.nc
     dt_ref_global_merged_madt_uv_19921014_19921014_20060315.nc
     EURO-CORDEX_81_DOMAIN000_54/EURO-CORDEX_81_DOMAIN000.nc
     file.nc
     get1index_64/test.nc
     high-dim/test-1.nc
     hmr_ita.nc
+    inverted_73/regcm-nn-2100_reg4_22.nc
     nhsce_v01r01_19661004_20140203.nc
     ob_tran/example_ob_tran.nc
     ob_tran/example_ob_tran2.nc
@@ -368,6 +373,538 @@ from my personal collections.
             :References = "Isotta, F.A. et al. 2013: The climate of daily precipitation in the Alps: development and analysis of a high-resolution grid dataset from pan-Alpine rain-gauge data. Int. J. Climatol., accepted. Please check for updates on the publication status!" ;
             :nco_openmp_thread_number = 1 ;
             :CDO = "Climate Data Operators version 1.9.1 (http://mpimet.mpg.de/cdo)" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    copernicus/cout-perc1_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap0.5.nc
+    
+    
+    
+    netcdf cout-perc1_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap0.5 {
+    dimensions:
+        lat = 78 ;
+        lon = 130 ;
+        time = UNLIMITED ; // (1 currently)
+    variables:
+        float lat(lat) ;
+            lat:standard_name = "latitude" ;
+            lat:long_name = "Latitude" ;
+            lat:units = "degrees_north" ;
+            lat:axis = "Y" ;
+        float lon(lon) ;
+            lon:standard_name = "longitude" ;
+            lon:long_name = "Longitude" ;
+            lon:units = "degrees_east" ;
+            lon:axis = "X" ;
+        double time(time) ;
+            time:standard_name = "time" ;
+            time:units = "days since 1951-01-01 00:00:00" ;
+            time:calendar = "proleptic_gregorian" ;
+        float value1(time, lat, lon) ;
+            value1:units = "m-3 s-1" ;
+            value1:_FillValue = -1.e+20f ;
+            value1:original_name = "dis" ;
+        float value10(time, lat, lon) ;
+            value10:units = "m3 s-1" ;
+            value10:_FillValue = -1.e+20f ;
+            value10:original_name = "dis" ;
+        float value11(time, lat, lon) ;
+            value11:units = "m3 s-1" ;
+            value11:_FillValue = -1.e+20f ;
+            value11:original_name = "dis" ;
+        float value12(time, lat, lon) ;
+            value12:units = "m3 s-1" ;
+            value12:_FillValue = -1.e+20f ;
+            value12:original_name = "dis" ;
+        float value2(time, lat, lon) ;
+            value2:units = "m-3 s-1" ;
+            value2:_FillValue = -1.e+20f ;
+            value2:original_name = "dis" ;
+        float value3(time, lat, lon) ;
+            value3:units = "m-3 s-1" ;
+            value3:_FillValue = -1.e+20f ;
+            value3:original_name = "dis" ;
+        float value4(time, lat, lon) ;
+            value4:units = "m-3 s-1" ;
+            value4:_FillValue = -1.e+20f ;
+            value4:original_name = "dis" ;
+        float value5(time, lat, lon) ;
+            value5:units = "m3 s-1" ;
+            value5:_FillValue = -1.e+20f ;
+            value5:original_name = "dis" ;
+        float value6(time, lat, lon) ;
+            value6:units = "m3 s-1" ;
+            value6:_FillValue = -1.e+20f ;
+            value6:original_name = "dis" ;
+        float value7(time, lat, lon) ;
+            value7:units = "m3 s-1" ;
+            value7:_FillValue = -1.e+20f ;
+            value7:original_name = "dis" ;
+        float value8(time, lat, lon) ;
+            value8:units = "m3 s-1" ;
+            value8:_FillValue = -1.e+20f ;
+            value8:original_name = "dis" ;
+        float value9(time, lat, lon) ;
+            value9:units = "m3 s-1" ;
+            value9:_FillValue = -1.e+20f ;
+            value9:original_name = "dis" ;
+    
+    // global attributes:
+            :Conventions = "CF-1.4" ;
+            :title = "Flow duration curve (1th percentile)" ;
+            :description = "The flow duration curve (FDC) gives information about how frequently certain river flow rates occur.\n",
+                "Here, the FDC is described through 13 percentiles of the distribution of daily river flows during a 30-\n",
+                "year period:\n",
+                "• 1 %\n",
+                "• 5 %\n",
+                "• 10 % to 90 % in steps of 10 %\n",
+                "• 95 %\n",
+                "• 99 %\n",
+                "In case of the FDC for the full period, it is based on all daily data for a 30-year period. In the case of\n",
+                "FDC’s seasonality, it is based on all daily data for a 30-year period that belong to the same month,\n",
+                "evaluated for all 12 months of a year (i.e. all Januaries, all Februaries etc.)\n",
+                "For the reference period (1971-2000) the absolute values are given, while for the future periods the\n",
+                "relative changes are provided.\n",
+                "The indicators described above are delivered in a large number of NetCDF-files. This file is a part of the delivery." ;
+            :variable_name = "dis-perc1" ;
+            :comment = "The climate impact indicators are based on hydrological impact modelling performed within the EU\n",
+                "FP7 project IMPACT2C (grant agreement 282746). The full ensemble of time series from the model\n",
+                "runs within the IMPACT2C archive is available in NetCDF format\n",
+                "from http://ensemblesrt3.dmi.dk/data/impact2c-archive/MODELS/HYDROLOGY/.\n",
+                "More information on the climate-model ensemble used (for instance model selection procedures,\n",
+                "uncertainties, adjustments) can be found\n",
+                "here: http://impact2c.hzg.de/imperia/md/content/csc/projekte/impact2c_d5.1_fin.pdf\n",
+                "The hydrological models were driven by regional climate model (RCM) data. Within the EU FP7\n",
+                "project IMPACT2C, the original RCM output data has been spatially interpolated, adjusted to the\n",
+                "standard Gregorian calendar and has partly been bias-corrected. More details can be found here:\n",
+                "http://impact2c.hzg.de/imperia/md/content/csc/projekte/impact2c_d4.1.pdf\n",
+                "The dataset covers the ensemble members given in Table 1. Statistics are computed for different time\n",
+                "periods (see section 2.3) using this entire ensemble. " ;
+            :references = "W. Greuell et al. 2015. Evaluation of five hydrological models across Europe. HESSD 12, 10289–10330\n",
+                "P. Roudier et al. 2016. Projections of future floods and hydrological droughts in Europe under a +2°C\n",
+                "global warming. Climatic Change, 135: 341, doi:10.1007/s10584-015-1570-4 " ;
+            :contact = "hydro.fou@smhi.se" ;
+            :date_created = "Wed Feb 17 17:07:55 2016" ;
+            :invar_platform_id = "C3S_441_Lot1_SMHI contract" ;
+            :invar_rcm_model_realization_id = "IMPACT2C" ;
+            :invar_hm_model_id = "Hydrological models in the order of the variables are: E-HYPE21 E-HYPE21 E-HYPE21 E-HYPE21 VIC421 VIC421 VIC421 VIC421 Lisflood Lisflood Lisflood Lisflood " ;
+            :invar_hm_realization_id = "Hydrological models in the order of the variables are: KNMI-E-HYPE21 SMHI-E-HYPE21 SMHI-E-HYPE21 CSC-E-HYPE21 KNMI-VIC421 CSC-VIC421 SMHI-VIC421 SMHI-VIC421 KNMI-Lisflood CSC-Lisflood SMHI-Lisflood SMHI-Lisflood" ;
+            :invar_experiment_name = "rcp85" ;
+            :invar_bc_method_id = "QM-EOBS" ;
+            :invar_bc_observation_id = "QM-EOBS" ;
+            :invar_bc_period = "1971-2000" ;
+            :reference_period = "1971-2000" ;
+            :output_frequency = "day" ;
+            :time_coverage_start = "19710101" ;
+            :time_coverage_end = "20001231" ;
+            :time_coverage_comment = "If a projection did not cover the full period 2071-2100, the indicators were calculated based on the remaining years in the period." ;
+            :domain = "EUR-44" ;
+            :keywords = "Flux, river flow, flow duration curve" ;
+            :data_quality = "The database used was produced within the research project IMPACT2C (www.impact2c.eu) funded\n",
+                "by the European Union Seventh Framework Programme (FP7/2007- 2013) under the grant agreement 4282746. \n",
+                "The hydrological models were evaluated by the scientific partners participating in the\n",
+                "IMPACT2C project and results can be found in Greuell et al. (2015).\n",
+                "DISCLAIMER: C3S_441_Lot1_SMHI uses state of the art, quality controlled data to produce this indicator, but the\n",
+                "user should note that model performance can vary substantially by location and indicator and not all\n",
+                "indicators can be evaluated at a pan-European scale. Also, in IMPACT2C, hydrological model\n",
+                "variables were provided on a common 0.5 degree grid which is the native grid of VIC, while Lisflood\n",
+                "and E-HYPE results were up-scaled to this resolution. This may reduce the quality of the indicators vs\n",
+                "original hydrological model results." ;
+            :license = "Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0), https://creativecommons.org/licenses/by-sa/4.0/legalcode" ;
+            :geographic_area = "The model spans a pan-European domain. The grid points over the sea are masked and only land points are retained." ;
+            :spatial_resolution = "Gridded at 0.5 x 0.5 degrees.\n",
+                "The grid size is 130 x 78 grid points in longitudinal and latitudinal direction, respectively.\n",
+                "Note that the grid is the native one of VIC, while Lisflood and E-HYPE results were up-scaled to this\n",
+                "resolution." ;
+            :package_name = "Indices have been computed using CDO (https://code.zmaw.de/projects/cdo)" ;
+            :date_issued = "Wed Feb 17 17:07:55 2016" ;
+            :date_modified = "Wed Feb 17 17:07:55 2016" ;
+            :activity = "C3S_441_Lot1_SMHI contract" ;
+            :geospatial_lat_min = "33.25 degrees_east" ;
+            :geospatial_lat_max = "71.75 degrees_east" ;
+            :geospatial_lat_resolution = "0.5 degree" ;
+            :geospatial_lon_min = "-24.75 degrees_west" ;
+            :geospatial_lon_max = "39.75 degrees_west" ;
+            :geospatial_lon_resolution = "0.5 degree" ;
+            :invar_gcm_id = "GCMs in the order of the variables are: KNMI-EC-EARTH SMHI-EC-EARTH SMHI-HadGEM2-ES CSC-MPI-ESM-LR KNMI-EC-EARTH CSC-MPI-ESM-LR SMHI-HadGEM2-ES SMHI-EC-EARTH KNMI-EC-EARTH CSC-MPI-ESM-LR SMHI-HadGEM2-ES SMHI-EC-EARTH" ;
+            :invar_rcm_id = "RCMs in the order of the variables are: KNMI-RACMO22E SMHI-RCA4 SMHI-RCA4 CSC-REMO2009 KNMI-RACMO22E CSC-REMO2009 SMHI-RCA4 SMHI-RCA4 KNMI-RACMO22E CSC-REMO2009 SMHI-RCA4 SMHI-RCA4" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    copernicus/cout-perc1_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap215.nc
+    
+    
+    
+    netcdf cout-perc1_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap215 {
+    dimensions:
+        id = 35408 ;
+        time = UNLIMITED ; // (1 currently)
+    variables:
+        double id(id) ;
+            id:standard_name = "longitude" ;
+            id:long_name = "SUBID" ;
+            id:units = "degrees" ;
+            id:axis = "X" ;
+        double time(time) ;
+            time:standard_name = "time" ;
+            time:units = "days since 1971-01-01 00:00:00" ;
+            time:calendar = "proleptic_gregorian" ;
+        float variable1(time, id) ;
+            variable1:units = "%" ;
+            variable1:_FillValue = -9999.f ;
+        float variable2(time, id) ;
+            variable2:units = "%" ;
+            variable2:_FillValue = -9999.f ;
+        float variable3(time, id) ;
+            variable3:units = "%" ;
+            variable3:_FillValue = -9999.f ;
+        float variable4(time, id) ;
+            variable4:units = "%" ;
+            variable4:_FillValue = -9999.f ;
+    
+    // global attributes:
+            :Conventions = "CF-1.4" ;
+            :title = "Flow duration curve (1th percentile)" ;
+            :description = "The flow duration curve (FDC) gives information about how frequently certain river flow rates occur.\n",
+                "Here, the FDC is described through 13 percentiles of the distribution of daily river flows during a 30-\n",
+                "year period:\n",
+                "• 1 %\n",
+                "• 5 %\n",
+                "• 10 % to 90 % in steps of 10 %\n",
+                "• 95 %\n",
+                "• 99 %\n",
+                "In case of the FDC for the full period, it is based on all daily data for a 30-year period. In the case of\n",
+                "FDC’s seasonality, it is based on all daily data for a 30-year period that belong to the same month,\n",
+                "evaluated for all 12 months of a year (i.e. all Januaries, all Februaries etc.)\n",
+                "For the reference period (1971-2000) the absolute values are given, while for the future periods the\n",
+                "relative changes are provided.\n",
+                "The indicators described above are delivered in a large number of NetCDF-files. This file is a part of the delivery." ;
+            :variable_name = "cout-perc1" ;
+            :comment = "The climate impact indicators are based on hydrological impact modelling using the hydrological\n",
+                "model E-HYPEv3.1.2. The hydrological modelling was done for C3S_441_Lot1_SMHI with an ensemble of biascorrected\n",
+                "climate model data provided by the EU FP7 project IMPACT2C (grant agreement 282746).\n",
+                "More information on the climate-model ensemble used (for instance model selection procedures,\n",
+                "uncertainties, adjustments) can be found\n",
+                "here: http://impact2c.hzg.de/imperia/md/content/csc/projekte/impact2c_d5.1_fin.pdf\n",
+                "Within the project IMPACT2C, the original RCM output data has been spatially interpolated, adjusted\n",
+                "to the standard Gregorian calendar and has partly been bias-corrected. More details can be found here:\n",
+                "http://impact2c.hzg.de/imperia/md/content/csc/projekte/impact2c_d4.1.pdf\n",
+                "The dataset covers the ensemble members given in Table 1. The ensemble comprises three\n",
+                "Representative Concentration Pathways (RCP) to cover a range of policy scenarios: a mitigation\n",
+                "scenario (RCP2.6), a stabilization scenario (RCP4.5) and a high greenhouse gas scenario (RCP8.5).\n",
+                "The C3S_441_Lot1_SMHI indicators on catchment resolution are provided for an ensemble using one hydrological\n",
+                "model (E-HYPEv3.1.2).\n",
+                "Further, note that the indicators for “Precipitation” are meant to show the data including the influence\n",
+                "of E-HYPE’s pre-processing of precipitation (for e.g. height correction or spatial interpolation).\n",
+                "The full ensemble of time series from the model runs is stored at SMHI and the original daily timeseries\n",
+                "of some essential climate variables can be downloaded from the C3S_441_Lot1_SMHI interface." ;
+            :references = "Y. Hundecha et al. 2016. A regional parameter estimation scheme for a pan-European multi-basin\n",
+                "model. Journal of Hydrology: Regional Studies, 6(2016), 90-111., doi:10.1016/j.ejrh.2016.04.002" ;
+            :contact = "hydro.fou@smhi.se" ;
+            :date_created = "Wed Feb 17 17:07:55 2016" ;
+            :invar_platform_id = "C3S_441_Lot1_SMHI contract" ;
+            :invar_rcm_model_realization_id = "IMPACT2C" ;
+            :invar_hm_model_id = "Hydrological models in the order of the variables are: E-HYPEv3.1.2 E-HYPEv3.1.2 E-HYPEv3.1.2 E-HYPEv3.1.2 " ;
+            :invar_hm_realization_id = "Hydrological models in the order of the variables are: CSC-E-HYPEv3.1.2 KNMI-E-HYPEv3.1.2 SMHI-E-HYPEv3.1.2 SMHI-E-HYPEv3.1.2" ;
+            :invar_experiment_name = "rcp85" ;
+            :invar_bc_method_id = "QM-EOBS" ;
+            :invar_bc_observation_id = "QM-EOBS" ;
+            :invar_bc_period = "1971-2000" ;
+            :reference_period = "1971-2000" ;
+            :output_frequency = "day" ;
+            :time_coverage_start = "19710101" ;
+            :time_coverage_end = "20001231" ;
+            :time_coverage_comment = "If a projection did not cover the full period 2071-2100, the indicators were calculated based on the remaining years in the period." ;
+            :domain = "EUR-44" ;
+            :keywords = "Flux, river flow, flow duration curve" ;
+            :data_quality = "C3S_441_Lot1_SMHI uses state-of-the-art, quality controlled data to produce this indicator, but the user should\n",
+                "note that underlying model performance can vary substantially by location and indicator and not all\n",
+                "indicators can be evaluated at a pan-European scale. Note, that unregulated flows are not calibrated on\n",
+                "observed data, hence they represent model assumptions on unregulated flow behavior. The quality of\n",
+                "the E-HYPE pan-European hydrological model (incl. regulations) can be perused here:\n",
+                "http://hypeweb.smhi.se/europehype/model-performance/ and is summarized in Hundecha et al. (2016)." ;
+            :license = "Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0), https://creativecommons.org/licenses/by-sa/4.0/legalcode" ;
+            :geographic_area = "The model spans a pan-European domain. The grid points over the sea are masked and only land points are retained." ;
+            :spatial_resolution = "Irregular catchment polygons, median catchmentsize 215 km2." ;
+            :package_name = "Indices have been computed using CDO (https://code.zmaw.de/projects/cdo)" ;
+            :date_issued = "Wed Feb 17 17:07:55 2016" ;
+            :date_modified = "Wed Feb 17 17:07:55 2016" ;
+            :activity = "C3S_441_Lot1_SMHI contract" ;
+            :DOI_link = "https://doi.org/10.5281/zenodo.581451" ;
+            :invar_gcm_id = "GCMs in the order of the variables are: CSC-MPI-ESM-LR KNMI-EC-EARTH SMHI-EC-EARTH SMHI-HadGEM2-ES" ;
+            :invar_rcm_id = "RCMs in the order of the variables are: CSC-REMO2009 KNMI-RACMO22E SMHI-RCA4 SMHI-RCA4" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    copernicus/cout-perc5_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap0.5.nc
+    
+    
+    
+    netcdf cout-perc5_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap0.5 {
+    dimensions:
+        lat = 78 ;
+        lon = 130 ;
+        time = UNLIMITED ; // (1 currently)
+    variables:
+        float lat(lat) ;
+            lat:standard_name = "latitude" ;
+            lat:long_name = "Latitude" ;
+            lat:units = "degrees_north" ;
+            lat:axis = "Y" ;
+        float lon(lon) ;
+            lon:standard_name = "longitude" ;
+            lon:long_name = "Longitude" ;
+            lon:units = "degrees_east" ;
+            lon:axis = "X" ;
+        double time(time) ;
+            time:standard_name = "time" ;
+            time:units = "days since 1951-01-01 00:00:00" ;
+            time:calendar = "proleptic_gregorian" ;
+        float value1(time, lat, lon) ;
+            value1:units = "m-3 s-1" ;
+            value1:_FillValue = -1.e+20f ;
+            value1:original_name = "dis" ;
+        float value10(time, lat, lon) ;
+            value10:units = "m3 s-1" ;
+            value10:_FillValue = -1.e+20f ;
+            value10:original_name = "dis" ;
+        float value11(time, lat, lon) ;
+            value11:units = "m3 s-1" ;
+            value11:_FillValue = -1.e+20f ;
+            value11:original_name = "dis" ;
+        float value12(time, lat, lon) ;
+            value12:units = "m3 s-1" ;
+            value12:_FillValue = -1.e+20f ;
+            value12:original_name = "dis" ;
+        float value2(time, lat, lon) ;
+            value2:units = "m-3 s-1" ;
+            value2:_FillValue = -1.e+20f ;
+            value2:original_name = "dis" ;
+        float value3(time, lat, lon) ;
+            value3:units = "m-3 s-1" ;
+            value3:_FillValue = -1.e+20f ;
+            value3:original_name = "dis" ;
+        float value4(time, lat, lon) ;
+            value4:units = "m-3 s-1" ;
+            value4:_FillValue = -1.e+20f ;
+            value4:original_name = "dis" ;
+        float value5(time, lat, lon) ;
+            value5:units = "m3 s-1" ;
+            value5:_FillValue = -1.e+20f ;
+            value5:original_name = "dis" ;
+        float value6(time, lat, lon) ;
+            value6:units = "m3 s-1" ;
+            value6:_FillValue = -1.e+20f ;
+            value6:original_name = "dis" ;
+        float value7(time, lat, lon) ;
+            value7:units = "m3 s-1" ;
+            value7:_FillValue = -1.e+20f ;
+            value7:original_name = "dis" ;
+        float value8(time, lat, lon) ;
+            value8:units = "m3 s-1" ;
+            value8:_FillValue = -1.e+20f ;
+            value8:original_name = "dis" ;
+        float value9(time, lat, lon) ;
+            value9:units = "m3 s-1" ;
+            value9:_FillValue = -1.e+20f ;
+            value9:original_name = "dis" ;
+    
+    // global attributes:
+            :Conventions = "CF-1.4" ;
+            :title = "Flow duration curve (5th percentile)" ;
+            :description = "The flow duration curve (FDC) gives information about how frequently certain river flow rates occur.\n",
+                "Here, the FDC is described through 13 percentiles of the distribution of daily river flows during a 30-\n",
+                "year period:\n",
+                "• 1 %\n",
+                "• 5 %\n",
+                "• 10 % to 90 % in steps of 10 %\n",
+                "• 95 %\n",
+                "• 99 %\n",
+                "In case of the FDC for the full period, it is based on all daily data for a 30-year period. In the case of\n",
+                "FDC’s seasonality, it is based on all daily data for a 30-year period that belong to the same month,\n",
+                "evaluated for all 12 months of a year (i.e. all Januaries, all Februaries etc.)\n",
+                "For the reference period (1971-2000) the absolute values are given, while for the future periods the\n",
+                "relative changes are provided.\n",
+                "The indicators described above are delivered in a large number of NetCDF-files. This file is a part of the delivery." ;
+            :variable_name = "dis-perc5" ;
+            :comment = "The climate impact indicators are based on hydrological impact modelling performed within the EU\n",
+                "FP7 project IMPACT2C (grant agreement 282746). The full ensemble of time series from the model\n",
+                "runs within the IMPACT2C archive is available in NetCDF format\n",
+                "from http://ensemblesrt3.dmi.dk/data/impact2c-archive/MODELS/HYDROLOGY/.\n",
+                "More information on the climate-model ensemble used (for instance model selection procedures,\n",
+                "uncertainties, adjustments) can be found\n",
+                "here: http://impact2c.hzg.de/imperia/md/content/csc/projekte/impact2c_d5.1_fin.pdf\n",
+                "The hydrological models were driven by regional climate model (RCM) data. Within the EU FP7\n",
+                "project IMPACT2C, the original RCM output data has been spatially interpolated, adjusted to the\n",
+                "standard Gregorian calendar and has partly been bias-corrected. More details can be found here:\n",
+                "http://impact2c.hzg.de/imperia/md/content/csc/projekte/impact2c_d4.1.pdf\n",
+                "The dataset covers the ensemble members given in Table 1. Statistics are computed for different time\n",
+                "periods (see section 2.3) using this entire ensemble. " ;
+            :references = "W. Greuell et al. 2015. Evaluation of five hydrological models across Europe. HESSD 12, 10289–10330\n",
+                "P. Roudier et al. 2016. Projections of future floods and hydrological droughts in Europe under a +2°C\n",
+                "global warming. Climatic Change, 135: 341, doi:10.1007/s10584-015-1570-4 " ;
+            :contact = "hydro.fou@smhi.se" ;
+            :date_created = "Wed Feb 17 17:07:55 2016" ;
+            :invar_platform_id = "C3S_441_Lot1_SMHI contract" ;
+            :invar_rcm_model_realization_id = "IMPACT2C" ;
+            :invar_hm_model_id = "Hydrological models in the order of the variables are: E-HYPE21 E-HYPE21 E-HYPE21 E-HYPE21 VIC421 VIC421 VIC421 VIC421 Lisflood Lisflood Lisflood Lisflood " ;
+            :invar_hm_realization_id = "Hydrological models in the order of the variables are: KNMI-E-HYPE21 SMHI-E-HYPE21 SMHI-E-HYPE21 CSC-E-HYPE21 KNMI-VIC421 CSC-VIC421 SMHI-VIC421 SMHI-VIC421 KNMI-Lisflood CSC-Lisflood SMHI-Lisflood SMHI-Lisflood" ;
+            :invar_experiment_name = "rcp85" ;
+            :invar_bc_method_id = "QM-EOBS" ;
+            :invar_bc_observation_id = "QM-EOBS" ;
+            :invar_bc_period = "1971-2000" ;
+            :reference_period = "1971-2000" ;
+            :output_frequency = "day" ;
+            :time_coverage_start = "19710101" ;
+            :time_coverage_end = "20001231" ;
+            :time_coverage_comment = "If a projection did not cover the full period 2071-2100, the indicators were calculated based on the remaining years in the period." ;
+            :domain = "EUR-44" ;
+            :keywords = "Flux, river flow, flow duration curve" ;
+            :data_quality = "The database used was produced within the research project IMPACT2C (www.impact2c.eu) funded\n",
+                "by the European Union Seventh Framework Programme (FP7/2007- 2013) under the grant agreement 4282746. \n",
+                "The hydrological models were evaluated by the scientific partners participating in the\n",
+                "IMPACT2C project and results can be found in Greuell et al. (2015).\n",
+                "DISCLAIMER: C3S_441_Lot1_SMHI uses state of the art, quality controlled data to produce this indicator, but the\n",
+                "user should note that model performance can vary substantially by location and indicator and not all\n",
+                "indicators can be evaluated at a pan-European scale. Also, in IMPACT2C, hydrological model\n",
+                "variables were provided on a common 0.5 degree grid which is the native grid of VIC, while Lisflood\n",
+                "and E-HYPE results were up-scaled to this resolution. This may reduce the quality of the indicators vs\n",
+                "original hydrological model results." ;
+            :license = "Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0), https://creativecommons.org/licenses/by-sa/4.0/legalcode" ;
+            :geographic_area = "The model spans a pan-European domain. The grid points over the sea are masked and only land points are retained." ;
+            :spatial_resolution = "Gridded at 0.5 x 0.5 degrees.\n",
+                "The grid size is 130 x 78 grid points in longitudinal and latitudinal direction, respectively.\n",
+                "Note that the grid is the native one of VIC, while Lisflood and E-HYPE results were up-scaled to this\n",
+                "resolution." ;
+            :package_name = "Indices have been computed using CDO (https://code.zmaw.de/projects/cdo)" ;
+            :date_issued = "Wed Feb 17 17:07:55 2016" ;
+            :date_modified = "Wed Feb 17 17:07:55 2016" ;
+            :activity = "C3S_441_Lot1_SMHI contract" ;
+            :geospatial_lat_min = "33.25 degrees_east" ;
+            :geospatial_lat_max = "71.75 degrees_east" ;
+            :geospatial_lat_resolution = "0.5 degree" ;
+            :geospatial_lon_min = "-24.75 degrees_west" ;
+            :geospatial_lon_max = "39.75 degrees_west" ;
+            :geospatial_lon_resolution = "0.5 degree" ;
+            :invar_gcm_id = "GCMs in the order of the variables are: KNMI-EC-EARTH SMHI-EC-EARTH SMHI-HadGEM2-ES CSC-MPI-ESM-LR KNMI-EC-EARTH CSC-MPI-ESM-LR SMHI-HadGEM2-ES SMHI-EC-EARTH KNMI-EC-EARTH CSC-MPI-ESM-LR SMHI-HadGEM2-ES SMHI-EC-EARTH" ;
+            :invar_rcm_id = "RCMs in the order of the variables are: KNMI-RACMO22E SMHI-RCA4 SMHI-RCA4 CSC-REMO2009 KNMI-RACMO22E CSC-REMO2009 SMHI-RCA4 SMHI-RCA4 KNMI-RACMO22E CSC-REMO2009 SMHI-RCA4 SMHI-RCA4" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    copernicus/cout-perc5_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap215.nc
+    
+    
+    
+    netcdf cout-perc5_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap215 {
+    dimensions:
+        id = 35408 ;
+        time = UNLIMITED ; // (1 currently)
+    variables:
+        double id(id) ;
+            id:standard_name = "longitude" ;
+            id:long_name = "SUBID" ;
+            id:units = "degrees" ;
+            id:axis = "X" ;
+        double time(time) ;
+            time:standard_name = "time" ;
+            time:units = "days since 1971-01-01 00:00:00" ;
+            time:calendar = "proleptic_gregorian" ;
+        float variable1(time, id) ;
+            variable1:units = "%" ;
+            variable1:_FillValue = -9999.f ;
+        float variable2(time, id) ;
+            variable2:units = "%" ;
+            variable2:_FillValue = -9999.f ;
+        float variable3(time, id) ;
+            variable3:units = "%" ;
+            variable3:_FillValue = -9999.f ;
+        float variable4(time, id) ;
+            variable4:units = "%" ;
+            variable4:_FillValue = -9999.f ;
+    
+    // global attributes:
+            :Conventions = "CF-1.4" ;
+            :title = "Flow duration curve (5th percentile)" ;
+            :description = "The flow duration curve (FDC) gives information about how frequently certain river flow rates occur.\n",
+                "Here, the FDC is described through 13 percentiles of the distribution of daily river flows during a 30-\n",
+                "year period:\n",
+                "• 1 %\n",
+                "• 5 %\n",
+                "• 10 % to 90 % in steps of 10 %\n",
+                "• 95 %\n",
+                "• 99 %\n",
+                "In case of the FDC for the full period, it is based on all daily data for a 30-year period. In the case of\n",
+                "FDC’s seasonality, it is based on all daily data for a 30-year period that belong to the same month,\n",
+                "evaluated for all 12 months of a year (i.e. all Januaries, all Februaries etc.)\n",
+                "For the reference period (1971-2000) the absolute values are given, while for the future periods the\n",
+                "relative changes are provided.\n",
+                "The indicators described above are delivered in a large number of NetCDF-files. This file is a part of the delivery." ;
+            :variable_name = "cout-perc5" ;
+            :comment = "The climate impact indicators are based on hydrological impact modelling using the hydrological\n",
+                "model E-HYPEv3.1.2. The hydrological modelling was done for C3S_441_Lot1_SMHI with an ensemble of biascorrected\n",
+                "climate model data provided by the EU FP7 project IMPACT2C (grant agreement 282746).\n",
+                "More information on the climate-model ensemble used (for instance model selection procedures,\n",
+                "uncertainties, adjustments) can be found\n",
+                "here: http://impact2c.hzg.de/imperia/md/content/csc/projekte/impact2c_d5.1_fin.pdf\n",
+                "Within the project IMPACT2C, the original RCM output data has been spatially interpolated, adjusted\n",
+                "to the standard Gregorian calendar and has partly been bias-corrected. More details can be found here:\n",
+                "http://impact2c.hzg.de/imperia/md/content/csc/projekte/impact2c_d4.1.pdf\n",
+                "The dataset covers the ensemble members given in Table 1. The ensemble comprises three\n",
+                "Representative Concentration Pathways (RCP) to cover a range of policy scenarios: a mitigation\n",
+                "scenario (RCP2.6), a stabilization scenario (RCP4.5) and a high greenhouse gas scenario (RCP8.5).\n",
+                "The C3S_441_Lot1_SMHI indicators on catchment resolution are provided for an ensemble using one hydrological\n",
+                "model (E-HYPEv3.1.2).\n",
+                "Further, note that the indicators for “Precipitation” are meant to show the data including the influence\n",
+                "of E-HYPE’s pre-processing of precipitation (for e.g. height correction or spatial interpolation).\n",
+                "The full ensemble of time series from the model runs is stored at SMHI and the original daily timeseries\n",
+                "of some essential climate variables can be downloaded from the C3S_441_Lot1_SMHI interface." ;
+            :references = "Y. Hundecha et al. 2016. A regional parameter estimation scheme for a pan-European multi-basin\n",
+                "model. Journal of Hydrology: Regional Studies, 6(2016), 90-111., doi:10.1016/j.ejrh.2016.04.002" ;
+            :contact = "hydro.fou@smhi.se" ;
+            :date_created = "Wed Feb 17 17:07:55 2016" ;
+            :invar_platform_id = "C3S_441_Lot1_SMHI contract" ;
+            :invar_rcm_model_realization_id = "IMPACT2C" ;
+            :invar_hm_model_id = "Hydrological models in the order of the variables are: E-HYPEv3.1.2 E-HYPEv3.1.2 E-HYPEv3.1.2 E-HYPEv3.1.2 " ;
+            :invar_hm_realization_id = "Hydrological models in the order of the variables are: CSC-E-HYPEv3.1.2 KNMI-E-HYPEv3.1.2 SMHI-E-HYPEv3.1.2 SMHI-E-HYPEv3.1.2" ;
+            :invar_experiment_name = "rcp85" ;
+            :invar_bc_method_id = "QM-EOBS" ;
+            :invar_bc_observation_id = "QM-EOBS" ;
+            :invar_bc_period = "1971-2000" ;
+            :reference_period = "1971-2000" ;
+            :output_frequency = "day" ;
+            :time_coverage_start = "19710101" ;
+            :time_coverage_end = "20001231" ;
+            :time_coverage_comment = "If a projection did not cover the full period 2071-2100, the indicators were calculated based on the remaining years in the period." ;
+            :domain = "EUR-44" ;
+            :keywords = "Flux, river flow, flow duration curve" ;
+            :data_quality = "C3S_441_Lot1_SMHI uses state-of-the-art, quality controlled data to produce this indicator, but the user should\n",
+                "note that underlying model performance can vary substantially by location and indicator and not all\n",
+                "indicators can be evaluated at a pan-European scale. Note, that unregulated flows are not calibrated on\n",
+                "observed data, hence they represent model assumptions on unregulated flow behavior. The quality of\n",
+                "the E-HYPE pan-European hydrological model (incl. regulations) can be perused here:\n",
+                "http://hypeweb.smhi.se/europehype/model-performance/ and is summarized in Hundecha et al. (2016)." ;
+            :license = "Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0), https://creativecommons.org/licenses/by-sa/4.0/legalcode" ;
+            :geographic_area = "The model spans a pan-European domain. The grid points over the sea are masked and only land points are retained." ;
+            :spatial_resolution = "Irregular catchment polygons, median catchmentsize 215 km2." ;
+            :package_name = "Indices have been computed using CDO (https://code.zmaw.de/projects/cdo)" ;
+            :date_issued = "Wed Feb 17 17:07:55 2016" ;
+            :date_modified = "Wed Feb 17 17:07:55 2016" ;
+            :activity = "C3S_441_Lot1_SMHI contract" ;
+            :DOI_link = "https://doi.org/10.5281/zenodo.581451" ;
+            :invar_gcm_id = "GCMs in the order of the variables are: CSC-MPI-ESM-LR KNMI-EC-EARTH SMHI-EC-EARTH SMHI-HadGEM2-ES" ;
+            :invar_rcm_id = "RCMs in the order of the variables are: CSC-REMO2009 KNMI-RACMO22E SMHI-RCA4 SMHI-RCA4" ;
     }
     
     
@@ -827,6 +1364,52 @@ from my personal collections.
                 "Wed Jul 11 15:18:09 2018: cdo -s -O -C -L splityearmon -setname,pr -sellonlatbox,6.5,19,36,48 /home/esp-shared-a/Observations/HMR//mesan_rr24_2000.nc hmr/months/hmr\n",
                 "Fri Jun 10 17:06:12 2016: cdo -f nc cat -setgridtype,curvilinear /nobackup/smhid9/sm_tland/euro4m/mesan_e4m/rr24nQC/2000/rr24_MESAN_20000101.grb /nobackup/smhid9/sm_tland/euro4m/mesan_e4m/rr24nQC/2000/rr24_MESAN_20000102.grb /nobackup/smhid9/sm_tland/euro4m/mesan_e4m/rr24nQC/2000/rr24_MESAN_20000103.grb /nobackup/smhid9/sm_tland/euro4m/mesan_e4m/rr24nQC/2000/rr24_MESAN_20000104.grb /nobackup/smhid9/sm_tland/euro4m/mesan_e4m/rr24nQC/2000/rr24_MESAN_20000105.grb /nobackup/smhid9/sm_tland/euro4m/mesan_e4m/rr24nQC/2000/rr24_MESAN_20000106.grb /nobackup/smhid9/sm_tland/euro4m/mesan_e4m/rr24nQC/2000/rr24_MESAN_20000107.grb /nobackup/smhid9/sm_tland/euro4m/mesan_e4m/rr24nQC/2000/rr24_MESAN_20000108.grb /nobackup/smhid9/sm_tland/euro4m/mesan_e4m/rr24nQC/2000/rr24_MESAN_20000109.grb /nobackup/smhid9/sm_tland/euro4m/mesan_e4m/rr24nQC/2000/rr24_MESAN_20000110.grb /nobackup/smhid9/sm_tland/euro4m/mesan_e4m/rr24nQC/2000/rr24_MESAN_20000111.grb /nobackup/smhid9/sm_tland/euro4m/mesan_e4m/rr24nQC/2000/rr24_MESAN_20000112.grb" ;
             :CDO = "Climate Data Operators version 1.9.1 (http://mpimet.mpg.de/cdo)" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    inverted_73/regcm-nn-2100_reg4_22.nc
+    
+    
+    
+    netcdf regcm-nn-2100_reg4_22 {
+    dimensions:
+        lon = 470 ;
+        lat = 307 ;
+        RP = 5 ;
+    variables:
+        double lon(lon) ;
+            lon:units = "degrees_east" ;
+            lon:standard_name = "longitude" ;
+            lon:long_name = "Longitude" ;
+        double lat(lat) ;
+            lat:units = "degrees_north" ;
+            lat:standard_name = "latitude" ;
+            lat:long_name = "Latitude" ;
+        double RP(RP) ;
+            RP:units = "years" ;
+            RP:long_name = "RP" ;
+        float POT(RP, lat, lon) ;
+            POT:units = "percent" ;
+            POT:_FillValue = -1.f ;
+            POT:long_name = "Exceedance frequency" ;
+            POT:coordinates = "lon lat" ;
+            POT:valid_timesteps = 258480 ;
+            POT:region = 4 ;
+            POT:simulation = 22 ;
+            POT:mask_value = 5 ;
+            POT:period_name = 2100 ;
+            POT:ref_period_name = 2005. ;
+    
+    // global attributes:
+            :history = "2018-11-10 23:37:10 CET : created by calc_POT_noraster.R" ;
+            :R_version = "R version 3.5.1 (2018-07-02)" ;
+            :ncdf4_version = "1.16" ;
+            :Conventions = "CF-1.7" ;
+            :Creation_date = "2018-11-10 23:37:10 CET" ;
+            :Return_period = 2., 10., 20., 50., 100. ;
     }
     
     
