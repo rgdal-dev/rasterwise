@@ -2,12 +2,17 @@
 bad_examples_62/example1.nc
 bad_examples_62/example2.nc
 bad_examples_62/example3.nc
+copernicus/cout-perc1_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap0.5.nc
+copernicus/cout-perc1_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap215.nc
+copernicus/cout-perc5_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap0.5.nc
+copernicus/cout-perc5_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap215.nc
 dt_ref_global_merged_madt_uv_19921014_19921014_20060315.nc
 EURO-CORDEX_81_DOMAIN000_54/EURO-CORDEX_81_DOMAIN000.nc
 file.nc
 get1index_64/test.nc
 high-dim/test-1.nc
 hmr_ita.nc
+inverted_73/regcm-nn-2100_reg4_22.nc
 nhsce_v01r01_19661004_20140203.nc
 ob_tran/example_ob_tran.nc
 ob_tran/example_ob_tran2.nc
