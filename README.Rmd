@@ -48,10 +48,10 @@ To download the entire file bundle run this code:
 
 ```R
 library(piggyback)
-pb_download("weird.tar.gz", dest = ".", repo = "mdsumner/weird.nc")
+pb_download("weird.tar.gz", dest = ".", repo = "mdsumner/rasterwise")
 ```
 
-I put the stars issue number into the folder name https://github.com/r-spatial/stars/issues
+I often put the stars issue number into the folder name https://github.com/r-spatial/stars/issues
 
 There are some weird and wonderful files in the extdata/ on their own, from my personal collections. 
 
