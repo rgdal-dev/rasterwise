@@ -1,0 +1,1 @@
+download.file("https://github.com/cboettig/scratch/releases/download/data/wod_000410903O.nc", "test.nc")

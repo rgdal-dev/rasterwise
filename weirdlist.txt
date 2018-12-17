@@ -1,4 +1,5 @@
 19911203.nc
+1D/test.nc
 bad_examples_62/example1.nc
 bad_examples_62/example2.nc
 bad_examples_62/example3.nc
