@@ -48,7 +48,7 @@ To download the entire file bundle run this code:
 
 ```R
 library(piggyback)
-pb_download("weird.tar.gz", dest = ".", repo = "mdsumner/rasterwise")
+pb_download("weird.tar.gz", dest = ".", repo = "mdsumner/rasterwise", tag = "v0.5.0")
 ```
 
 I often put the stars issue number into the folder name https://github.com/r-spatial/stars/issues

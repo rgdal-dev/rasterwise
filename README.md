@@ -42,10 +42,10 @@ To download the entire file bundle run this code:
 
 ``` r
 library(piggyback)
-pb_download("weird.tar.gz", dest = ".", repo = "mdsumner/weird.nc")
+pb_download("weird.tar.gz", dest = ".", repo = "mdsumner/rasterwise", tag = "v0.5.0")
 ```
 
-I put the stars issue number into the folder name
+I often put the stars issue number into the folder name
 <https://github.com/r-spatial/stars/issues>
 
 There are some weird and wonderful files in the extdata/ on their own,
@@ -54,6 +54,7 @@ from my personal collections.
 ## The list
 
     19911203.nc
+    1D/test.nc
     bad_examples_62/example1.nc
     bad_examples_62/example2.nc
     bad_examples_62/example3.nc
@@ -127,6 +128,198 @@ from my personal collections.
             :spatial_resolution = "12.5 km" ;
             :platform_id = "F13" ;
             :instrument = "SSM/I" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    1D/test.nc
+    
+    
+    
+    netcdf test {
+    dimensions:
+        z = 12 ;
+        strnlen = 200 ;
+    variables:
+        char country(strnlen) ;
+        char WOD_cruise_identifier(strnlen) ;
+            WOD_cruise_identifier:comment = "two byte country code + WOD cruise number (unique to country code)" ;
+            WOD_cruise_identifier:long_name = "WOD_cruise_identifier" ;
+        char originators_cruise_identifier(strnlen) ;
+        int wod_unique_cast ;
+            wod_unique_cast:cf_role = "profile_id" ;
+        float lat ;
+            lat:standard_name = "latitude" ;
+            lat:long_name = "latitude" ;
+            lat:units = "degrees_north" ;
+            lat:axis = "Y" ;
+        float lon ;
+            lon:standard_name = "longitude" ;
+            lon:long_name = "longitude" ;
+            lon:units = "degrees_east" ;
+            lon:axis = "X" ;
+        double time ;
+            time:standard_name = "time" ;
+            time:long_name = "time" ;
+            time:units = "days since 1770-01-01 00:00:00" ;
+            time:axis = "T" ;
+        int date ;
+            date:long_name = "date" ;
+            date:comment = "YYYYMMDD" ;
+        float GMT_time ;
+            GMT_time:long_name = "GMT_time" ;
+        int Access_no ;
+            Access_no:long_name = "NODC_accession_number" ;
+            Access_no:units = "NODC_code" ;
+            Access_no:comment = "used to find original data at NODC" ;
+        char Platform(strnlen) ;
+            Platform:long_name = "Platform_name" ;
+            Platform:comment = "name of platform from which measurements were taken" ;
+        char Institute(strnlen) ;
+            Institute:long_name = "Responsible_institute" ;
+            Institute:comment = "name of institute which collected data" ;
+        int Orig_Stat_Num ;
+            Orig_Stat_Num:long_name = "Originators_Station_Number" ;
+            Orig_Stat_Num:comment = "number assigned to a given station by data originator" ;
+        float Bottom_Depth ;
+            Bottom_Depth:long_name = "sea_floor_depth_below_sea_surface" ;
+            Bottom_Depth:units = "meters" ;
+        char Wave_Direction(strnlen) ;
+            Wave_Direction:long_name = "Wave_Direction" ;
+            Wave_Direction:units = "WMO 0877 or NODC 0110" ;
+        char Wind_Direction(strnlen) ;
+            Wind_Direction:long_name = "Wind_Direction" ;
+            Wind_Direction:units = "WMO 0877 or NODC 0110" ;
+        float Wind_Speed ;
+            Wind_Speed:long_name = "wind_speed" ;
+            Wind_Speed:units = "knots" ;
+        float Barometric_Pres ;
+            Barometric_Pres:long_name = "Barometric_Pressure" ;
+            Barometric_Pres:units = "millibars" ;
+        float Dry_Bulb_Temp ;
+            Dry_Bulb_Temp:long_name = "Dry_Bulb_Air_Temperature" ;
+            Dry_Bulb_Temp:units = "degree_C" ;
+        float Wet_Bulb_Temp ;
+            Wet_Bulb_Temp:long_name = "Wet_Bulb_Air_Temperature" ;
+            Wet_Bulb_Temp:units = "degree_C" ;
+        char Weather_Condition(strnlen) ;
+            Weather_Condition:long_name = "Weather_Condition" ;
+            Weather_Condition:comment = "Weather conditions at time of measurements" ;
+        char dataset(strnlen) ;
+            dataset:long_name = "WOD_dataset" ;
+        char dbase_orig(strnlen) ;
+            dbase_orig:long_name = "database_origin" ;
+            dbase_orig:comment = "Database from which data were extracted" ;
+        float z(z) ;
+            z:standard_name = "altitude" ;
+            z:long_name = "depth_below_sea_level" ;
+            z:units = "m" ;
+            z:positive = "down" ;
+        short z_WODflag(z) ;
+        short z_sigfig(z) ;
+        float Temperature(z) ;
+            Temperature:long_name = "Temperature" ;
+            Temperature:standard_name = "sea_water_temperature" ;
+            Temperature:units = "degree_C" ;
+            Temperature:coordinates = "time lat lon z" ;
+            Temperature:grid_mapping = "crs" ;
+        short Temperature_sigfigs(z) ;
+        short Temperature_WODflag(z) ;
+            Temperature_WODflag:flag_definitions = "WODf" ;
+        short Temperature_WODprofileflag ;
+            Temperature_WODprofileflag:flag_definitions = "WODfp" ;
+        float Salinity(z) ;
+            Salinity:long_name = "Salinity" ;
+            Salinity:standard_name = "sea_water_salinity" ;
+        short Salinity_sigfigs(z) ;
+        short Salinity_WODflag(z) ;
+            Salinity_WODflag:flag_definitions = "WODf" ;
+        short Salinity_WODprofileflag ;
+            Salinity_WODprofileflag:flag_definitions = "WODfp" ;
+        float Oxygen(z) ;
+            Oxygen:long_name = "Oxygen" ;
+            Oxygen:standard_name = "volume_fraction_of_oxygen_in_sea_water" ;
+            Oxygen:units = "umol/kg" ;
+            Oxygen:coordinates = "time lat lon z" ;
+            Oxygen:grid_mapping = "crs" ;
+        short Oxygen_sigfigs(z) ;
+        short Oxygen_WODflag(z) ;
+            Oxygen_WODflag:flag_definitions = "WODf" ;
+        short Oxygen_WODprofileflag ;
+            Oxygen_WODprofileflag:flag_definitions = "WODfp" ;
+        char Oxygen_Original_units(strnlen) ;
+            Oxygen_Original_units:comment = "Units originally used: coverted to standard units" ;
+        float Phosphate(z) ;
+            Phosphate:long_name = "Phosphate" ;
+            Phosphate:standard_name = "mole_concentration_of_phosphate_in_sea_water" ;
+            Phosphate:units = "umol/kg" ;
+            Phosphate:coordinates = "time lat lon z" ;
+            Phosphate:grid_mapping = "crs" ;
+        short Phosphate_sigfigs(z) ;
+        short Phosphate_WODflag(z) ;
+            Phosphate_WODflag:flag_definitions = "WODf" ;
+        short Phosphate_WODprofileflag ;
+            Phosphate_WODprofileflag:flag_definitions = "WODfp" ;
+        char Phosphate_Original_units(strnlen) ;
+            Phosphate_Original_units:comment = "Units originally used: coverted to standard units" ;
+        int crs ;
+            crs:grid_mapping_name = "latitude_longitude" ;
+            crs:epsg_code = "EPSG:4326" ;
+            crs:longitude_of_prime_meridian = 0.f ;
+            crs:semi_major_axis = 6378137.f ;
+            crs:inverse_flattening = 298.2572f ;
+        short WODf ;
+            WODf:long_name = "WOD_observation_flag" ;
+            WODf:flag_values = 0s, 1s, 2s, 3s, 4s, 5s, 6s, 7s, 8s, 9s ;
+            WODf:flag_meanings = "accepted range_out inversion gradient anomaly gradient+inversion range+inversion range+gradient range+anomaly range+inversion+gradient" ;
+        short WODfp ;
+            WODfp:long_name = "WOD_profile_flag" ;
+            WODfp:flag_values = 0s, 1s, 2s, 3s, 4s, 5s, 6s, 7s, 8s, 9s ;
+            WODfp:flag_meanings = "accepted annual_sd_out density_inversion cruise seasonal_sd_out monthly_sd_out annual+seasonal_sd_out anomaly_or_annual+monthly_sd_out seasonal+monthly_sd_out annual+seasonal+monthly_sd_out" ;
+        short WODfd ;
+            WODfd:long_name = "WOD_depth_level_" ;
+            WODfd:flag_values = 0s, 1s, 2s ;
+            WODfd:flag_meanings = "accepted duplicate_or_inversion density_inversion" ;
+    
+    // global attributes:
+            :institution = "National Oceanographic Data Center(NODC), NOAA" ;
+            :source = "World Ocean Database" ;
+            :references = "World Ocean Database 2013. URL:http://data.nodc.noaa.gov/woa/WOD/DOC/wod_intro.pdf" ;
+            :title = "World Ocean Database - Unique Cast 000410903" ;
+            :summary = "Data for single cast from the World Ocean Database" ;
+            :id = "wod_000410903" ;
+            :naming\ authority = "gov.noaa.nodc" ;
+            :geospatial_lat_min = -32.66667f ;
+            :geospatial_lat_max = -32.66667f ;
+            :geospatial_lat_resolution = "point" ;
+            :geospatial_lon_min = 14.56667f ;
+            :geospatial_lon_max = 14.56667f ;
+            :geospatial_lon_resolution = "point" ;
+            :geospatial_vertical_min = 0.f ;
+            :geospatial_vertical_max = 989.f ;
+            :geospatial_vertical_positive = "down" ;
+            :geospatial_vertical_units = "meters" ;
+            :creator_name = "Ocean Climate Lab/NODC" ;
+            :creator_email = "OCLhelp@noaa.gov" ;
+            :creator_url = "http://www.nodc.noaa.gov" ;
+            :project = "World Ocean Database" ;
+            :acknowledgements = "" ;
+            :processing_level = "" ;
+            :keywords = "" ;
+            :keywords_vocabulary = "" ;
+            :date_created = "2018-11-06" ;
+            :date_modified = "2018-11-06" ;
+            :publisher_name = "US DOC; NESDIS; NATIONAL OCEANOGRAPHIC DATA CENTER - IN295" ;
+            :publisher_url = "http://www.nodc.noaa.gov" ;
+            :publisher_email = "NODC.Services@noaa.gov" ;
+            :history = "" ;
+            :license = "" ;
+            :standard_name_vocabulary = "CF-1.6" ;
+            :featureType = "Profile" ;
+            :cdm_data_type = "Profile" ;
+            :Conventions = "CF-1.6" ;
     }
     
     
