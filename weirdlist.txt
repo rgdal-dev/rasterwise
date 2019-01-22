@@ -12,6 +12,7 @@ EURO-CORDEX_81_DOMAIN000_54/EURO-CORDEX_81_DOMAIN000.nc
 file.nc
 get1index_64/test.nc
 high-dim/test-1.nc
+historical/historical.nc
 hmr_ita.nc
 inverted_73/regcm-nn-2100_reg4_22.nc
 nhsce_v01r01_19661004_20140203.nc

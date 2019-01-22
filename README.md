@@ -67,6 +67,7 @@ from my personal collections.
     file.nc
     get1index_64/test.nc
     high-dim/test-1.nc
+    historical/historical.nc
     hmr_ita.nc
     inverted_73/regcm-nn-2100_reg4_22.nc
     nhsce_v01r01_19661004_20140203.nc
@@ -1501,6 +1502,209 @@ from my personal collections.
         double c3(c3) ;
         double c4(c4) ;
         double c5(c5) ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    historical/historical.nc
+    
+    
+    
+    netcdf historical {
+    dimensions:
+        time = UNLIMITED ; // (30 currently)
+        bnds = 2 ;
+        rlon = 94 ;
+        rlat = 114 ;
+    variables:
+        double time(time) ;
+            time:standard_name = "time" ;
+            time:long_name = "time" ;
+            time:bounds = "time_bnds" ;
+            time:units = "days since 1949-12-01 00:00:00" ;
+            time:calendar = "360_day" ;
+            time:axis = "T" ;
+        double time_bnds(time, bnds) ;
+        double lon(rlat, rlon) ;
+            lon:standard_name = "longitude" ;
+            lon:long_name = "longitude" ;
+            lon:units = "degrees_east" ;
+            lon:_CoordinateAxisType = "Lon" ;
+        double lat(rlat, rlon) ;
+            lat:standard_name = "latitude" ;
+            lat:long_name = "latitude" ;
+            lat:units = "degrees_north" ;
+            lat:_CoordinateAxisType = "Lat" ;
+        double rlon(rlon) ;
+            rlon:standard_name = "projection_x_coordinate" ;
+            rlon:long_name = "longitude in rotated-pole grid" ;
+            rlon:units = "degrees" ;
+            rlon:axis = "X" ;
+        double rlat(rlat) ;
+            rlat:standard_name = "projection_y_coordinate" ;
+            rlat:long_name = "latitude in rotated-pole grid" ;
+            rlat:units = "degrees" ;
+            rlat:axis = "Y" ;
+        float mrro(time, rlat, rlon) ;
+            mrro:standard_name = "runoff_flux" ;
+            mrro:long_name = "Total Runoff" ;
+            mrro:units = "kg m-2 s-1" ;
+            mrro:coordinates = "lat lon" ;
+            mrro:_FillValue = 1.e+20f ;
+            mrro:missing_value = 1.e+20f ;
+            mrro:cell_methods = "time: mean" ;
+        float Q100(rlat, rlon) ;
+            Q100:units = "m3 s-1" ;
+            Q100:_FillValue = 1.e+20f ;
+            Q100:long_name = "Peak discharge" ;
+            Q100:coordinates = "lat lon" ;
+            Q100:grid_mapping = 0. ;
+    
+    // global attributes:
+            :CDI = "Climate Data Interface version 1.9.5 (http://mpimet.mpg.de/cdi)" ;
+            :source = "RegCM Model output file" ;
+            :institution = "International Centre for Theoretical Physics" ;
+            :Conventions = "CF-1.4" ;
+            :project_id = "CORDEX" ;
+            :ipcc_scenario_code = "HISTORICAL" ;
+            :institute_id = "ICTP" ;
+            :comment = "RegCM CORDEX EURO-CORDEX_30 run" ;
+            :experiment_id = "historical" ;
+            :driving_model_ensemble_member = "r1i1p1" ;
+            :driving_experiment_name = "historical" ;
+            :creation_date = "2018-08-10T12:05:06Z" ;
+            :rcm_version_id = "v1" ;
+            :ICTP_version_note = "Archived on model native grid" ;
+            :contact = "esp@ictp.it" ;
+            :product = "output" ;
+            :tracking_id = "db7822a6-9c84-11e8-b848-0894ef50a14e" ;
+            :title = "ICTP Regional Climatic model V4" ;
+            :references = "http://gforge.ictp.it/gf/project/regcm" ;
+            :model_revision = "tag-4.6.1" ;
+            :projection = "LAMCON" ;
+            :grid_size_in_meters = 12000. ;
+            :latitude_of_projection_origin = 48. ;
+            :longitude_of_projection_origin = 9.75 ;
+            :standard_parallel = 30., 65. ;
+            :grid_factor = 0.749565224994391 ;
+            :landsurface_model = "clm4.5" ;
+            :model_icbc_data_source = "HA_85" ;
+            :model_sst_data_source = "HA_85" ;
+            :boundary_nspgx = 40 ;
+            :boundary_nspgd = 40 ;
+            :boundary_high_nudge = 12. ;
+            :boundary_medium_nudge = 8. ;
+            :boundary_low_nudge = 4. ;
+            :model_is_restarted = "No" ;
+            :model_simulation_initial_start = "1970-06-01 00:00:00 UTC" ;
+            :model_simulation_start = "1970-06-01 00:00:00 UTC" ;
+            :model_simulation_end = "1970-09-01 00:00:00 UTC" ;
+            :atmosphere_time_step_in_seconds = 24. ;
+            :surface_interaction_time_step_in_seconds = 600. ;
+            :convection_time_step_in_seconds = 240. ;
+            :radiation_scheme_time_step_in_minuts = 30. ;
+            :absorption_emission_time_step_in_hours = 18. ;
+            :dynamical_core = 1 ;
+            :asselin_filter_nu = 0.0625 ;
+            :diffusion_hgt_factor = 1 ;
+            :lateral_boundary_condition_scheme = 5 ;
+            :semi_lagrangian_advection_scheme = 0 ;
+            :boundary_layer_scheme = 2 ;
+            :cumulus_convection_scheme_lnd = 5 ;
+            :cumulus_convection_scheme_ocn = 5 ;
+            :moisture_scheme = 1 ;
+            :ocean_flux_scheme = 2 ;
+            :zeng_ocean_roughness_formula = 1 ;
+            :zeng_ocean_roughness_method = 1 ;
+            :pressure_gradient_scheme = 0 ;
+            :surface_emissivity_factor_computed = 0 ;
+            :lake_model_activated = 0 ;
+            :chemical_aerosol_scheme_activated = 0 ;
+            :diurnal_cycle_sst_scheme = 0 ;
+            :simple_sea_ice_scheme = 0 ;
+            :seasonal_desert_albedo = 0 ;
+            :convective_lwp_as_large_scale = 1 ;
+            :large_scale_cloud_fraction_scheme = 0 ;
+            :rrtm_radiation_scheme_activated = 0 ;
+            :climatic_ozone_input_dataset = 0 ;
+            :static_solar_constant_used = 0 ;
+            :cumulus_cloud_model = 1 ;
+            :subex_bottom_level_with_no_clouds = 1 ;
+            :subex_auto_conversion_rate_for_land = 5.e-05 ;
+            :subex_auto_conversion_rate_for_ocean = 0.00025 ;
+            :subex_gultepe_factor_when_rain_for_land = 0.4 ;
+            :subex_gultepe_factor_when_rain_for_ocean = 0.4 ;
+            :subex_rh_with_fcc_one = 1.01 ;
+            :subex_rh_threshold_for_land = 0.9 ;
+            :subex_rh_threshold_for_ocean = 0.9 ;
+            :subex_limit_temperature = 238. ;
+            :subex_land_raindrop_evaporation_rate = 0.01 ;
+            :subex_ocean_raindrop_evaporation_rate = 0.001 ;
+            :subex_land_raindrop_accretion_rate = 3. ;
+            :subex_ocean_raindrop_accretion_rate = 3. ;
+            :subex_cloud_fraction_maximum = 0.75 ;
+            :subex_condensation_threshold = 1. ;
+            :subex_cloud_fraction_max_for_convection = 1. ;
+            :subex_cloud_liqwat_max_for_convection = 0.0003 ;
+            :tiedtke_actual_scheme = 4 ;
+            :tiedtke_entrainment_rate_downdraft = 0.0003 ;
+            :tiedtke_entrainment_rate_deep = 0.00175 ;
+            :tiedtke_penetrative = "Yes" ;
+            :tiedtke_midlevel = "Yes" ;
+            :tiedtke_shallow = "Yes" ;
+            :tiedtke_cumulus_downdraft = "Yes" ;
+            :tiedtke_prognostic_cloud = "Yes" ;
+            :tiedtke_cumulus_friction = "Yes" ;
+            :tiedtke_ke_dissipation = "Yes" ;
+            :tiedtke_tracer_transport = "Yes" ;
+            :tiedtke_tracer_smooth_massflux = "No" ;
+            :tiedtke_shallow_wstar_closure = "No" ;
+            :tiedtke_detrainment_rate_deep = 7.5e-05 ;
+            :tiedtke_shallow_entrainment = 2. ;
+            :tiedtke_cloud_cover_evap_over_land = 0.05 ;
+            :tiedtke_cloud_cover_evap_over_ocean = 0.05 ;
+            :tiedtke_coeff_evap_over_land = 5.55e-05 ;
+            :tiedtke_coeff_evap_over_ocean = 5.55e-05 ;
+            :tiedtke_critical_rh_over_land = 0.5 ;
+            :tiedtke_critical_rh_over_ocean = 0.6 ;
+            :tiedtke_cloud_water_conv_over_land = 0.009 ;
+            :tiedtke_cloud_water_conv_over_ocean = 0.003 ;
+            :tiedtke_cape_adjustment_timescale = 10800. ;
+            :uwpbl_advection_scheme = 0 ;
+            :uwpbl_cloud_evap_entr_incr_efficiency = 15. ;
+            :uwpbl_eddy_LS_stable_PBL_scaling = 1.5 ;
+            :uwpbl_czero = 5.869 ;
+            :uwpbl_nuk = 5. ;
+            :frequency = "year" ;
+            :c3s_disclaimer = "This data has been produced in the context of the\n",
+                " C3S_34b_Lot1 and Lot 2 projects (PRINCIPLES/CORDEX4CDS) as a data\n",
+                " provider for the Climate Data Store within the Copernicus Climate Change\n",
+                " Service (C3S - https://climate.copernicus.eu/). While abiding by the\n",
+                " highest scientific and technical standards, ECMWF cannot warrant that\n",
+                " any information provided by the C3S will be entirely free from errors or\n",
+                " omissions or that such errors or omissions can or will be rectified\n",
+                " entirely. This applies to data from projects that continue to be\n",
+                " developed, but are made publicly available for the purpose of feedback\n",
+                " and testing. Some data or metadata may have been created or structured\n",
+                " in files or formats that are not error-free. ECMWF accepts no\n",
+                " responsibility with regard to such problems incurred as a result of\n",
+                " using this data (see http://climate.copernicus.eu/disclaimer-privacy for\n",
+                " the full disclaimer)" ;
+            :experiment = "EUR-11" ;
+            :CORDEX_domain = "EUR-11" ;
+            :note = "The domain is larger than EUR-11" ;
+            :driving_model_id = "MOHC-HadGEM2-ES" ;
+            :driving_experiment = "MOHC-HadGEM2-ES, historical, r1i1p1" ;
+            :model_id = "ICTP-RegCM4-6" ;
+            :CDO = "Climate Data Operators version 1.9.5 (http://mpimet.mpg.de/cdo)" ;
+            :history = "2019-01-21 15:54:12 CET : created by create_Qx_regcm.R ; Mon Jan 21 15:19:58 2019: cdo yearmax data_hadgem/historical.nc data_hadgem/yearmax/historical.nc\n",
+                "Mon Jan 21 15:17:30 2019: cdo -L sellonlatbox,6.5,19,36,48 -selyear,1976/2005 /home/clima-archive4/CORDEX2/EUR-11/ICTP-RegCM4-6/MOHC-HadGEM2-ES/historical//mrro_EUR-11_MOHC-HadGEM2-ES_historical_r1i1p1_ICTP-RegCM4-6_v1_day_1970060112-2006010112.nc data_hadgem/historical.nc\n",
+                "Thu Jan 10 10:18:03 2019: cdo -O -z zip remap,/home/netapp-clima/users/jciarlo/scripts/postproc_cordex/sftlf_EUR-11_ICHEC-EC-EARTH_rcp45_r3i1p1_DMI-HIRHAM5_v1_fx.nc,../../../011grid_CORDEX_weights.nc mrro_EUR-11_MOHC-HadGEM2-ES_historical_r1i1p1_ICTP-RegCM4-6_v1_day_1970060112-1980010112.nc mrro_EUR-11_MOHC-HadGEM2-ES_historical_r1i1p1_ICTP-RegCM4-6_v1_day_1970060112-1980010112.nc_remap.nc\n",
+                "2017-10-31 16:25:30 : Created by RegCM RegCM Model program" ;
+            :R_version = "R version 3.4.4 (2018-03-15)" ;
+            :ncdf4_version = "1.16" ;
     }
     
     
