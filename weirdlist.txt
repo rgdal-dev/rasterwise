@@ -16,6 +16,7 @@ high-dim/test-1.nc
 historical/historical.nc
 hmr_ita.nc
 inverted_73/regcm-nn-2100_reg4_22.nc
+mrso/mrso_Lmon_CMCC-CESM_rcp85_r1i1p1_200001-200412.nc
 nhsce_v01r01_19661004_20140203.nc
 ob_tran/example_ob_tran.nc
 ob_tran/example_ob_tran2.nc

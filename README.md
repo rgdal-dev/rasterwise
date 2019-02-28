@@ -71,6 +71,7 @@ from my personal collections.
     historical/historical.nc
     hmr_ita.nc
     inverted_73/regcm-nn-2100_reg4_22.nc
+    mrso/mrso_Lmon_CMCC-CESM_rcp85_r1i1p1_200001-200412.nc
     nhsce_v01r01_19661004_20140203.nc
     ob_tran/example_ob_tran.nc
     ob_tran/example_ob_tran2.nc
@@ -1896,6 +1897,87 @@ from my personal collections.
             :Conventions = "CF-1.7" ;
             :Creation_date = "2018-11-10 23:37:10 CET" ;
             :Return_period = 2., 10., 20., 50., 100. ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    mrso/mrso_Lmon_CMCC-CESM_rcp85_r1i1p1_200001-200412.nc
+    
+    
+    
+    netcdf mrso_Lmon_CMCC-CESM_rcp85_r1i1p1_200001-200412 {
+    dimensions:
+        time = UNLIMITED ; // (60 currently)
+        lat = 48 ;
+        lon = 96 ;
+        bnds = 2 ;
+    variables:
+        double time(time) ;
+            time:bounds = "time_bnds" ;
+            time:units = "days since 2000-1-1" ;
+            time:calendar = "standard" ;
+            time:axis = "T" ;
+            time:long_name = "time" ;
+            time:standard_name = "time" ;
+        double time_bnds(time, bnds) ;
+        double lat(lat) ;
+            lat:bounds = "lat_bnds" ;
+            lat:units = "degrees_north" ;
+            lat:axis = "Y" ;
+            lat:long_name = "latitude" ;
+            lat:standard_name = "latitude" ;
+        double lat_bnds(lat, bnds) ;
+        double lon(lon) ;
+            lon:bounds = "lon_bnds" ;
+            lon:units = "degrees_east" ;
+            lon:axis = "X" ;
+            lon:long_name = "longitude" ;
+            lon:standard_name = "longitude" ;
+        double lon_bnds(lon, bnds) ;
+        float mrso(time, lat, lon) ;
+            mrso:standard_name = "soil_moisture_content" ;
+            mrso:long_name = "Total Soil Moisture Content" ;
+            mrso:comment = "the mass per unit area  (summed over all soil layers) of water in all phases." ;
+            mrso:units = "kg m-2" ;
+            mrso:original_name = "ws" ;
+            mrso:cell_methods = "time: mean (interval: 1 month) area: mean where land" ;
+            mrso:cell_measures = "area: areacella" ;
+            mrso:missing_value = 1.e+20f ;
+            mrso:_FillValue = 1.e+20f ;
+            mrso:associated_files = "baseURL: http://cmip-pcmdi.llnl.gov/CMIP5/dataLocation gridspecFile: gridspec_land_fx_CMCC-CESM_rcp85_r0i0p0.nc areacella: areacella_fx_CMCC-CESM_rcp85_r0i0p0.nc" ;
+            mrso:history = "2012-07-26T14:52:07Z altered by CMOR: Inverted axis: lat." ;
+    
+    // global attributes:
+            :institution = "CMCC - Centro Euro-Mediterraneo per i Cambiamenti Climatici, Bologna, Italy" ;
+            :institute_id = "CMCC" ;
+            :experiment_id = "rcp85" ;
+            :source = "CMCC-CESM" ;
+            :model_id = "CMCC-CESM" ;
+            :forcing = "Nat,Ant,GHG,SA,Oz,Sl" ;
+            :parent_experiment_id = "historical" ;
+            :parent_experiment_rip = "r1i1p1" ;
+            :branch_time = 56978. ;
+            :contact = "Marcello Vichi (marcello.vichi@cmcc.it)" ;
+            :history = "Model output postprocessed with Afterburner and CDO (https://code.zmaw.de/projects) 2012-07-26T14:52:07Z CMOR rewrote data to comply with CF standards and CMIP5 requirements." ;
+            :comment = "Equilibrium reached after more than 1500-year spin-up of the physics, 200-year spin-up of carbon content and 276 year at pre-industrial GHG concentrations after which data were output with nominal date of January 1850." ;
+            :references = "model described in the documentation at http://www.cmcc.it/data-models/models" ;
+            :initialization_method = 1 ;
+            :physics_version = 1 ;
+            :tracking_id = "bf042e49-b815-4ea8-bc2c-e0824db2cc14" ;
+            :product = "output" ;
+            :experiment = "RCP8.5" ;
+            :frequency = "mon" ;
+            :creation_date = "2012-07-26T14:52:07Z" ;
+            :Conventions = "CF-1.4" ;
+            :project_id = "CMIP5" ;
+            :table_id = "Table Lmon (27 April 2011) c4244dce0826a43bb0b259f293e2f742" ;
+            :title = "CMCC-CESM model output prepared for CMIP5 RCP8.5" ;
+            :parent_experiment = "historical" ;
+            :modeling_realm = "land" ;
+            :realization = 1 ;
+            :cmor_version = "2.7.1" ;
     }
     
     
