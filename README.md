@@ -55,6 +55,7 @@ from my personal collections.
 
     19911203.nc
     1D/test.nc
+    bad_examples_62/bad_examples.R
     bad_examples_62/example1.nc
     bad_examples_62/example2.nc
     bad_examples_62/example3.nc
@@ -64,27 +65,42 @@ from my personal collections.
     copernicus/cout-perc5_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap215.nc
     dt_ref_global_merged_madt_uv_19921014_19921014_20060315.nc
     EOBS/EOBS_2001-2016.nc
+    EOBS/readme
     EURO-CORDEX_81_DOMAIN000_54/EURO-CORDEX_81_DOMAIN000.nc
+    EURO-CORDEX_81_DOMAIN000_54/issue_54.R
     file.nc
     get1index_64/test.nc
+    GPP/gpp_Lmon_EnsembleGPP_observations_198201-201112.nc
+    GPP/readme
+    HDF4/ladsweb/MOD021KM.A2015091.0010.006.2015091134552.hdf
     high-dim/test-1.nc
     historical/historical.nc
+    historical/readme-historical.nc.md
     hmr_ita.nc
     inverted_73/regcm-nn-2100_reg4_22.nc
     mrso/mrso_Lmon_CMCC-CESM_rcp85_r1i1p1_200001-200412.nc
+    mrso/readme
     nhsce_v01r01_19661004_20140203.nc
     ob_tran/example_ob_tran.nc
     ob_tran/example_ob_tran2.nc
+    ob_tran/out.tif
+    ob_tran/readme.txt
     oscar_gdr_5d1993.nc
     R13352.nc
     rectilinear/ACCfronts_nc4.nc
     rectilinear/CM2.1_regionmask.nc
+    rectilinear/readme_CM2.1regionmask.txt
+    rectilinear/readme_rectlinear.txt
     rectilinear/test_3_.nc
     SO-reproj/OR_ABI-L1b-RadC-M3C01_G16_s20190621802131_e20190621804504_c20190621804546.nc
+    SO-reproj/SO-reproj.R
     ssh05d19921006.nc
     swapped/3A-DAY.nc
+    swapped/gdal-dev-readme.txt
+    test.nc_60/num60.R
     test.nc_60/test.nc
     timeseries.nc
+    tricky_grids/OR_ABI-L1b-RadC-M3C01_G16_s20190621802131_e20190621804504_c20190621804546.nc
 
 ## The ncdumps -h
 
@@ -325,6 +341,15 @@ from my personal collections.
             :cdm_data_type = "Profile" ;
             :Conventions = "CF-1.6" ;
     }
+    
+    
+    
+    
+    ###############################################################################
+    bad_examples_62/bad_examples.R
+    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
+    files[i])), : running command 'ncdump -h extdata/bad_examples_62/
+    bad_examples.R' had status 1
     
     
     
@@ -1252,6 +1277,14 @@ from my personal collections.
     
     
     ###############################################################################
+    EOBS/readme
+    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
+    files[i])), : running command 'ncdump -h extdata/EOBS/readme' had status 1
+    
+    
+    
+    
+    ###############################################################################
     EURO-CORDEX_81_DOMAIN000_54/EURO-CORDEX_81_DOMAIN000.nc
     
     
@@ -1463,6 +1496,15 @@ from my personal collections.
     
     
     ###############################################################################
+    EURO-CORDEX_81_DOMAIN000_54/issue_54.R
+    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
+    files[i])), : running command 'ncdump -h extdata/EURO-
+    CORDEX_81_DOMAIN000_54/issue_54.R' had status 1
+    
+    
+    
+    
+    ###############################################################################
     file.nc
     
     
@@ -1570,6 +1612,100 @@ from my personal collections.
             :nco_openmp_thread_number = 1 ;
             :CDO = "Climate Data Operators version 1.9.1 (http://mpimet.mpg.de/cdo)" ;
     }
+    
+    
+    
+    
+    ###############################################################################
+    GPP/gpp_Lmon_EnsembleGPP_observations_198201-201112.nc
+    
+    
+    
+    netcdf gpp_Lmon_EnsembleGPP_observations_198201-201112 {
+    dimensions:
+        lon = 720 ;
+        nb2 = 2 ;
+        lat = 360 ;
+        time = UNLIMITED ; // (360 currently)
+    variables:
+        double lon(lon) ;
+            lon:standard_name = "longitude" ;
+            lon:long_name = "longitude" ;
+            lon:units = "degrees_east" ;
+            lon:axis = "X" ;
+            lon:bounds = "lon_bnds" ;
+        double lon_bnds(lon, nb2) ;
+            lon_bnds:long_name = "lon_bnds" ;
+            lon_bnds:units = "1" ;
+        double lat(lat) ;
+            lat:standard_name = "latitude" ;
+            lat:long_name = "latitude" ;
+            lat:units = "degrees_north" ;
+            lat:axis = "Y" ;
+            lat:bounds = "lat_bnds" ;
+        double lat_bnds(lat, nb2) ;
+            lat_bnds:long_name = "lat_bnds" ;
+            lat_bnds:units = "1" ;
+        double time(time) ;
+            time:standard_name = "time" ;
+            time:bounds = "time_bnds" ;
+            time:units = "days since 1582-10-14 00:00:00" ;
+            time:calendar = "standard" ;
+            time:long_name = "time" ;
+        double time_bnds(time, nb2) ;
+            time_bnds:units = "days since 1582-10-14 00:00:00" ;
+            time_bnds:calendar = "standard" ;
+            time_bnds:long_name = "time_bnds" ;
+        float gpp(time, lat, lon) ;
+            gpp:standard_name = "gross_primary_productivity_of_carbon" ;
+            gpp:long_name = "Carbon Mass Flux out of Atmosphere due to Gross Primary Production on Land" ;
+            gpp:units = "kg m-2 s-1" ;
+            gpp:_FillValue = -9999.f ;
+            gpp:original_name = "EnsembleGPP_GL_May12" ;
+            gpp:cell_methods = "time: mean area: mean where land" ;
+            gpp:history = "generated 05/2012" ;
+            gpp:associated_files = "none" ;
+        float std(time, lat, lon) ;
+            std:standard_name = "uncertainty based on spread of ensemble" ;
+            std:long_name = "standard deviation calculated based on median absolute deviation" ;
+            std:units = "kg m-2 s-1" ;
+            std:_FillValue = -9999.f ;
+            std:original_name = "std" ;
+            std:cell_methods = "time: mean area: mean where land" ;
+            std:history = "generated 05/2012" ;
+            std:associated_files = "none" ;
+    
+    // global attributes:
+            :history = "Mon Feb 11 10:26:28 2013: cdo copy EnsembleGPP_GL_May12.1982.nc EnsembleGPP_GL_May12.1983.nc EnsembleGPP_GL_May12.1984.nc EnsembleGPP_GL_May12.1985.nc EnsembleGPP_GL_May12.1986.nc EnsembleGPP_GL_May12.1987.nc EnsembleGPP_GL_May12.1988.nc EnsembleGPP_GL_May12.1989.nc EnsembleGPP_GL_May12.1990.nc EnsembleGPP_GL_May12.1991.nc EnsembleGPP_GL_May12.1992.nc EnsembleGPP_GL_May12.1993.nc EnsembleGPP_GL_May12.1994.nc EnsembleGPP_GL_May12.1995.nc EnsembleGPP_GL_May12.1996.nc EnsembleGPP_GL_May12.1997.nc EnsembleGPP_GL_May12.1998.nc EnsembleGPP_GL_May12.1999.nc EnsembleGPP_GL_May12.2000.nc EnsembleGPP_GL_May12.2001.nc EnsembleGPP_GL_May12.2002.nc EnsembleGPP_GL_May12.2003.nc EnsembleGPP_GL_May12.2004.nc EnsembleGPP_GL_May12.2005.nc EnsembleGPP_GL_May12.2006.nc EnsembleGPP_GL_May12.2007.nc EnsembleGPP_GL_May12.2008.nc EnsembleGPP_GL_May12.2009.nc EnsembleGPP_GL_May12.2010.nc EnsembleGPP_GL_May12.2011.nc EnsembleGPP_GL.nc\n",
+                "generated 05/2012" ;
+            :institution = "Max Planck Institude for BioGeoChemistry Jena, Germany" ;
+            :institute_id = "MPI-BGC" ;
+            :experiment_id = "may12" ;
+            :model_id = "may12" ;
+            :forcing = "1982-1997 GIMMS 1998-2005 SeaWIFS 2006-2011 MERIS, ERAinterim meteo input" ;
+            :contact = "mjung@bgc-jena.mpg.de" ;
+            :references = "Jung, M., Reichstein, M., Bondeau, A. 2009 Biogeosciences, 6;    LASSLOP, G. et al. (2010),  Global Change Biology, 16: 187–208." ;
+            :CDO = "Climate Data Operators version 1.5.5 (http://code.zmaw.de/projects/cdo)" ;
+            :title = "Gross Primary Production on Land" ;
+            :description = "GPP derived by upscaling observations from the current global network of eddy-covariance towers (FLUXNET, Jung et al 2011 Journal of Geophysical Research, 116 G00J07). For the upscaling a model tree ensemble approach was used as described in (Jung, M., Reichstein, M., Bondeau, A. 2009 Biogeosciences, 6). For this dataset the flux partitioning was based on LASSLOP, G. et al. (2010), Global Change Biology, 16: 187–208" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    GPP/readme
+    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
+    files[i])), : running command 'ncdump -h extdata/GPP/readme' had status 1
+    
+    
+    
+    
+    ###############################################################################
+    HDF4/ladsweb/MOD021KM.A2015091.0010.006.2015091134552.hdf
+    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
+    files[i])), : running command 'ncdump -h extdata/HDF4/ladsweb/
+    MOD021KM.A2015091.0010.006.2015091134552.hdf' had status 1
     
     
     
@@ -1802,6 +1938,15 @@ from my personal collections.
     
     
     ###############################################################################
+    historical/readme-historical.nc.md
+    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
+    files[i])), : running command 'ncdump -h extdata/historical/readme-
+    historical.nc.md' had status 1
+    
+    
+    
+    
+    ###############################################################################
     hmr_ita.nc
     
     
@@ -1980,6 +2125,14 @@ from my personal collections.
             :realization = 1 ;
             :cmor_version = "2.7.1" ;
     }
+    
+    
+    
+    
+    ###############################################################################
+    mrso/readme
+    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
+    files[i])), : running command 'ncdump -h extdata/mrso/readme' had status 1
     
     
     
@@ -2280,6 +2433,24 @@ from my personal collections.
             :tracking_id = "60ab205f-db71-421e-a257-fd0843ca77a8" ;
             :CDO = "Climate Data Operators version 1.9.1 (http://mpimet.mpg.de/cdo)" ;
     }
+    
+    
+    
+    
+    ###############################################################################
+    ob_tran/out.tif
+    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
+    files[i])), : running command 'ncdump -h extdata/ob_tran/out.tif' had
+    status 1
+    
+    
+    
+    
+    ###############################################################################
+    ob_tran/readme.txt
+    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
+    files[i])), : running command 'ncdump -h extdata/ob_tran/readme.txt' had
+    status 1
     
     
     
@@ -2679,6 +2850,24 @@ from my personal collections.
     
     
     ###############################################################################
+    rectilinear/readme_CM2.1regionmask.txt
+    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
+    files[i])), : running command 'ncdump -h extdata/rectilinear/
+    readme_CM2.1regionmask.txt' had status 1
+    
+    
+    
+    
+    ###############################################################################
+    rectilinear/readme_rectlinear.txt
+    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
+    files[i])), : running command 'ncdump -h extdata/rectilinear/
+    readme_rectlinear.txt' had status 1
+    
+    
+    
+    
+    ###############################################################################
     rectilinear/test_3_.nc
     
     
@@ -3043,6 +3232,15 @@ from my personal collections.
     
     
     ###############################################################################
+    SO-reproj/SO-reproj.R
+    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
+    files[i])), : running command 'ncdump -h extdata/SO-reproj/SO-reproj.R' had
+    status 1
+    
+    
+    
+    
+    ###############################################################################
     ssh05d19921006.nc
     
     
@@ -3219,6 +3417,24 @@ from my personal collections.
     
     
     ###############################################################################
+    swapped/gdal-dev-readme.txt
+    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
+    files[i])), : running command 'ncdump -h extdata/swapped/gdal-dev-
+    readme.txt' had status 1
+    
+    
+    
+    
+    ###############################################################################
+    test.nc_60/num60.R
+    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
+    files[i])), : running command 'ncdump -h extdata/test.nc_60/num60.R' had
+    status 1
+    
+    
+    
+    
+    ###############################################################################
     test.nc_60/test.nc
     
     
@@ -3331,4 +3547,312 @@ from my personal collections.
     // global attributes:
             :featureType = "timeSeries" ;
             :Conventions = "CF-1.7" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    tricky_grids/OR_ABI-L1b-RadC-M3C01_G16_s20190621802131_e20190621804504_c20190621804546.nc
+    
+    
+    
+    netcdf OR_ABI-L1b-RadC-M3C01_G16_s20190621802131_e20190621804504_c20190621804546 {
+    dimensions:
+        y = 3000 ;
+        x = 5000 ;
+        number_of_time_bounds = 2 ;
+        band = 1 ;
+        number_of_image_bounds = 2 ;
+        num_star_looks = 24 ;
+    variables:
+        short Rad(y, x) ;
+            Rad:_FillValue = 1023s ;
+            Rad:long_name = "ABI L1b Radiances" ;
+            Rad:standard_name = "toa_outgoing_radiance_per_unit_wavelength" ;
+            Rad:_Unsigned = "true" ;
+            Rad:sensor_band_bit_depth = 10b ;
+            Rad:valid_range = 0s, 1022s ;
+            Rad:scale_factor = 0.8121064f ;
+            Rad:add_offset = -25.93665f ;
+            Rad:units = "W m-2 sr-1 um-1" ;
+            Rad:resolution = "y: 0.000028 rad x: 0.000028 rad" ;
+            Rad:coordinates = "band_id band_wavelength t y x" ;
+            Rad:grid_mapping = "goes_imager_projection" ;
+            Rad:cell_methods = "t: point area: point" ;
+            Rad:ancillary_variables = "DQF" ;
+        byte DQF(y, x) ;
+            DQF:_FillValue = -1b ;
+            DQF:long_name = "ABI L1b Radiances data quality flags" ;
+            DQF:standard_name = "status_flag" ;
+            DQF:_Unsigned = "true" ;
+            DQF:valid_range = 0b, 3b ;
+            DQF:units = "1" ;
+            DQF:coordinates = "band_id band_wavelength t y x" ;
+            DQF:grid_mapping = "goes_imager_projection" ;
+            DQF:cell_methods = "t: point area: point" ;
+            DQF:flag_values = 0b, 1b, 2b, 3b ;
+            DQF:flag_meanings = "good_pixel_qf conditionally_usable_pixel_qf out_of_range_pixel_qf no_value_pixel_qf" ;
+            DQF:number_of_qf_values = 4b ;
+            DQF:percent_good_pixel_qf = 0.9995786f ;
+            DQF:percent_conditionally_usable_pixel_qf = 0.f ;
+            DQF:percent_out_of_range_pixel_qf = 0.0004213f ;
+            DQF:percent_no_value_pixel_qf = 0.f ;
+        double t ;
+            t:long_name = "J2000 epoch mid-point between the start and end image scan in seconds" ;
+            t:standard_name = "time" ;
+            t:units = "seconds since 2000-01-01 12:00:00" ;
+            t:axis = "T" ;
+            t:bounds = "time_bounds" ;
+        short y(y) ;
+            y:scale_factor = -2.8e-05f ;
+            y:add_offset = 0.128226f ;
+            y:units = "rad" ;
+            y:axis = "Y" ;
+            y:long_name = "GOES fixed grid projection y-coordinate" ;
+            y:standard_name = "projection_y_coordinate" ;
+        short x(x) ;
+            x:scale_factor = 2.8e-05f ;
+            x:add_offset = -0.101346f ;
+            x:units = "rad" ;
+            x:axis = "X" ;
+            x:long_name = "GOES fixed grid projection x-coordinate" ;
+            x:standard_name = "projection_x_coordinate" ;
+        double time_bounds(number_of_time_bounds) ;
+            time_bounds:long_name = "Scan start and end times in seconds since epoch (2000-01-01 12:00:00)" ;
+        int goes_imager_projection ;
+            goes_imager_projection:long_name = "GOES-R ABI fixed grid projection" ;
+            goes_imager_projection:grid_mapping_name = "geostationary" ;
+            goes_imager_projection:perspective_point_height = 35786023. ;
+            goes_imager_projection:semi_major_axis = 6378137. ;
+            goes_imager_projection:semi_minor_axis = 6356752.31414 ;
+            goes_imager_projection:inverse_flattening = 298.2572221 ;
+            goes_imager_projection:latitude_of_projection_origin = 0. ;
+            goes_imager_projection:longitude_of_projection_origin = -75. ;
+            goes_imager_projection:sweep_angle_axis = "x" ;
+        float y_image ;
+            y_image:long_name = "GOES-R fixed grid projection y-coordinate center of image" ;
+            y_image:standard_name = "projection_y_coordinate" ;
+            y_image:units = "rad" ;
+            y_image:axis = "Y" ;
+        float y_image_bounds(number_of_image_bounds) ;
+            y_image_bounds:long_name = "GOES-R fixed grid projection y-coordinate north/south extent of image" ;
+            y_image_bounds:units = "rad" ;
+        float x_image ;
+            x_image:long_name = "GOES-R fixed grid projection x-coordinate center of image" ;
+            x_image:standard_name = "projection_x_coordinate" ;
+            x_image:units = "rad" ;
+            x_image:axis = "X" ;
+        float x_image_bounds(number_of_image_bounds) ;
+            x_image_bounds:long_name = "GOES-R fixed grid projection x-coordinate west/east extent of image" ;
+            x_image_bounds:units = "rad" ;
+        float nominal_satellite_subpoint_lat ;
+            nominal_satellite_subpoint_lat:long_name = "nominal satellite subpoint latitude (platform latitude)" ;
+            nominal_satellite_subpoint_lat:standard_name = "latitude" ;
+            nominal_satellite_subpoint_lat:_FillValue = -999.f ;
+            nominal_satellite_subpoint_lat:units = "degrees_north" ;
+        float nominal_satellite_subpoint_lon ;
+            nominal_satellite_subpoint_lon:long_name = "nominal satellite subpoint longitude (platform longitude)" ;
+            nominal_satellite_subpoint_lon:standard_name = "longitude" ;
+            nominal_satellite_subpoint_lon:_FillValue = -999.f ;
+            nominal_satellite_subpoint_lon:units = "degrees_east" ;
+        float nominal_satellite_height ;
+            nominal_satellite_height:long_name = "nominal satellite height above GRS 80 ellipsoid (platform altitude)" ;
+            nominal_satellite_height:standard_name = "height_above_reference_ellipsoid" ;
+            nominal_satellite_height:_FillValue = -999.f ;
+            nominal_satellite_height:units = "km" ;
+        float geospatial_lat_lon_extent ;
+            geospatial_lat_lon_extent:long_name = "geospatial latitude and longitude references" ;
+            geospatial_lat_lon_extent:geospatial_westbound_longitude = -152.1093f ;
+            geospatial_lat_lon_extent:geospatial_northbound_latitude = 56.76145f ;
+            geospatial_lat_lon_extent:geospatial_eastbound_longitude = -52.94688f ;
+            geospatial_lat_lon_extent:geospatial_southbound_latitude = 14.57134f ;
+            geospatial_lat_lon_extent:geospatial_lat_center = 30.083f ;
+            geospatial_lat_lon_extent:geospatial_lon_center = -87.09695f ;
+            geospatial_lat_lon_extent:geospatial_lat_nadir = 0.f ;
+            geospatial_lat_lon_extent:geospatial_lon_nadir = -75.f ;
+            geospatial_lat_lon_extent:geospatial_lat_units = "degrees_north" ;
+            geospatial_lat_lon_extent:geospatial_lon_units = "degrees_east" ;
+        byte yaw_flip_flag ;
+            yaw_flip_flag:long_name = "Flag indicating the spacecraft is operating in yaw flip configuration" ;
+            yaw_flip_flag:_Unsigned = "true" ;
+            yaw_flip_flag:_FillValue = -1b ;
+            yaw_flip_flag:valid_range = 0b, 1b ;
+            yaw_flip_flag:units = "1" ;
+            yaw_flip_flag:coordinates = "t" ;
+            yaw_flip_flag:flag_values = 0b, 1b ;
+            yaw_flip_flag:flag_meanings = "false true" ;
+        byte band_id(band) ;
+            band_id:long_name = "ABI band number" ;
+            band_id:standard_name = "sensor_band_identifier" ;
+            band_id:units = "1" ;
+        float band_wavelength(band) ;
+            band_wavelength:long_name = "ABI band central wavelength" ;
+            band_wavelength:standard_name = "sensor_band_central_radiation_wavelength" ;
+            band_wavelength:units = "um" ;
+        float esun ;
+            esun:long_name = "bandpass-weighted solar irradiance at the mean Earth-Sun distance" ;
+            esun:standard_name = "toa_shortwave_irradiance_per_unit_wavelength" ;
+            esun:_FillValue = -999.f ;
+            esun:units = "W m-2 um-1" ;
+            esun:coordinates = "band_id band_wavelength t" ;
+            esun:cell_methods = "t: mean" ;
+        float kappa0 ;
+            kappa0:long_name = "Inverse of the incoming top of atmosphere radiance at current earth-sun distance (PI d2 esun-1)-1, where d is the ratio of instantaneous Earth-Sun distance divided by the mean Earth-Sun distance, esun is the bandpass-weighted solar irradiance and PI is a standard constant used to convert ABI L1b radiance to reflectance" ;
+            kappa0:_FillValue = -999.f ;
+            kappa0:units = "(W m-2 um-1)-1" ;
+            kappa0:coordinates = "band_id band_wavelength t" ;
+            kappa0:cell_methods = "t: mean" ;
+        float planck_fk1 ;
+            planck_fk1:long_name = "wavenumber-dependent coefficient (2 h c2/ nu3) used in the ABI emissive band monochromatic brightness temperature computation, where nu =central wavenumber and h and c are standard constants" ;
+            planck_fk1:_FillValue = -999.f ;
+            planck_fk1:units = "W m-1" ;
+            planck_fk1:coordinates = "band_id band_wavelength" ;
+        float planck_fk2 ;
+            planck_fk2:long_name = "wavenumber-dependent coefficient (h c nu/b) used in the ABI emissive band monochromatic brightness temperature computation, where nu = central wavenumber and h, c, and b are standard constants" ;
+            planck_fk2:_FillValue = -999.f ;
+            planck_fk2:units = "K" ;
+            planck_fk2:coordinates = "band_id band_wavelength" ;
+        float planck_bc1 ;
+            planck_bc1:long_name = "spectral bandpass correction offset for brightness temperature (B(nu) - bc_1)/bc_2 where B()=planck_function() and nu=wavenumber" ;
+            planck_bc1:_FillValue = -999.f ;
+            planck_bc1:units = "K" ;
+            planck_bc1:coordinates = "band_id band_wavelength" ;
+        float planck_bc2 ;
+            planck_bc2:long_name = "spectral bandpass correction scale factor for brightness temperature (B(nu) - bc_1)/bc_2 where B()=planck_function() and nu=wavenumber" ;
+            planck_bc2:_FillValue = -999.f ;
+            planck_bc2:units = "1" ;
+            planck_bc2:coordinates = "band_id band_wavelength" ;
+        int valid_pixel_count ;
+            valid_pixel_count:long_name = "number of good and conditionally usable pixels" ;
+            valid_pixel_count:_FillValue = -1 ;
+            valid_pixel_count:units = "count" ;
+            valid_pixel_count:coordinates = "band_id band_wavelength t y_image x_image" ;
+            valid_pixel_count:grid_mapping = "goes_imager_projection" ;
+            valid_pixel_count:cell_methods = "t: sum area: sum (interval: 0.000028 rad comment: good and conditionally usable quality pixels only)" ;
+        int missing_pixel_count ;
+            missing_pixel_count:long_name = "number of missing pixels" ;
+            missing_pixel_count:_FillValue = -1 ;
+            missing_pixel_count:units = "count" ;
+            missing_pixel_count:coordinates = "band_id band_wavelength t y_image x_image" ;
+            missing_pixel_count:grid_mapping = "goes_imager_projection" ;
+            missing_pixel_count:cell_methods = "t: sum area: sum (interval: 0.000028 rad comment: missing ABI fixed grid pixels only)" ;
+        int saturated_pixel_count ;
+            saturated_pixel_count:long_name = "number of saturated pixels" ;
+            saturated_pixel_count:_FillValue = -1 ;
+            saturated_pixel_count:units = "count" ;
+            saturated_pixel_count:coordinates = "band_id band_wavelength t y_image x_image" ;
+            saturated_pixel_count:grid_mapping = "goes_imager_projection" ;
+            saturated_pixel_count:cell_methods = "t: sum area: sum (interval: 0.000028 rad comment: radiometrically saturated geolocated/not missing pixels only)" ;
+        int undersaturated_pixel_count ;
+            undersaturated_pixel_count:long_name = "number of undersaturated pixels" ;
+            undersaturated_pixel_count:_FillValue = -1 ;
+            undersaturated_pixel_count:units = "count" ;
+            undersaturated_pixel_count:coordinates = "band_id band_wavelength t y_image x_image" ;
+            undersaturated_pixel_count:grid_mapping = "goes_imager_projection" ;
+            undersaturated_pixel_count:cell_methods = "t: sum area: sum (interval: 0.000028 rad comment: radiometrically undersaturated geolocated/not missing pixels only)" ;
+        float min_radiance_value_of_valid_pixels ;
+            min_radiance_value_of_valid_pixels:long_name = "minimum radiance value of pixels" ;
+            min_radiance_value_of_valid_pixels:standard_name = "toa_outgoing_radiance_per_unit_wavelength" ;
+            min_radiance_value_of_valid_pixels:_FillValue = -999.f ;
+            min_radiance_value_of_valid_pixels:valid_range = -25.93665f, 804.0361f ;
+            min_radiance_value_of_valid_pixels:units = "W m-2 sr-1 um-1" ;
+            min_radiance_value_of_valid_pixels:coordinates = "band_id band_wavelength t y_image x_image" ;
+            min_radiance_value_of_valid_pixels:grid_mapping = "goes_imager_projection" ;
+            min_radiance_value_of_valid_pixels:cell_methods = "t: sum area: minimum (interval: 0.000028 rad comment: good and conditionally usable quality pixels only)" ;
+        float max_radiance_value_of_valid_pixels ;
+            max_radiance_value_of_valid_pixels:long_name = "maximum radiance value of pixels" ;
+            max_radiance_value_of_valid_pixels:standard_name = "toa_outgoing_radiance_per_unit_wavelength" ;
+            max_radiance_value_of_valid_pixels:_FillValue = -999.f ;
+            max_radiance_value_of_valid_pixels:valid_range = -25.93665f, 804.0361f ;
+            max_radiance_value_of_valid_pixels:units = "W m-2 sr-1 um-1" ;
+            max_radiance_value_of_valid_pixels:coordinates = "band_id band_wavelength t y_image x_image" ;
+            max_radiance_value_of_valid_pixels:grid_mapping = "goes_imager_projection" ;
+            max_radiance_value_of_valid_pixels:cell_methods = "t: sum area: maximum (interval: 0.000028 rad comment: good and conditionally usable quality pixels only)" ;
+        float mean_radiance_value_of_valid_pixels ;
+            mean_radiance_value_of_valid_pixels:long_name = "mean radiance value of pixels" ;
+            mean_radiance_value_of_valid_pixels:standard_name = "toa_outgoing_radiance_per_unit_wavelength" ;
+            mean_radiance_value_of_valid_pixels:_FillValue = -999.f ;
+            mean_radiance_value_of_valid_pixels:valid_range = -25.93665f, 804.0361f ;
+            mean_radiance_value_of_valid_pixels:units = "W m-2 sr-1 um-1" ;
+            mean_radiance_value_of_valid_pixels:coordinates = "band_id band_wavelength t y_image x_image" ;
+            mean_radiance_value_of_valid_pixels:grid_mapping = "goes_imager_projection" ;
+            mean_radiance_value_of_valid_pixels:cell_methods = "t: sum area: mean (interval: 0.000028 rad comment: good and conditionally usable quality pixels only)" ;
+        float std_dev_radiance_value_of_valid_pixels ;
+            std_dev_radiance_value_of_valid_pixels:long_name = "standard deviation of radiance values of pixels" ;
+            std_dev_radiance_value_of_valid_pixels:standard_name = "toa_outgoing_radiance_per_unit_wavelength" ;
+            std_dev_radiance_value_of_valid_pixels:_FillValue = -999.f ;
+            std_dev_radiance_value_of_valid_pixels:units = "W m-2 sr-1 um-1" ;
+            std_dev_radiance_value_of_valid_pixels:coordinates = "band_id band_wavelength t y_image x_image" ;
+            std_dev_radiance_value_of_valid_pixels:grid_mapping = "goes_imager_projection" ;
+            std_dev_radiance_value_of_valid_pixels:cell_methods = "t: sum area: standard_deviation (interval: 0.000028 rad comment: good and conditionally usable quality pixels only)" ;
+        float percent_uncorrectable_L0_errors ;
+            percent_uncorrectable_L0_errors:long_name = "percent data lost due to uncorrectable L0 errors" ;
+            percent_uncorrectable_L0_errors:_FillValue = -999.f ;
+            percent_uncorrectable_L0_errors:valid_range = 0.f, 1.f ;
+            percent_uncorrectable_L0_errors:units = "percent" ;
+            percent_uncorrectable_L0_errors:coordinates = "t y_image x_image" ;
+            percent_uncorrectable_L0_errors:grid_mapping = "goes_imager_projection" ;
+            percent_uncorrectable_L0_errors:cell_methods = "t: sum area: sum (uncorrectable L0 errors only)" ;
+        float earth_sun_distance_anomaly_in_AU ;
+            earth_sun_distance_anomaly_in_AU:long_name = "earth sun distance anomaly in astronomical units" ;
+            earth_sun_distance_anomaly_in_AU:_FillValue = -999.f ;
+            earth_sun_distance_anomaly_in_AU:units = "ua" ;
+            earth_sun_distance_anomaly_in_AU:coordinates = "t" ;
+            earth_sun_distance_anomaly_in_AU:cell_methods = "t: mean" ;
+        int algorithm_dynamic_input_data_container ;
+            algorithm_dynamic_input_data_container:long_name = "container for filenames of dynamic algorithm input data" ;
+            algorithm_dynamic_input_data_container:input_ABI_L0_data = "OR_ABI-L0-C-M3_G16_s20190621802131_e20190621804504_c*.nc" ;
+        int processing_parm_version_container ;
+            processing_parm_version_container:long_name = "container for processing parameter filenames" ;
+            processing_parm_version_container:L1b_processing_parm_version = "OR-PARM-RAD_G16_v01r00.zip" ;
+        int algorithm_product_version_container ;
+            algorithm_product_version_container:long_name = "container for algorithm package filename and product version" ;
+            algorithm_product_version_container:algorithm_version = "OR_ABI-L1b-ALG-RAD_v01r00.zip" ;
+            algorithm_product_version_container:product_version = "v01r00" ;
+        double t_star_look(num_star_looks) ;
+            t_star_look:long_name = "J2000 epoch time of star observed in seconds" ;
+            t_star_look:standard_name = "time" ;
+            t_star_look:units = "seconds since 2000-01-01 12:00:00" ;
+            t_star_look:axis = "T" ;
+        float band_wavelength_star_look(num_star_looks) ;
+            band_wavelength_star_look:long_name = "ABI band central wavelength associated with observed star" ;
+            band_wavelength_star_look:standard_name = "sensor_band_central_radiation_wavelength" ;
+            band_wavelength_star_look:units = "um" ;
+        short star_id(num_star_looks) ;
+            star_id:long_name = "ABI star catalog identifier associated with observed star" ;
+            star_id:_Unsigned = "true" ;
+            star_id:_FillValue = -1s ;
+            star_id:coordinates = "band_id band_wavelength_star_look t_star_look" ;
+    
+    // global attributes:
+            :naming_authority = "gov.nesdis.noaa" ;
+            :Conventions = "CF-1.7" ;
+            :Metadata_Conventions = "Unidata Dataset Discovery v1.0" ;
+            :standard_name_vocabulary = "CF Standard Name Table (v35, 20 July 2016)" ;
+            :institution = "DOC/NOAA/NESDIS > U.S. Department of Commerce, National Oceanic and Atmospheric Administration, National Environmental Satellite, Data, and Information Services" ;
+            :project = "GOES" ;
+            :production_site = "WCDAS" ;
+            :production_environment = "OE" ;
+            :spatial_resolution = "1km at nadir" ;
+            :orbital_slot = "GOES-East" ;
+            :platform_ID = "G16" ;
+            :instrument_type = "GOES R Series Advanced Baseline Imager" ;
+            :scene_id = "CONUS" ;
+            :instrument_ID = "FM1" ;
+            :title = "ABI L1b Radiances" ;
+            :summary = "Single reflective band ABI L1b Radiance Products are digital maps of outgoing radiance values at the top of the atmosphere for visible and near-IR bands." ;
+            :keywords = "SPECTRAL/ENGINEERING > VISIBLE WAVELENGTHS > VISIBLE RADIANCE" ;
+            :keywords_vocabulary = "NASA Global Change Master Directory (GCMD) Earth Science Keywords, Version 7.0.0.0.0" ;
+            :iso_series_metadata_id = "a70be540-c38b-11e0-962b-0800200c9a66" ;
+            :license = "Unclassified data.  Access is restricted to approved users only." ;
+            :processing_level = "National Aeronautics and Space Administration (NASA) L1b" ;
+            :cdm_data_type = "Image" ;
+            :dataset_name = "OR_ABI-L1b-RadC-M3C01_G16_s20190621802131_e20190621804504_c20190621804546.nc" ;
+            :production_data_source = "Realtime" ;
+            :timeline_id = "ABI Mode 3" ;
+            :date_created = "2019-03-03T18:04:54.6Z" ;
+            :time_coverage_start = "2019-03-03T18:02:13.1Z" ;
+            :time_coverage_end = "2019-03-03T18:04:50.4Z" ;
+            :id = "4a42da74-0ae8-43ea-896d-6d3e4fb85975" ;
     }

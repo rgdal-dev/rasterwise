@@ -1,6 +1,6 @@
 unlink("weird.tar.gz")
 system("tar cvzf weird.tar.gz extdata")
-files <- list.files("extdata", recursive = TRUE, pattern = "nc$") ## not always an extension
+files <- list.files("extdata", recursive = TRUE) ## not always an extension
 writeLines(files, "weirdlist.txt")
 library(piggyback)
 
