@@ -26,6 +26,9 @@ inverted_73/regcm-nn-2100_reg4_22.nc
 mrso/mrso_Lmon_CMCC-CESM_rcp85_r1i1p1_200001-200412.nc
 mrso/readme
 nhsce_v01r01_19661004_20140203.nc
+NSIDC/alaska_2007_2008_swe_v01.nc
+NSIDC/readme
+NSIDC/sierra_2008_2009_swe_v01.nc
 ob_tran/example_ob_tran.nc
 ob_tran/example_ob_tran2.nc
 ob_tran/out.tif

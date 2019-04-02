@@ -81,6 +81,9 @@ from my personal collections.
     mrso/mrso_Lmon_CMCC-CESM_rcp85_r1i1p1_200001-200412.nc
     mrso/readme
     nhsce_v01r01_19661004_20140203.nc
+    NSIDC/alaska_2007_2008_swe_v01.nc
+    NSIDC/readme
+    NSIDC/sierra_2008_2009_swe_v01.nc
     ob_tran/example_ob_tran.nc
     ob_tran/example_ob_tran2.nc
     ob_tran/out.tif
@@ -2233,6 +2236,98 @@ from my personal collections.
             :time_coverage_start = "1966-10-04" ;
             :time_coverage_end = "2014-02-03" ;
             :license = "No restrictions on access or use" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    NSIDC/alaska_2007_2008_swe_v01.nc
+    
+    
+    
+    netcdf alaska_2007_2008_swe_v01 {
+    dimensions:
+        west_east = 327 ;
+        south_north = 237 ;
+        days = 274 ;
+        charlength = 10 ;
+    variables:
+        double lat(south_north, west_east) ;
+            lat:coordinates = "XLONG XLAT" ;
+            lat:units = "degrees_north" ;
+        double lon(south_north, west_east) ;
+            lon:coordinates = "XLONG XLAT" ;
+            lon:units = "degrees_east" ;
+        double elevation(south_north, west_east) ;
+            elevation:coordinates = "XLONG XLAT" ;
+            elevation:units = "meters" ;
+        double swe(days, south_north, west_east) ;
+            swe:coordinates = "XLONG XLAT" ;
+            swe:units = "mm" ;
+        double mask(south_north, west_east) ;
+            mask:coordinates = "XLONG XLAT" ;
+            mask:units = "[]" ;
+        char time(charlength, days) ;
+            time:units = "[]" ;
+    
+    // global attributes:
+            :title = "OUTPUT FROM WRF V3.6.1 MODEL" ;
+            :creation_date = "22-May-2017 16:16:33" ;
+            :wateryear = "2008" ;
+            :dx = 9000.f ;
+            :dy = 9000.f ;
+            :map_projection = "Lambert Conformal" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    NSIDC/readme
+    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
+    files[i])), : running command 'ncdump -h extdata/NSIDC/readme' had status 1
+    
+    
+    
+    
+    ###############################################################################
+    NSIDC/sierra_2008_2009_swe_v01.nc
+    
+    
+    
+    netcdf sierra_2008_2009_swe_v01 {
+    dimensions:
+        west_east = 90 ;
+        south_north = 162 ;
+        days = 274 ;
+        charlength = 10 ;
+    variables:
+        double lat(south_north, west_east) ;
+            lat:coordinates = "XLONG XLAT" ;
+            lat:units = "degrees_north" ;
+        double lon(south_north, west_east) ;
+            lon:coordinates = "XLONG XLAT" ;
+            lon:units = "degrees_east" ;
+        double elevation(south_north, west_east) ;
+            elevation:coordinates = "XLONG XLAT" ;
+            elevation:units = "meters" ;
+        double swe(days, south_north, west_east) ;
+            swe:coordinates = "XLONG XLAT" ;
+            swe:units = "mm" ;
+        double mask(south_north, west_east) ;
+            mask:coordinates = "XLONG XLAT" ;
+            mask:units = "[]" ;
+        char time(charlength, days) ;
+            time:units = "[]" ;
+    
+    // global attributes:
+            :title = "OUTPUT FROM WRF V3.6.1 MODEL" ;
+            :creation_date = "22-May-2017 16:26:16" ;
+            :wateryear = "2009" ;
+            :dx = 9000.f ;
+            :dy = 9000.f ;
+            :map_projection = "Lambert Conformal" ;
     }
     
     

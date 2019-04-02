@@ -10,8 +10,6 @@ knitr::opts_chunk$set(
   comment = ""
 )
 ```
-
-
 # rasterwise
 
 The goal of rasterwise is to collate hard-won knowledge of what's wrong and what's right about various data sets. 
