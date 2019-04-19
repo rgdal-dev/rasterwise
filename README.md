@@ -78,6 +78,7 @@ from my personal collections.
     historical/readme-historical.nc.md
     hmr_ita.nc
     inverted_73/regcm-nn-2100_reg4_22.nc
+    large-mem/pp_ens_mean_0.25deg_reg_v19.0e.nc
     mrso/mrso_Lmon_CMCC-CESM_rcp85_r1i1p1_200001-200412.nc
     mrso/readme
     nhsce_v01r01_19661004_20140203.nc
@@ -2046,6 +2047,51 @@ from my personal collections.
             :Conventions = "CF-1.7" ;
             :Creation_date = "2018-11-10 23:37:10 CET" ;
             :Return_period = 2., 10., 20., 50., 100. ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    large-mem/pp_ens_mean_0.25deg_reg_v19.0e.nc
+    
+    
+    
+    netcdf pp_ens_mean_0.25deg_reg_v19.0e {
+    dimensions:
+        latitude = 201 ;
+        longitude = 464 ;
+        time = UNLIMITED ; // (25202 currently)
+    variables:
+        double latitude(latitude) ;
+            latitude:units = "degrees_north" ;
+            latitude:long_name = "Latitude values" ;
+            latitude:axis = "Y" ;
+            latitude:standard_name = "latitude" ;
+        double longitude(longitude) ;
+            longitude:units = "degrees_east" ;
+            longitude:long_name = "Longitude values" ;
+            longitude:axis = "X" ;
+            longitude:standard_name = "longitude" ;
+        short pp(time, latitude, longitude) ;
+            pp:units = "hPa" ;
+            pp:_FillValue = -9999s ;
+            pp:long_name = "sea level pressure" ;
+            pp:scale_factor = 0.1f ;
+            pp:add_offset = 0.f ;
+            pp:standard_name = "air_pressure_at_sea_level" ;
+        int time(time) ;
+            time:units = "days since 1950-01-01 00:00" ;
+            time:long_name = "Time in days" ;
+            time:calendar = "standard" ;
+            time:standard_name = "time" ;
+    
+    // global attributes:
+            :E-OBS_version = "19.0e" ;
+            :Conventions = "CF-1.4" ;
+            :References = "http://surfobs.climate.copernicus.eu/dataaccess/access_eobs.php" ;
+            :history = "Mon Feb 18 12:49:39 2019: ncks -O -d time,0,25201 /data4/Else/EOBSv19.0e/Grid_0.25deg/pp/pp_ensmean_master_untilJan2019.nc /data4/Else/EOBSv19.0e/Grid_0.25deg/pp/pp_ensmean_master.nc" ;
+            :NCO = "netCDF Operators version 4.7.5 (Homepage = http://nco.sf.net, Code = http://github.com/nco/nco)" ;
     }
     
     
