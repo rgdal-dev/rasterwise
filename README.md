@@ -103,6 +103,8 @@ from my personal collections.
     swapped/gdal-dev-readme.txt
     test.nc_60/num60.R
     test.nc_60/test.nc
+    time/metdata.nc
+    time/time-readme.md
     timeseries.nc
     tricky_grids/OR_ABI-L1b-RadC-M3C01_G16_s20190621802131_e20190621804504_c20190621804546.nc
 
@@ -3645,6 +3647,95 @@ from my personal collections.
             :nco_openmp_thread_number = 1 ;
             :CDO = "Climate Data Operators version 1.9.1 (http://mpimet.mpg.de/cdo)" ;
     }
+    
+    
+    
+    
+    ###############################################################################
+    time/metdata.nc
+    
+    
+    
+    netcdf metdata {
+    dimensions:
+        day = 5 ;
+        lat = 211 ;
+        lon = 470 ;
+    variables:
+        float precipitation_amount(day, lat, lon) ;
+            precipitation_amount:_CoordinateAxes = "day lat lon  day lat lon " ;
+            precipitation_amount:cell_methods = "time: sum(interval: 24 hours)" ;
+            precipitation_amount:coordinates = "day lat lon " ;
+            precipitation_amount:description = "Daily Accumulated Precipitation" ;
+            precipitation_amount:units = "mm" ;
+            precipitation_amount:_ChunkSizes = 1, 59, 139 ;
+        double day(day) ;
+            day:units = "days since 1900-01-01 00:00:00" ;
+            day:calendar = "gregorian" ;
+            day:description = "days since 1900-01-01" ;
+            day:_ChunkSizes = 1 ;
+            day:standard_name = "time" ;
+            day:_CoordinateAxisType = "Time" ;
+        double lat(lat) ;
+            lat:units = "degrees_north" ;
+            lat:description = "latitude" ;
+            lat:_ChunkSizes = 59 ;
+            lat:standard_name = "latitude" ;
+            lat:_CoordinateAxisType = "Lat" ;
+        double lon(lon) ;
+            lon:units = "degrees_east" ;
+            lon:description = "longitude" ;
+            lon:_ChunkSizes = 139 ;
+            lon:standard_name = "longitude" ;
+            lon:_CoordinateAxisType = "Lon" ;
+    
+    // global attributes:
+            :author = "John Abatzoglou - University of Idaho, jabatzoglou@uidaho.edu" ;
+            :date = "09 March 2016" ;
+            :note1 = "The projection information for this file is: GCS WGS 1984." ;
+            :note2 = "Citation: Abatzoglou, J.T., 2013, Development of gridded surface meteorological data for ecological applications and modeling, International Journal of Climatology, DOI: 10.1002/joc.3413" ;
+            :last_permanent_slice = "365" ;
+            :note3 = "Data in slices after last_permanent_slice (1-based) are considered provisional and subject to change with subsequent updates" ;
+            :Metadata_Conventions = "Unidata Dataset Discovery v1.0" ;
+            :Conventions = "CF-1.0" ;
+            :title = "Daily Meteorological data for continental US" ;
+            :summary = "This archive contains daily surface meteorological (METDATA) data for the Continental United States at 4-km (1/24-deg) resolution. The meteorological variables are maximum/minimum temperature, precipitation amount and duration, maximum/minimum relative humidity,downward shortwave solar radiation, wind speed and direction, and specific humidity. The method utilized here combines desirable spatial attributes of gridded climate data from PRISM and desirable temporal attributes of regional-scale reanalysis and daily gauge-based precipitation from NLDAS-2 to derive a spatially and temporally complete high resolution gridded dataset of surface meteorological variables for the continental US for 1979-present. Validation of this data suggests that it can serve as a suitable surrogate for landscape-scale ecological modeling across vast unmonitored areas of the US. " ;
+            :keywords = "daily precipitation, daily precipitation duration, daily maximum temperature, daily minimum temperature, daily downward shortwave solar radiation, daily specific humidity, daily maximum relative humidity, daily minimum relative humidity, daily wind speed, daily wind direction, ClimatologyMeteorologyAtmosphere, Gridded Meteorological Data, EPSCoR Data" ;
+            :id = "UofIMETDATA" ;
+            :naming_authority = "cida.usgs.gov" ;
+            :cdm_data_type = "Grid" ;
+            :date_created = "2012-08-16" ;
+            :creator_name = "Dr. John Abatzoglou" ;
+            :creator_url = "http://nimbus.cos.uidaho.edu/METDATA/" ;
+            :creator_email = "jabatzoglou@uidaho.edu" ;
+            :publisher_name = "Center for Integrated Data Analytics" ;
+            :publisher_url = "https://www.cida.usgs.gov/" ;
+            :publisher_email = "dblodgett@usgs.gov" ;
+            :institution = "University of Idaho" ;
+            :date_issued = "2012-08-16" ;
+            :project = "METDATA" ;
+            :processing_level = "Gridded Meteorogolical Data" ;
+            :acknowledgement = "Whenever you publish research based on data from this archive, please reference this data by using the phrase -daily gridded meteorological data(METDATA) for the continental US- and by citing the article (Abatzoglou,2012). Further, appropriately acknowledge the National Science Foundation (NSF), Idaho EPSCoR and the individual investigators responsible for the data set." ;
+            :contributors = "Dr. John Abatzoglou" ;
+            :geospatial_lat_min = "25.0631" ;
+            :geospatial_lat_max = "49.3960" ;
+            :geospatial_lon_min = "-124.7722" ;
+            :geospatial_lon_max = "-67.0648" ;
+            :time_coverage_start = "1979-01-01T00:00" ;
+            :time_coverage_resolution = "P1D" ;
+            :license = "Freely available" ;
+            :_CoordSysBuilder = "ucar.nc2.dataset.conv.CF1Convention" ;
+            :history = "Grid sub-setted by USGS/CIDA Geo Data Portal" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    time/time-readme.md
+    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
+    files[i])), : running command 'ncdump -h extdata/time/time-readme.md' had
+    status 1
     
     
     

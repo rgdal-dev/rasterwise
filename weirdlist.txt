@@ -48,5 +48,7 @@ swapped/3A-DAY.nc
 swapped/gdal-dev-readme.txt
 test.nc_60/num60.R
 test.nc_60/test.nc
+time/metdata.nc
+time/time-readme.md
 timeseries.nc
 tricky_grids/OR_ABI-L1b-RadC-M3C01_G16_s20190621802131_e20190621804504_c20190621804546.nc
