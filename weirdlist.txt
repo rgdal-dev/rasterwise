@@ -25,6 +25,8 @@ hmr_ita.nc
 inverted_73/regcm-nn-2100_reg4_22.nc
 large-mem/pp_ens_mean_0.25deg_reg_v19.0e.nc
 mld/mld_DReqDTm02_c1m_reg2.0.nc
+modis/modis_readme
+modis/modis.tif
 mrso/mrso_Lmon_CMCC-CESM_rcp85_r1i1p1_200001-200412.nc
 mrso/readme
 nhsce_v01r01_19661004_20140203.nc
