@@ -79,6 +79,7 @@ from my personal collections.
     hmr_ita.nc
     inverted_73/regcm-nn-2100_reg4_22.nc
     large-mem/pp_ens_mean_0.25deg_reg_v19.0e.nc
+    mld/mld_DReqDTm02_c1m_reg2.0.nc
     mrso/mrso_Lmon_CMCC-CESM_rcp85_r1i1p1_200001-200412.nc
     mrso/readme
     nhsce_v01r01_19661004_20140203.nc
@@ -2094,6 +2095,92 @@ from my personal collections.
             :References = "http://surfobs.climate.copernicus.eu/dataaccess/access_eobs.php" ;
             :history = "Mon Feb 18 12:49:39 2019: ncks -O -d time,0,25201 /data4/Else/EOBSv19.0e/Grid_0.25deg/pp/pp_ensmean_master_untilJan2019.nc /data4/Else/EOBSv19.0e/Grid_0.25deg/pp/pp_ensmean_master.nc" ;
             :NCO = "netCDF Operators version 4.7.5 (Homepage = http://nco.sf.net, Code = http://github.com/nco/nco)" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    mld/mld_DReqDTm02_c1m_reg2.0.nc
+    
+    
+    
+    netcdf mld_DReqDTm02_c1m_reg2.0 {
+    dimensions:
+        lon = 180 ;
+        lat = 90 ;
+        time = UNLIMITED ; // (12 currently)
+    variables:
+        float lon(lon) ;
+            lon:units = "degrees_E" ;
+            lon:long_name = "center mesh longitude" ;
+            lon:min_value = 0.f ;
+            lon:max_value = 358.f ;
+        float lat(lat) ;
+            lat:units = "degrees_N" ;
+            lat:long_name = "center mesh latitude" ;
+            lat:min_value = -88.f ;
+            lat:max_value = 89.5f ;
+        int time(time) ;
+            time:units = "days since 0001-01-01 12:00:00" ;
+            time:calendar = "gregorian" ;
+        float mld_raw(time, lat, lon) ;
+            mld_raw:units = "meters" ;
+            mld_raw:long_name = "mixed layer depth (estimated with median in each gridbox)" ;
+            mld_raw:missing_value = -9999.f ;
+            mld_raw:min_value = 10.f ;
+            mld_raw:max_value = 1425.54f ;
+            mld_raw:mask_value = 1.e+09f ;
+        float n_profiles(time, lat, lon) ;
+            n_profiles:units = "n/a" ;
+            n_profiles:long_name = "number of profiles in each grid box" ;
+            n_profiles:missing_value = -9999.f ;
+            n_profiles:min_value = 1.f ;
+            n_profiles:max_value = 1140.f ;
+            n_profiles:mask_value = 1.e+09f ;
+        float med_dev(time, lat, lon) ;
+            med_dev:units = "meters" ;
+            med_dev:long_name = "median absolute deviation of mld_raw" ;
+            med_dev:missing_value = -9999.f ;
+            med_dev:min_value = 1.953125e-05f ;
+            med_dev:max_value = 673.9775f ;
+            med_dev:mask_value = 1.e+09f ;
+        float mld_smth(time, lat, lon) ;
+            mld_smth:units = "meters" ;
+            mld_smth:long_name = "smooth of mld_raw weighted by neighboring n_profiles" ;
+            mld_smth:missing_value = -9999.f ;
+            mld_smth:min_value = 10.f ;
+            mld_smth:max_value = 1133.005f ;
+            mld_smth:mask_value = 1.e+09f ;
+        float mld(time, lat, lon) ;
+            mld:units = "meters" ;
+            mld:long_name = "mixed layer depth (estimated by kriging of mld_smth)" ;
+            mld:missing_value = -9999.f ;
+            mld:min_value = 10.f ;
+            mld:max_value = 1133.005f ;
+            mld:mask_value = 1.e+09f ;
+        float krig_std_dev(time, lat, lon) ;
+            krig_std_dev:units = "meters" ;
+            krig_std_dev:long_name = "statistical std deviation linked to kriging of mld" ;
+            krig_std_dev:missing_value = -9999.f ;
+            krig_std_dev:min_value = 0.f ;
+            krig_std_dev:max_value = 310.9792f ;
+            krig_std_dev:mask_value = 1.e+09f ;
+        float mask(lat, lon) ;
+            mask:units = "n/a" ;
+            mask:long_name = "land-sea mask (1 on ocean, 0 on land)" ;
+    
+    // global attributes:
+            :File_Name = "mld_ReqT02_4blt_clim_1961_2008.nc" ;
+            :Producer_Agency = "IFREMER - LOS - Wed Nov  5 17:55:57 2008" ;
+            :Methodology = "de Boyer Montegut et al., JGR 2004 (http://www.locean-ipsl.upmc.fr/~cdblod/mld.html or blt.html)" ;
+            :Associate_File = "06_test_bl_thadathil_as/B_PREGRID/PREGRID_ALL_mld_blt_lorb_dteq_mergendinmldneg.ascii" ;
+            :Source_Files = "WOCE Global Data Version 3.0 (CTD, PFL), NODC-WOD2005 (CTD), and ARGO (until sept 2008) in situ profiles" ;
+            :IDL_Program_Name = "c_make_mldfields_5.pro (deboyer@ifremer.fr)" ;
+            :Space_Grid = "regular 2.0 degres resolution" ;
+            :Time_Grid = "Monthly resolution, annual climatology over 1961-2008" ;
+            :Criterion_Description = "Variable density criterion corresponding to a temperature variation of -0.2 degree, difference from surface potential density at 10m depth for each profile. " ;
+            :Meta_Data = "operation:mldcond,idvarchooz1=16,idvarchooz2=15,idvarchooz3=16,[mergeinmld=0,troptest=0],[rmsigtest=0,niqr=5],patchrm2ctd_forBL=0" ;
     }
     
     
