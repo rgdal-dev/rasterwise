@@ -4,6 +4,8 @@ bad_examples_62/bad_examples.R
 bad_examples_62/example1.nc
 bad_examples_62/example2.nc
 bad_examples_62/example3.nc
+chunking/chunks.R
+chunking/wrfout_hist_prcp_2002-09-01.nc4
 copernicus/cout-perc1_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap0.5.nc
 copernicus/cout-perc1_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap215.nc
 copernicus/cout-perc5_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap0.5.nc

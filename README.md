@@ -59,6 +59,8 @@ from my personal collections.
     bad_examples_62/example1.nc
     bad_examples_62/example2.nc
     bad_examples_62/example3.nc
+    chunking/chunks.R
+    chunking/wrfout_hist_prcp_2002-09-01.nc4
     copernicus/cout-perc1_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap0.5.nc
     copernicus/cout-perc1_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap215.nc
     copernicus/cout-perc5_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap0.5.nc
@@ -80,6 +82,8 @@ from my personal collections.
     inverted_73/regcm-nn-2100_reg4_22.nc
     large-mem/pp_ens_mean_0.25deg_reg_v19.0e.nc
     mld/mld_DReqDTm02_c1m_reg2.0.nc
+    modis/modis_readme
+    modis/modis.tif
     mrso/mrso_Lmon_CMCC-CESM_rcp85_r1i1p1_200001-200412.nc
     mrso/readme
     nhsce_v01r01_19661004_20140203.nc
@@ -602,6 +606,99 @@ from my personal collections.
             :References = "Isotta, F.A. et al. 2013: The climate of daily precipitation in the Alps: development and analysis of a high-resolution grid dataset from pan-Alpine rain-gauge data. Int. J. Climatol., accepted. Please check for updates on the publication status!" ;
             :nco_openmp_thread_number = 1 ;
             :CDO = "Climate Data Operators version 1.9.1 (http://mpimet.mpg.de/cdo)" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    chunking/chunks.R
+    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
+    files[i])), : running command 'ncdump -h extdata/chunking/chunks.R' had
+    status 1
+    
+    
+    
+    
+    ###############################################################################
+    chunking/wrfout_hist_prcp_2002-09-01.nc4
+    
+    
+    
+    netcdf wrfout_hist_prcp_2002-09-01 {
+    dimensions:
+        time = UNLIMITED ; // (1 currently)
+        y = 609 ;
+        x = 659 ;
+    variables:
+        double time(time) ;
+            time:long_name = "Time" ;
+            time:standard_name = "time" ;
+            time:units = "days since 1900-01-01 00:00:00" ;
+            time:calendar = "standard" ;
+        double y(y) ;
+            y:grid_spacing = 4000.f ;
+            y:standard_name = "projection_y_coordinate" ;
+            y:long_name = "y-coordinate of projection" ;
+            y:units = "m" ;
+            y:_CoordinateAxisType = "GeoY" ;
+            y:resolution = 4000. ;
+        double x(x) ;
+            x:grid_spacing = 4000.f ;
+            x:standard_name = "projection_x_coordinate" ;
+            x:long_name = "x-coordinate of projection" ;
+            x:units = "m" ;
+            x:_CoordinateAxisType = "GeoX" ;
+            x:resolution = 4000. ;
+        float lat(y, x) ;
+            lat:esri_pe_string = "PROJCS[\"Sphere_Stereographic\",GEOGCS[\"GCS_Sphere\",DATUM[\"D_Sphere\",SPHEROID[\"Sphere\",6370000.0,0.0]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Stereographic\"],PARAMETER[\"False_Easting\",0.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",-150.0],PARAMETER[\"Scale_Factor\",0.94939702315],PARAMETER[\"Latitude_Of_Origin\",90.0],UNIT[\"Meter\",1.0]];-30925000 -30925000 145629737.344236;-100000 10000;-100000 10000;0.001;0.001;0.001;IsHighPrecision" ;
+            lat:grid_mapping = "ProjectionCoordinateSystem" ;
+            lat:coordinates = "y x" ;
+            lat:units = "degrees_north" ;
+            lat:standard_name = "latitude" ;
+            lat:long_name = "Latitude" ;
+            lat:_FillValue = -1.e+33f ;
+        float lon(y, x) ;
+            lon:esri_pe_string = "PROJCS[\"Sphere_Stereographic\",GEOGCS[\"GCS_Sphere\",DATUM[\"D_Sphere\",SPHEROID[\"Sphere\",6370000.0,0.0]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Stereographic\"],PARAMETER[\"False_Easting\",0.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",-150.0],PARAMETER[\"Scale_Factor\",0.94939702315],PARAMETER[\"Latitude_Of_Origin\",90.0],UNIT[\"Meter\",1.0]];-30925000 -30925000 145629737.344236;-100000 10000;-100000 10000;0.001;0.001;0.001;IsHighPrecision" ;
+            lon:grid_mapping = "ProjectionCoordinateSystem" ;
+            lon:coordinates = "y x" ;
+            lon:units = "degrees_east" ;
+            lon:standard_name = "longitude" ;
+            lon:long_name = "Longitude" ;
+            lon:_FillValue = -1.e+33f ;
+        char ProjectionCoordinateSystem ;
+            ProjectionCoordinateSystem:false_northing = 0. ;
+            ProjectionCoordinateSystem:false_easting = 0. ;
+            ProjectionCoordinateSystem:scale_factor_at_projection_origin = 0.94939702315 ;
+            ProjectionCoordinateSystem:latitude_of_projection_origin = 90. ;
+            ProjectionCoordinateSystem:longitude_of_projection_origin = 0. ;
+            ProjectionCoordinateSystem:GeoTransform = "-1317999.87049 4000.0 0 -1574425.14759 0 -4000.0 " ;
+            ProjectionCoordinateSystem:spatial_ref = "PROJCS[\"Sphere_Stereographic\",GEOGCS[\"GCS_Sphere\",DATUM[\"D_Sphere\",SPHEROID[\"Sphere\",6370000.0,0.0]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Stereographic\"],PARAMETER[\"False_Easting\",0.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",-150.0],PARAMETER[\"Scale_Factor\",0.94939702315],PARAMETER[\"Latitude_Of_Origin\",90.0],UNIT[\"Meter\",1.0]];-30925000 -30925000 145629737.344236;-100000 10000;-100000 10000;0.001;0.001;0.001;IsHighPrecision" ;
+            ProjectionCoordinateSystem:esri_pe_string = "PROJCS[\"Sphere_Stereographic\",GEOGCS[\"GCS_Sphere\",DATUM[\"D_Sphere\",SPHEROID[\"Sphere\",6370000.0,0.0]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Stereographic\"],PARAMETER[\"False_Easting\",0.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",-150.0],PARAMETER[\"Scale_Factor\",0.94939702315],PARAMETER[\"Latitude_Of_Origin\",90.0],UNIT[\"Meter\",1.0]];-30925000 -30925000 145629737.344236;-100000 10000;-100000 10000;0.001;0.001;0.001;IsHighPrecision" ;
+            ProjectionCoordinateSystem:grid_mapping_name = "polar_stereographic" ;
+            ProjectionCoordinateSystem:transform_name = "polar_stereographic" ;
+            ProjectionCoordinateSystem:_CoordinateTransformType = "Projection" ;
+            ProjectionCoordinateSystem:_CoordinateAxes = "y x" ;
+        float prcp(time, y, x) ;
+            prcp:_FillValue = 1.e+20f ;
+            prcp:esri_pe_string = "PROJCS[\"Sphere_Stereographic\",GEOGCS[\"GCS_Sphere\",DATUM[\"D_Sphere\",SPHEROID[\"Sphere\",6370000.0,0.0]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Stereographic\"],PARAMETER[\"False_Easting\",0.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",-150.0],PARAMETER[\"Scale_Factor\",0.94939702315],PARAMETER[\"Latitude_Of_Origin\",90.0],UNIT[\"Meter\",1.0]];-30925000 -30925000 145629737.344236;-100000 10000;-100000 10000;0.001;0.001;0.001;IsHighPrecision" ;
+            prcp:grid_mapping = "ProjectionCoordinateSystem" ;
+            prcp:coordinates = "time y x" ;
+            prcp:units = "kg m-2 day-1" ;
+            prcp:standard_name = "precipitation_amount" ;
+            prcp:long_name = "Daily Precipitation" ;
+    
+    // global attributes:
+            :institution = "National Center for Atmospheric Research" ;
+            :created_by = "Andy Monaghan - monaghan@ucar.edu" ;
+            :notes = "Created with NCL script:  wrfout_to_cf.ncl v2.0" ;
+            :source = "surface_d01_2002-09-01_RAINNCtot.nc" ;
+            :creation_date = "Thu Jul 27 17:01:02 MDT 2017" ;
+            :NCL_Version = "6.4.0" ;
+            :system = "Linux geyser12 2.6.32-358.el6.x86_64 #1 SMP Wed Nov 2 11:00:18 MDT 2016 x86_64 x86_64 x86_64 GNU/Linux" ;
+            :Conventions = "CF 1.6" ;
+            :netcdf_source = "wrfout_hist_prcp_2002-09-01.nc" ;
+            :title = "wrfout_hist_prcp_2002-09-01.nc" ;
     }
     
     
@@ -2182,6 +2279,24 @@ from my personal collections.
             :Criterion_Description = "Variable density criterion corresponding to a temperature variation of -0.2 degree, difference from surface potential density at 10m depth for each profile. " ;
             :Meta_Data = "operation:mldcond,idvarchooz1=16,idvarchooz2=15,idvarchooz3=16,[mergeinmld=0,troptest=0],[rmsigtest=0,niqr=5],patchrm2ctd_forBL=0" ;
     }
+    
+    
+    
+    
+    ###############################################################################
+    modis/modis_readme
+    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
+    files[i])), : running command 'ncdump -h extdata/modis/modis_readme' had
+    status 1
+    
+    
+    
+    
+    ###############################################################################
+    modis/modis.tif
+    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
+    files[i])), : running command 'ncdump -h extdata/modis/modis.tif' had
+    status 1
     
     
     
