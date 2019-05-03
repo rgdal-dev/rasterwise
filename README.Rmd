@@ -16,7 +16,6 @@ knitr::opts_chunk$set(
 # rasterwise
 
 The goal of rasterwise is to collate hard-won knowledge of what's wrong and what's right about various data sets. 
-
 It began as a collection of iillustrative NetCDF files, used for testing so our R code works right. 
 
 ## raadtools - a code collection of raster wise-dom
