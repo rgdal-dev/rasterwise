@@ -72,6 +72,7 @@ from my personal collections.
     EURO-CORDEX_81_DOMAIN000_54/EURO-CORDEX_81_DOMAIN000.nc
     EURO-CORDEX_81_DOMAIN000_54/issue_54.R
     file.nc
+    gcp/NSS.GHRR.NH.D94241.S1549.E1736.B3055960.GC
     get1index_64/test.nc
     GPP/gpp_Lmon_EnsembleGPP_observations_198201-201112.nc
     GPP/readme
@@ -87,6 +88,8 @@ from my personal collections.
     modis/modis.tif
     mrso/mrso_Lmon_CMCC-CESM_rcp85_r1i1p1_200001-200412.nc
     mrso/readme
+    nc-to-cog/1889.daily_rain.nc
+    nc-to-cog/nc-to-cog-readme.R
     nhsce_v01r01_19661004_20140203.nc
     NSIDC/alaska_2007_2008_swe_v01.nc
     NSIDC/readme
@@ -2570,6 +2573,15 @@ from my personal collections.
     
     
     ###############################################################################
+    gcp/NSS.GHRR.NH.D94241.S1549.E1736.B3055960.GC
+    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
+    files[i])), : running command 'ncdump -h extdata/gcp/
+    NSS.GHRR.NH.D94241.S1549.E1736.B3055960.GC' had status 1
+    
+    
+    
+    
+    ###############################################################################
     get1index_64/test.nc
     
     
@@ -3309,6 +3321,68 @@ from my personal collections.
     mrso/readme
     Warning in system(sprintf("ncdump -h %s", file.path("extdata",
     files[i])), : running command 'ncdump -h extdata/mrso/readme' had status 1
+    
+    
+    
+    
+    ###############################################################################
+    nc-to-cog/1889.daily_rain.nc
+    
+    
+    
+    netcdf \1889.daily_rain {
+    dimensions:
+        lat = 681 ;
+        lon = 841 ;
+        time = UNLIMITED ; // (365 currently)
+    variables:
+        double lat(lat) ;
+            lat:long_name = "latitude" ;
+            lat:standard_name = "latitude" ;
+            lat:units = "degrees_north" ;
+            lat:axis = "Y" ;
+        double lon(lon) ;
+            lon:long_name = "longitude" ;
+            lon:standard_name = "longitude" ;
+            lon:units = "degrees_east" ;
+            lon:axis = "X" ;
+        double time(time) ;
+            time:units = "days since 1889-01-01" ;
+            time:calendar = "standard" ;
+            time:axis = "T" ;
+        short daily_rain(time, lat, lon) ;
+            daily_rain:_FillValue = -32768s ;
+            daily_rain:units = "mm" ;
+            daily_rain:long_name = "Daily rainfall" ;
+            daily_rain:scale_factor = 0.1 ;
+            daily_rain:add_offset = 0. ;
+        char crs ;
+            crs:longitude_of_prime_meridian = 0. ;
+            crs:long_name = "Coordinate reference system" ;
+            crs:semi_major_axis = 6378137. ;
+            crs:grid_mapping_name = "latitude_longitude" ;
+            crs:inverse_flattening = 298.257223563 ;
+    
+    // global attributes:
+            :copyright = "Copyright - the State of Queensland Department of Environment and Science 2018" ;
+            :reference = "Jeffrey, S.J., Carter, J.O., Moodie, K.B.A. and Beswick, A.R.. \"Using spatial interpolation to construct a comprehensive archive of Australian climate data\", Environmental Modelling and Software, Vol 16/4, pp 309-330, 2001\n" ;
+            :site_url = "http://silo.longpaddock.qld.gov.au" ;
+            :raster_source = "Gridded surface was created by interpolating observational data provided by the Australian Bureau of Meteorology.\n" ;
+            :disclaimer = "1. The user accepts all responsibility and risks associated with the use of this data.\n2. The Queensland Government makes no representations or warranties in relation to this data, and, you agree that to the extent\npermitted by law, all warranties relating to accuracy, reliability, completeness, currency or suitability for any\nparticular purpose and all liability for any loss, damage or costs (including consequential damage) incurred in any\nway (including but not limited to that arising from negligence) in connection with any use of or reliance on this\ndata are excluded or limited.\n3. You agree to continually indemnify the State of Queensland (and its officers and employees) against\nany loss, cost, expense, damage and liability of any kind (including liability in negligence) caused by your use of\nthis data or any product made from this data.\n" ;
+            :department_short = "DES" ;
+            :metadata_url = "http://qldspatial.information.qld.gov.au/catalogueadmin/catalog/main/home.page" ;
+            :department = "Department of Environment and Science" ;
+            :institution = "Queensland Government, Department of Environment and Science" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    nc-to-cog/nc-to-cog-readme.R
+    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
+    files[i])), : running command 'ncdump -h extdata/nc-to-cog/nc-to-cog-
+    readme.R' had status 1
     
     
     

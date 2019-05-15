@@ -19,6 +19,7 @@ EOBS/readme
 EURO-CORDEX_81_DOMAIN000_54/EURO-CORDEX_81_DOMAIN000.nc
 EURO-CORDEX_81_DOMAIN000_54/issue_54.R
 file.nc
+gcp/NSS.GHRR.NH.D94241.S1549.E1736.B3055960.GC
 get1index_64/test.nc
 GPP/gpp_Lmon_EnsembleGPP_observations_198201-201112.nc
 GPP/readme
@@ -34,6 +35,8 @@ modis/modis_readme
 modis/modis.tif
 mrso/mrso_Lmon_CMCC-CESM_rcp85_r1i1p1_200001-200412.nc
 mrso/readme
+nc-to-cog/1889.daily_rain.nc
+nc-to-cog/nc-to-cog-readme.R
 nhsce_v01r01_19661004_20140203.nc
 NSIDC/alaska_2007_2008_swe_v01.nc
 NSIDC/readme
