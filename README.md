@@ -66,6 +66,8 @@ from my personal collections.
     copernicus/cout-perc1_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap215.nc
     copernicus/cout-perc5_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap0.5.nc
     copernicus/cout-perc5_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap215.nc
+    curvilinear/UERRA/README
+    curvilinear/UERRA/test3.nc
     dt_ref_global_merged_madt_uv_19921014_19921014_20060315.nc
     EOBS/EOBS_2001-2016.nc
     EOBS/readme
@@ -116,6 +118,9 @@ from my personal collections.
     time/time-readme.md
     timeseries.nc
     tricky_grids/OR_ABI-L1b-RadC-M3C01_G16_s20190621802131_e20190621804504_c20190621804546.nc
+    watersurfaces/2017_q4_v2prov.zip
+    watersurfaces/2017_q4.nc
+    watersurfaces/usgs-watersufaces.R
 
 ## The ncdumps -h
 
@@ -2157,6 +2162,106 @@ from my personal collections.
             :DOI_link = "https://doi.org/10.5281/zenodo.581451" ;
             :invar_gcm_id = "GCMs in the order of the variables are: CSC-MPI-ESM-LR KNMI-EC-EARTH SMHI-EC-EARTH SMHI-HadGEM2-ES" ;
             :invar_rcm_id = "RCMs in the order of the variables are: CSC-REMO2009 KNMI-RACMO22E SMHI-RCA4 SMHI-RCA4" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    curvilinear/UERRA/README
+    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
+    files[i])), : running command 'ncdump -h extdata/curvilinear/UERRA/README'
+    had status 1
+    
+    
+    
+    
+    ###############################################################################
+    curvilinear/UERRA/test3.nc
+    
+    
+    
+    netcdf test3 {
+    dimensions:
+        y = 1069 ;
+        x = 1069 ;
+    variables:
+        float r2(y, x) ;
+            r2:_FillValue = NaNf ;
+            r2:GRIB_paramId = 260242LL ;
+            r2:GRIB_shortName = "2r" ;
+            r2:GRIB_units = "%" ;
+            r2:GRIB_name = "2 metre relative humidity" ;
+            r2:GRIB_cfName = "relative_humidity" ;
+            r2:GRIB_cfVarName = "r2" ;
+            r2:GRIB_dataType = "an" ;
+            r2:GRIB_missingValue = 9999LL ;
+            r2:GRIB_numberOfPoints = 1142761LL ;
+            r2:GRIB_typeOfLevel = "heightAboveGround" ;
+            r2:GRIB_NV = 132LL ;
+            r2:GRIB_stepUnits = 1LL ;
+            r2:GRIB_stepType = "instant" ;
+            r2:GRIB_gridType = "lambert" ;
+            r2:GRIB_gridDefinitionDescription = "Lambert conformal " ;
+            r2:GRIB_LaDInDegrees = 50. ;
+            r2:GRIB_LoVInDegrees = 8. ;
+            r2:GRIB_iScansNegatively = 0LL ;
+            r2:GRIB_jPointsAreConsecutive = 0LL ;
+            r2:GRIB_jScansPositively = 1LL ;
+            r2:GRIB_latitudeOfFirstGridPointInDegrees = 20.292 ;
+            r2:GRIB_latitudeOfSouthernPoleInDegrees = 0. ;
+            r2:GRIB_longitudeOfFirstGridPointInDegrees = 342.514 ;
+            r2:GRIB_longitudeOfSouthernPoleInDegrees = 0. ;
+            r2:GRIB_DyInMetres = 5500. ;
+            r2:GRIB_DxInMetres = 5500. ;
+            r2:GRIB_Latin2InDegrees = 50. ;
+            r2:GRIB_Latin1InDegrees = 50. ;
+            r2:GRIB_Ny = 1069LL ;
+            r2:GRIB_Nx = 1069LL ;
+            r2:long_name = "2 metre relative humidity" ;
+            r2:units = "%" ;
+            r2:standard_name = "relative_humidity" ;
+            r2:coordinates = "longitude latitude step valid_time heightAboveGround time" ;
+        int64 time ;
+            time:long_name = "initial time of forecast" ;
+            time:standard_name = "forecast_reference_time" ;
+            time:units = "seconds since 1970-01-01T00:00:00+00:00" ;
+            time:calendar = "proleptic_gregorian" ;
+        double step ;
+            step:_FillValue = NaN ;
+            step:long_name = "time since forecast_reference_time" ;
+            step:standard_name = "forecast_period" ;
+            step:units = "hours" ;
+        int64 heightAboveGround ;
+            heightAboveGround:long_name = "height above the surface" ;
+            heightAboveGround:units = "m" ;
+            heightAboveGround:positive = "up" ;
+            heightAboveGround:standard_name = "height" ;
+        double latitude(y, x) ;
+            latitude:_FillValue = NaN ;
+            latitude:units = "degrees_north" ;
+            latitude:standard_name = "latitude" ;
+            latitude:long_name = "latitude" ;
+        double longitude(y, x) ;
+            longitude:_FillValue = NaN ;
+            longitude:units = "degrees_east" ;
+            longitude:standard_name = "longitude" ;
+            longitude:long_name = "longitude" ;
+        double valid_time ;
+            valid_time:_FillValue = NaN ;
+            valid_time:standard_name = "time" ;
+            valid_time:long_name = "time" ;
+            valid_time:units = "seconds since 1970-01-01T00:00:00+00:00" ;
+            valid_time:calendar = "proleptic_gregorian" ;
+    
+    // global attributes:
+            :GRIB_edition = 2LL ;
+            :GRIB_centre = "lfpw" ;
+            :GRIB_centreDescription = "French Weather Service - Toulouse" ;
+            :GRIB_subCentre = 0LL ;
+            :Conventions = "CF-1.7" ;
+            :institution = "French Weather Service - Toulouse" ;
+            :history = "2019-06-02T10:36:58 GRIB to CDM+CF via cfgrib-0.9.5.5/ecCodes-2.10.0 with {\"source\": \"/cache/tmp/29ac4b8a-7ca3-4ddc-81e2-21da1a073d2f-adaptor.uerra_mars.external-1559471812.8045027-27685-7-tmp.grib\", \"filter_by_keys\": {}, \"encode_cf\": [\"parameter\", \"time\", \"geography\", \"vertical\"]}" ;
     }
     
     
@@ -5287,3 +5392,69 @@ from my personal collections.
             :time_coverage_end = "2019-03-03T18:04:50.4Z" ;
             :id = "4a42da74-0ae8-43ea-896d-6d3e4fb85975" ;
     }
+    
+    
+    
+    
+    ###############################################################################
+    watersurfaces/2017_q4_v2prov.zip
+    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
+    files[i])), : running command 'ncdump -h extdata/watersurfaces/
+    2017_q4_v2prov.zip' had status 1
+    
+    
+    
+    
+    ###############################################################################
+    watersurfaces/2017_q4.nc
+    
+    
+    
+    netcdf \2017_q4 {
+    dimensions:
+        time = 92 ;
+        y = 405 ;
+        x = 287 ;
+    variables:
+        float stage(time, y, x) ;
+            stage:long_name = "stage" ;
+            stage:esri_pe_string = "PROJCS[\"NAD_1983_UTM_Zone_17N\",GEOGCS[\"GCS_North_American_1983\",DATUM[\"D_North_American_1983\",SPHEROID[\"GRS_1980\",6378137.0,298.257222101]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"False_Easting\",500000.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",-81.0],PARAMETER[\"Scale_Factor\",0.9996],PARAMETER[\"Latitude_Of_Origin\",0.0],UNIT[\"Meter\",1.0]]" ;
+            stage:coordinates = "x y" ;
+            stage:grid_mapping = "transverse_mercator" ;
+            stage:units = "cm" ;
+            stage:min = -8.33670043945312 ;
+            stage:max = 499.500701904297 ;
+        int transverse_mercator ;
+            transverse_mercator:grid_mapping_name = "transverse_mercator" ;
+            transverse_mercator:longitude_of_central_meridian = -81. ;
+            transverse_mercator:latitude_of_projection_origin = 0. ;
+            transverse_mercator:scale_factor_at_central_meridian = 0.9996 ;
+            transverse_mercator:false_easting = 500000. ;
+            transverse_mercator:false_northing = 0. ;
+            transverse_mercator:semi_major_axis = 6378137 ;
+            transverse_mercator:inverse_flattening = 298.257222101 ;
+        int time(time) ;
+            time:long_name = "model timestep" ;
+            time:units = "days since 2017-10-01T12:00:00Z" ;
+        double y(y) ;
+            y:long_name = "y coordinate of projection" ;
+            y:standard_name = "projection_y_coordinate" ;
+            y:units = "m" ;
+        double x(x) ;
+            x:long_name = "x coordinate of projection" ;
+            x:standard_name = "projection_x_coordinate" ;
+            x:units = "m" ;
+    
+    // global attributes:
+            :Conventions = "CF-1.0" ;
+            :Source_Software = "JEM NetCDF writer" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    watersurfaces/usgs-watersufaces.R
+    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
+    files[i])), : running command 'ncdump -h extdata/watersurfaces/usgs-
+    watersufaces.R' had status 1

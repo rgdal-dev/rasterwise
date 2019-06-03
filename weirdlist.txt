@@ -13,6 +13,8 @@ copernicus/cout-perc1_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap0.5.nc
 copernicus/cout-perc1_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap215.nc
 copernicus/cout-perc5_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap0.5.nc
 copernicus/cout-perc5_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap215.nc
+curvilinear/UERRA/README
+curvilinear/UERRA/test3.nc
 dt_ref_global_merged_madt_uv_19921014_19921014_20060315.nc
 EOBS/EOBS_2001-2016.nc
 EOBS/readme
@@ -63,3 +65,6 @@ time/metdata.nc
 time/time-readme.md
 timeseries.nc
 tricky_grids/OR_ABI-L1b-RadC-M3C01_G16_s20190621802131_e20190621804504_c20190621804546.nc
+watersurfaces/2017_q4_v2prov.zip
+watersurfaces/2017_q4.nc
+watersurfaces/usgs-watersufaces.R
