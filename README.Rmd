@@ -4,9 +4,6 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-
-
-
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -74,6 +71,14 @@ writeLines(files)
 
 ```{r,echo=FALSE}
 for (i in seq_along(files)) {
+  if (grepl("\\.R$", files[i])) next;
+    if (grepl("\\.zip$", files[i])) next;
+    if (grepl("\\.txt$", files[i])) next;
+    if (grepl("\\.md$", files[i])) next;
+    if (grepl("\\.tif$", files[i])) next;
+    if (grepl("readme$", files[i], ignore.case = TRUE)) next;
+    if (grepl("\\.hdf$", files[i])) next;
+    if (grepl("\\.GC$", files[i])) next;
   cat("###############################################################################\n")
   cat(files[i])
   cat("\n\n\n\n")

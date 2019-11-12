@@ -86,6 +86,9 @@ from my personal collections.
     inverted_73/regcm-nn-2100_reg4_22.nc
     large-mem/pp_ens_mean_0.25deg_reg_v19.0e.nc
     mld/mld_DReqDTm02_c1m_reg2.0.nc
+    modhdf4/MOD17A3.A2014001.h31v09.055.2016008121113.hdf
+    modhdf4/MOD17A3.A2014001.h31v10.055.2016008121114.hdf
+    modhdf4/MOD17A3.A2014001.h32v09.055.2016008121124.hdf
     modis/modis_readme
     modis/modis.tif
     mrso/mrso_Lmon_CMCC-CESM_rcp85_r1i1p1_200001-200412.nc
@@ -96,6 +99,7 @@ from my personal collections.
     NSIDC/alaska_2007_2008_swe_v01.nc
     NSIDC/readme
     NSIDC/sierra_2008_2009_swe_v01.nc
+    nuts/era-nuts-ws10-nuts2-hourly.nc
     ob_tran/example_ob_tran.nc
     ob_tran/example_ob_tran2.nc
     ob_tran/out.tif
@@ -110,6 +114,8 @@ from my personal collections.
     SO-reproj/OR_ABI-L1b-RadC-M3C01_G16_s20190621802131_e20190621804504_c20190621804546.nc
     SO-reproj/SO-reproj.R
     ssh05d19921006.nc
+    station_points/201001.nc
+    station_points/readme.md
     swapped/3A-DAY.nc
     swapped/gdal-dev-readme.txt
     test.nc_60/num60.R
@@ -366,15 +372,6 @@ from my personal collections.
     
     
     ###############################################################################
-    bad_examples_62/bad_examples.R
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/bad_examples_62/
-    bad_examples.R' had status 1
-    
-    
-    
-    
-    ###############################################################################
     bad_examples_62/example1.nc
     
     
@@ -621,15 +618,6 @@ from my personal collections.
     
     
     ###############################################################################
-    ceda/ceda_dims.readme
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/ceda/ceda_dims.readme' had
-    status 1
-    
-    
-    
-    
-    ###############################################################################
     ceda/tas_rcp85_land-rcm_eur_12km_01_mon_198012-208011.nc
     
     
@@ -713,15 +701,6 @@ from my personal collections.
             :references = "https://ukclimateprojections.metoffice.gov.uk" ;
             :version = "v20181122" ;
     }
-    
-    
-    
-    
-    ###############################################################################
-    chunking/chunks.R
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/chunking/chunks.R' had
-    status 1
     
     
     
@@ -2168,15 +2147,6 @@ from my personal collections.
     
     
     ###############################################################################
-    curvilinear/UERRA/README
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/curvilinear/UERRA/README'
-    had status 1
-    
-    
-    
-    
-    ###############################################################################
     curvilinear/UERRA/test3.nc
     
     
@@ -2412,14 +2382,6 @@ from my personal collections.
     
     
     ###############################################################################
-    EOBS/readme
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/EOBS/readme' had status 1
-    
-    
-    
-    
-    ###############################################################################
     EURO-CORDEX_81_DOMAIN000_54/EURO-CORDEX_81_DOMAIN000.nc
     
     
@@ -2631,15 +2593,6 @@ from my personal collections.
     
     
     ###############################################################################
-    EURO-CORDEX_81_DOMAIN000_54/issue_54.R
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/EURO-
-    CORDEX_81_DOMAIN000_54/issue_54.R' had status 1
-    
-    
-    
-    
-    ###############################################################################
     file.nc
     
     
@@ -2673,15 +2626,6 @@ from my personal collections.
             :created_by = "R, packages ncdf4 and raster (version 2.6-7)" ;
             :date = "2018-08-30 08:30:13" ;
     }
-    
-    
-    
-    
-    ###############################################################################
-    gcp/NSS.GHRR.NH.D94241.S1549.E1736.B3055960.GC
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/gcp/
-    NSS.GHRR.NH.D94241.S1549.E1736.B3055960.GC' had status 1
     
     
     
@@ -2833,23 +2777,6 @@ from my personal collections.
             :title = "Gross Primary Production on Land" ;
             :description = "GPP derived by upscaling observations from the current global network of eddy-covariance towers (FLUXNET, Jung et al 2011 Journal of Geophysical Research, 116 G00J07). For the upscaling a model tree ensemble approach was used as described in (Jung, M., Reichstein, M., Bondeau, A. 2009 Biogeosciences, 6). For this dataset the flux partitioning was based on LASSLOP, G. et al. (2010), Global Change Biology, 16: 187–208" ;
     }
-    
-    
-    
-    
-    ###############################################################################
-    GPP/readme
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/GPP/readme' had status 1
-    
-    
-    
-    
-    ###############################################################################
-    HDF4/ladsweb/MOD021KM.A2015091.0010.006.2015091134552.hdf
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/HDF4/ladsweb/
-    MOD021KM.A2015091.0010.006.2015091134552.hdf' had status 1
     
     
     
@@ -3077,15 +3004,6 @@ from my personal collections.
             :R_version = "R version 3.4.4 (2018-03-15)" ;
             :ncdf4_version = "1.16" ;
     }
-    
-    
-    
-    
-    ###############################################################################
-    historical/readme-historical.nc.md
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/historical/readme-
-    historical.nc.md' had status 1
     
     
     
@@ -3324,24 +3242,6 @@ from my personal collections.
     
     
     ###############################################################################
-    modis/modis_readme
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/modis/modis_readme' had
-    status 1
-    
-    
-    
-    
-    ###############################################################################
-    modis/modis.tif
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/modis/modis.tif' had
-    status 1
-    
-    
-    
-    
-    ###############################################################################
     mrso/mrso_Lmon_CMCC-CESM_rcp85_r1i1p1_200001-200412.nc
     
     
@@ -3423,14 +3323,6 @@ from my personal collections.
     
     
     ###############################################################################
-    mrso/readme
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/mrso/readme' had status 1
-    
-    
-    
-    
-    ###############################################################################
     nc-to-cog/1889.daily_rain.nc
     
     
@@ -3479,15 +3371,6 @@ from my personal collections.
             :department = "Department of Environment and Science" ;
             :institution = "Queensland Government, Department of Environment and Science" ;
     }
-    
-    
-    
-    
-    ###############################################################################
-    nc-to-cog/nc-to-cog-readme.R
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/nc-to-cog/nc-to-cog-
-    readme.R' had status 1
     
     
     
@@ -3636,14 +3519,6 @@ from my personal collections.
     
     
     ###############################################################################
-    NSIDC/readme
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/NSIDC/readme' had status 1
-    
-    
-    
-    
-    ###############################################################################
     NSIDC/sierra_2008_2009_swe_v01.nc
     
     
@@ -3680,6 +3555,28 @@ from my personal collections.
             :dx = 9000.f ;
             :dy = 9000.f ;
             :map_projection = "Lambert Conformal" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    nuts/era-nuts-ws10-nuts2-hourly.nc
+    
+    
+    
+    netcdf era-nuts-ws10-nuts2-hourly {
+    dimensions:
+        time = 341880 ;
+        region = 309 ;
+    variables:
+        int64 time(time) ;
+            time:units = "hours since 1980-01-01 00:00:00" ;
+            time:calendar = "proleptic_gregorian" ;
+        string region(region) ;
+        short ws10(time, region) ;
+            ws10:_FillValue = -9999s ;
+            ws10:scale_factor = 0.01 ;
     }
     
     
@@ -3880,24 +3777,6 @@ from my personal collections.
             :tracking_id = "60ab205f-db71-421e-a257-fd0843ca77a8" ;
             :CDO = "Climate Data Operators version 1.9.1 (http://mpimet.mpg.de/cdo)" ;
     }
-    
-    
-    
-    
-    ###############################################################################
-    ob_tran/out.tif
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/ob_tran/out.tif' had
-    status 1
-    
-    
-    
-    
-    ###############################################################################
-    ob_tran/readme.txt
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/ob_tran/readme.txt' had
-    status 1
     
     
     
@@ -4297,24 +4176,6 @@ from my personal collections.
     
     
     ###############################################################################
-    rectilinear/readme_CM2.1regionmask.txt
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/rectilinear/
-    readme_CM2.1regionmask.txt' had status 1
-    
-    
-    
-    
-    ###############################################################################
-    rectilinear/readme_rectlinear.txt
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/rectilinear/
-    readme_rectlinear.txt' had status 1
-    
-    
-    
-    
-    ###############################################################################
     rectilinear/test_3_.nc
     
     
@@ -4679,15 +4540,6 @@ from my personal collections.
     
     
     ###############################################################################
-    SO-reproj/SO-reproj.R
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/SO-reproj/SO-reproj.R' had
-    status 1
-    
-    
-    
-    
-    ###############################################################################
     ssh05d19921006.nc
     
     
@@ -4762,6 +4614,56 @@ from my personal collections.
             :version = "WOCE CD-ROM V2.00-MGDRB" ;
             :creation_date = "Wed Jul  5 13:51:06 2000" ;
             :originating_center = "NASA JPL PO.DAAC" ;
+    }
+    
+    
+    
+    
+    ###############################################################################
+    station_points/201001.nc
+    
+    
+    
+    netcdf \201001 {
+    dimensions:
+        time = UNLIMITED ; // (2976 currently)
+        stat = 3712 ;
+    variables:
+        double time(time) ;
+            time:standard_name = "time" ;
+            time:long_name = "time" ;
+            time:units = "Seconds since 1970-01-01 00:00:00 UTC" ;
+            time:calendar = "gregorian" ;
+            time:axis = "T" ;
+        float lon(stat) ;
+            lon:standard_name = "longitude" ;
+            lon:long_name = "Station longitude" ;
+            lon:units = "degree_east" ;
+        float lat(stat) ;
+            lat:standard_name = "latitude" ;
+            lat:long_name = "Station latitude" ;
+            lat:units = "degree_north" ;
+        float pr(time, stat) ;
+            pr:standard_name = "precipitation_flux" ;
+            pr:long_name = "Precipitation" ;
+            pr:units = "mm/h" ;
+            pr:CDI_grid_type = "unstructured" ;
+            pr:coordinates = "lat lon" ;
+            pr:_FillValue = -999.f ;
+            pr:missing_value = -999.f ;
+            pr:frequency = "15 min" ;
+    
+    // global attributes:
+            :CDI = "Climate Data Interface version 1.9.5rc1 (http://mpimet.mpg.de/cdi)" ;
+            :source = "Station data" ;
+            :Conventions = "CF-1.7" ;
+            :featureType = "timeSeries" ;
+            :R_version = "R version 3.4.4 (2018-03-15)" ;
+            :ncdf4_version = "1.16" ;
+            :Creation_date = "2018-04-19 08:09:32 UTC" ;
+            :CDO = "Climate Data Operators version 1.9.5rc1 (http://mpimet.mpg.de/cdo)" ;
+            :NCO = "4.7.2" ;
+            :history = "Sun Jun 30 15:25:24 2019: ncatted -a history,global,d,, 201001.nc" ;
     }
     
     
@@ -4859,24 +4761,6 @@ from my personal collections.
             :GRID.fullnamepath = "/GRID" ;
             :history = "2018-10-11 12:37:07 GMT Hyrax-1.13.4 https://gpm1.gesdisc.eosdis.nasa.gov:443/opendap/GPM_L3/GPM_3DPRD.05/2018/09/3A-DAY.GPM.DPR.V2-20170410.20180915-S000000-E235959.258.V05B.HDF5.nc?precipRateNearSurfMean,AD,chn,nlon,nlat" ;
     }
-    
-    
-    
-    
-    ###############################################################################
-    swapped/gdal-dev-readme.txt
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/swapped/gdal-dev-
-    readme.txt' had status 1
-    
-    
-    
-    
-    ###############################################################################
-    test.nc_60/num60.R
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/test.nc_60/num60.R' had
-    status 1
     
     
     
@@ -5031,15 +4915,6 @@ from my personal collections.
             :_CoordSysBuilder = "ucar.nc2.dataset.conv.CF1Convention" ;
             :history = "Grid sub-setted by USGS/CIDA Geo Data Portal" ;
     }
-    
-    
-    
-    
-    ###############################################################################
-    time/time-readme.md
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/time/time-readme.md' had
-    status 1
     
     
     
@@ -5397,15 +5272,6 @@ from my personal collections.
     
     
     ###############################################################################
-    watersurfaces/2017_q4_v2prov.zip
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/watersurfaces/
-    2017_q4_v2prov.zip' had status 1
-    
-    
-    
-    
-    ###############################################################################
     watersurfaces/2017_q4.nc
     
     
@@ -5449,12 +5315,3 @@ from my personal collections.
             :Conventions = "CF-1.0" ;
             :Source_Software = "JEM NetCDF writer" ;
     }
-    
-    
-    
-    
-    ###############################################################################
-    watersurfaces/usgs-watersufaces.R
-    Warning in system(sprintf("ncdump -h %s", file.path("extdata",
-    files[i])), : running command 'ncdump -h extdata/watersurfaces/usgs-
-    watersufaces.R' had status 1
