@@ -1,0 +1,145 @@
+
+R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> unlink("weird.tar.gz")
+> system("tar cvzf weird.tar.gz extdata")
+extdata/
+extdata/inverted_73/
+extdata/inverted_73/regcm-nn-2100_reg4_22.nc
+extdata/ceda/
+extdata/ceda/ceda_dims.readme
+extdata/ceda/tas_rcp85_land-rcm_eur_12km_01_mon_198012-208011.nc
+extdata/ssh05d19921006.nc
+extdata/historical/
+extdata/historical/readme-historical.nc.md
+extdata/historical/historical.nc
+extdata/station_points/
+extdata/station_points/readme.md
+extdata/station_points/201001.nc
+extdata/mld/
+extdata/mld/mld_DReqDTm02_c1m_reg2.0.nc
+extdata/oscar_gdr_5d1993.nc
+extdata/1D/
+extdata/1D/test.nc
+extdata/chunking/
+extdata/chunking/test_echam_spectral-deflated.nc
+extdata/chunking/chunks.R
+extdata/chunking/wrfout_hist_prcp_2002-09-01.nc4
+extdata/R13352.nc
+extdata/HDF4/
+extdata/HDF4/ladsweb/
+extdata/HDF4/ladsweb/MOD021KM.A2015091.0010.006.2015091134552.hdf
+extdata/GPP/
+extdata/GPP/gpp_Lmon_EnsembleGPP_observations_198201-201112.nc
+extdata/GPP/readme
+extdata/curvilinear/
+extdata/curvilinear/UERRA/
+extdata/curvilinear/UERRA/test3.nc
+extdata/curvilinear/UERRA/README
+extdata/time/
+extdata/time/metdata.nc
+extdata/time/time-readme.md
+extdata/19911203.nc
+extdata/gcp/
+extdata/gcp/NSS.GHRR.NH.D94241.S1549.E1736.B3055960.GC
+extdata/non-geo/
+extdata/non-geo/readme
+extdata/non-geo/test_stars.nc
+extdata/get1index_64/
+extdata/get1index_64/test.nc
+extdata/dt_ref_global_merged_madt_uv_19921014_19921014_20060315.nc
+extdata/high-dim/
+extdata/high-dim/test-1.nc
+extdata/NSIDC/
+extdata/NSIDC/alaska_2007_2008_swe_v01.nc
+extdata/NSIDC/readme
+extdata/NSIDC/sierra_2008_2009_swe_v01.nc
+extdata/nhsce_v01r01_19661004_20140203.nc
+extdata/watersurfaces/
+extdata/watersurfaces/2017_q4.nc
+extdata/watersurfaces/2017_q4_v2prov.zip
+extdata/watersurfaces/usgs-watersufaces.R
+extdata/rectilinear/
+extdata/rectilinear/test_3_.nc
+extdata/rectilinear/readme_rectlinear.txt
+extdata/rectilinear/CM2.1_regionmask.nc
+extdata/rectilinear/ACCfronts_nc4.nc
+extdata/rectilinear/readme_CM2.1regionmask.txt
+extdata/test.nc_60/
+extdata/test.nc_60/test.nc
+extdata/test.nc_60/num60.R
+extdata/bad_examples_62/
+extdata/bad_examples_62/example1.nc
+extdata/bad_examples_62/example2.nc
+extdata/bad_examples_62/example3.nc
+extdata/bad_examples_62/bad_examples.R
+extdata/ob_tran/
+extdata/ob_tran/readme.txt
+extdata/ob_tran/example_ob_tran2.nc
+extdata/ob_tran/example_ob_tran.nc
+extdata/ob_tran/out.tif
+extdata/mrso/
+extdata/mrso/readme
+extdata/mrso/mrso_Lmon_CMCC-CESM_rcp85_r1i1p1_200001-200412.nc
+extdata/tricky_grids/
+extdata/tricky_grids/OR_ABI-L1b-RadC-M3C01_G16_s20190621802131_e20190621804504_c20190621804546.nc
+extdata/file.nc
+extdata/copernicus/
+extdata/copernicus/cout-perc1_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap0.5.nc
+extdata/copernicus/cout-perc5_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap215.nc
+extdata/copernicus/cout-perc5_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap0.5.nc
+extdata/copernicus/cout-perc1_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap215.nc
+extdata/EURO-CORDEX_81_DOMAIN000_54/
+extdata/EURO-CORDEX_81_DOMAIN000_54/issue_54.R
+extdata/EURO-CORDEX_81_DOMAIN000_54/EURO-CORDEX_81_DOMAIN000.nc
+extdata/timeseries.nc
+extdata/modhdf4/
+extdata/modhdf4/MOD17A3.A2014001.h32v09.055.2016008121124.hdf
+extdata/modhdf4/MOD17A3.A2014001.h31v10.055.2016008121114.hdf
+extdata/modhdf4/MOD17A3.A2014001.h31v09.055.2016008121113.hdf
+extdata/modis/
+extdata/modis/modis_readme
+extdata/modis/modis.tif
+extdata/swapped/
+extdata/swapped/3A-DAY.nc
+extdata/swapped/gdal-dev-readme.txt
+extdata/nuts/
+extdata/nuts/era-nuts-ws10-nuts2-hourly.nc
+extdata/EOBS/
+extdata/EOBS/readme
+extdata/EOBS/EOBS_2001-2016.nc
+extdata/hmr_ita.nc
+extdata/large-mem/
+extdata/large-mem/pp_ens_mean_0.25deg_reg_v19.0e.nc
+extdata/SO-reproj/
+extdata/SO-reproj/OR_ABI-L1b-RadC-M3C01_G16_s20190621802131_e20190621804504_c20190621804546.nc
+extdata/SO-reproj/SO-reproj.R
+extdata/nc-to-cog/
+extdata/nc-to-cog/1889.daily_rain.nc
+extdata/nc-to-cog/nc-to-cog-readme.R
+> files <- list.files("extdata", recursive = TRUE) ## not always an extension
+> writeLines(files, "weirdlist.txt")
+> library(piggyback)
+> 
+> ## HEY don't forget to change the version number listed in the readme!
+> ## also, creating the tag and push the tarball seems to take two runs of this:
+> pb_upload("weird.tar.gz", tag = "v0.5.0")
+Error in a[[1]] : subscript out of bounds
+Calls: pb_upload ... memoised_pb_info -> withVisible -> _f -> release_info
+Execution halted

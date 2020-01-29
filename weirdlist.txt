@@ -43,6 +43,8 @@ mrso/readme
 nc-to-cog/1889.daily_rain.nc
 nc-to-cog/nc-to-cog-readme.R
 nhsce_v01r01_19661004_20140203.nc
+non-geo/readme
+non-geo/test_stars.nc
 NSIDC/alaska_2007_2008_swe_v01.nc
 NSIDC/readme
 NSIDC/sierra_2008_2009_swe_v01.nc
