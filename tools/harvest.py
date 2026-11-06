@@ -648,7 +648,7 @@ def loc_key(r):
 
 
 def classify(rows, manifest, missing, sightings):
-    known = {m["sha256"] for m in manifest}
+    known = {m["sha256"] for m in manifest} | {s["sha256"] for s in sightings}
     seen_at = {loc_key(s) + (s["sha256"],) for s in sightings}
     miss_paths = [m["path"] for m in missing]
     for r in rows:
