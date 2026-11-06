@@ -45,6 +45,8 @@ MAN_COLS = ["sha256", "size", "canonical_path", "aliases", "case", "format", "st
 CURATED = ("canonical_path", "url", "redistributable", "note")
 MISS_COLS = ["path", "first_listed", "last_listed", "fingerprint", "best_partial", "note"]
 CASE_REQUIRED = ["id", "title", "status", "summary", "files", "whats_wrong", "how_to_read", "links"]
+# optional: findings (codes), missing (paths from ledger/listed.csv), retired (true/false).
+# A case is never deleted or renamed; set retired: true instead.
 CASE_STATUS = {"open", "understood", "fixed-upstream"}
 SLUG = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 SHA = re.compile(r"^[0-9a-f]{64}$")
@@ -432,6 +434,12 @@ def check():
                 errs.append("cases/%s: files entry is not a sha256: %r" % (slug, h))
             elif h not in shas:
                 errs.append("cases/%s: file %s not in manifest.csv" % (slug, h[:12]))
+        listed_paths = {l["path"] for l in read_csv(P("ledger", "listed.csv"))}
+        for mp in c.get("missing", []) or []:
+            if mp not in listed_paths:
+                errs.append("cases/%s: missing entry %r is not in ledger/listed.csv" % (slug, mp))
+        if "retired" in c and not isinstance(c["retired"], bool):
+            errs.append("cases/%s: retired must be true or false" % slug)
         if not os.path.isfile(P("cases", slug, "README.md")):
             errs.append("cases/%s: no README.md" % slug)
     # ascii + no data in git
