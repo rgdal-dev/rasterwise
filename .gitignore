@@ -1,4 +1,19 @@
-.Rproj.user
-extdata
+# This repo holds no data files: bytes live in content-addressed blob storage
+# (files/<sha256[0:2]>/<sha256>) and are described by manifest.csv.
+files/
+extdata/
 weird.tar.gz
+*.nc
+*.nc4
+*.hdf
+*.h5
+*.tif
+*.grib2
+*.zip
+# harvest outputs: merge them with tools/curate.py, don't commit them raw
+delta-*.csv
+delta-*.txt
+# R / editor droppings
+.Rproj.user
 .Rhistory
+__pycache__/
