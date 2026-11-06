@@ -1,0 +1,32 @@
+# What goes into manifest.csv. Everything harvested is still kept in sightings.csv.
+#
+# One pattern per line, fnmatch-style, matched against the path relative to the
+# instance root (e.g. "extdata/ob_tran/out.tif", "data-raw/high-dim.R", "README.md").
+# Note "*" also matches "/". First match wins.
+#   pattern          exclude
+#   !pattern         include (override a later exclude)
+#   sha256:<hash>    exclude one exact content
+# Archive shells (a tarball whose members are listed) are always excluded: the
+# members are the content.
+
+# repo scaffolding of the old R-package layout and its generated README
+DESCRIPTION
+NAMESPACE
+*.Rproj
+.Rbuildignore
+.gitignore
+README.Rmd
+README.md
+# the old bundling machinery and its file list (kept as ledger/listed.csv)
+weirdlist.txt
+weird_update.R
+weird_update.Rout
+R/weird_update.R
+# personal R session history
+.Rhistory
+*/.Rhistory
+
+# laptop copies that differ only by Windows line endings (CRLF) from content already held
+sha256:0edfc30780f09c1c4fb51dc04c685ede86f72e6388fd5081fe2e8a497a3baf88  # data-raw/1D-readme
+sha256:f70ff0e5b0c5118fb1100cfd94983cb224b4e7400768f5c99f4c43af66a5024e  # data-raw/high-dim.R
+sha256:04e85818731261cbd78755aff4fd35bea3c3be8dac2b23275b59f4ad9741f06a  # data-raw/large-mem.R
