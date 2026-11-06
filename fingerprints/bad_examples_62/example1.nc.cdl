@@ -1,0 +1,54 @@
+dimensions:
+time = UNLIMITED ; // (1 currently)
+x = 97 ;
+y = 65 ;
+variables:
+double time(time) ;
+time:standard_name = "time" ;
+time:units = "days since 1949-12-01 00:00:00" ;
+time:calendar = "standard" ;
+time:axis = "T" ;
+double lon(y, x) ;
+lon:standard_name = "longitude" ;
+lon:long_name = "Longitude" ;
+lon:units = "degrees_east" ;
+lon:_CoordinateAxisType = "Lon" ;
+double lat(y, x) ;
+lat:standard_name = "latitude" ;
+lat:long_name = "Latitude" ;
+lat:units = "degrees_north" ;
+lat:_CoordinateAxisType = "Lat" ;
+double pr(time, y, x) ;
+pr:standard_name = "precipitation_flux" ;
+pr:long_name = "Precipitation" ;
+pr:units = "kg m-2 s-1" ;
+pr:coordinates = "lat lon" ;
+pr:_FillValue = 1.00000002004088e+20 ;
+pr:missing_value = 1.00000002004088e+20 ;
+pr:short_name = "pr" ;
+// global attributes:
+:CDI = "Climate Data Interface version 1.9.1 (http://mpimet.mpg.de/cdi)" ;
+:Conventions = "CF-1.4" ;
+:history = "Thu Oct 04 14:31:10 2018: cdo -C seltimestep,1 pr_PROMES_044_1989-2008.nc /dev/shm/example1.nc\n",
+"Fri Apr 10 15:12:41 2015: cdo selyear,1989/2008 pr_PROMES_044_1989-2009_gridOK.nc pr_PROMES_044_1989-2008.nc\n",
+"Fri Apr 10 15:05:19 2015: cdo setgrid,/home/clima-archive2/ctorma/MED-44/UCLM-PROMES/DD//pr_MED-44_ECMWF-ERAINT_evaluation_r1i1p1_UCLM-PROMES_v1_day_1994010100-1999010100.nc pr_PROMES_044_1989-2009.nc pr_PROMES_044_1989-2009_gridOK.nc\n",
+"Fri Apr 10 15:02:20 2015: cdo cat PROMES1_pr.nc PROMES2_pr.nc PROMES3_pr.nc PROMES4_pr.nc pr_PROMES_044_1989-2009.nc\n",
+"Fri Apr 10 15:02:09 2015: cdo selvar,pr /home/clima-archive2/ctorma/MED-44/UCLM-PROMES/DD//pr_MED-44_ECMWF-ERAINT_evaluation_r1i1p1_UCLM-PROMES_v1_day_1989010100-1994010100.nc PROMES1_pr.nc" ;
+:source = "PROMES model 2011" ;
+:institution = "University of Castilla-La Mancha, Toledo, Espa\u00f1a" ;
+:production = "Produced by PROMES 2009" ;
+:NCO = "20111211" ;
+:institute_id = "UCLM" ;
+:model_id = "PROMES" ;
+:project_id = "CORDEX" ;
+:driving_experiment = "ERA-INTERIM,evalutaion,r1i1p1" ;
+:driving_model_id = "ERAINT" ;
+:driving_model_ensemble_member = "r1i1p1" ;
+:driving_experiment_name = "evaluation" ;
+:experiment_id = "evaluation" ;
+:CORDEX_domain = "MED-44" ;
+:creation_date = "2011-09-15-T05:56:23Z" ;
+:nco_openmp_thread_number = 1 ;
+:frequency = "day" ;
+:CDO = "Climate Data Operators version 1.9.1 (http://mpimet.mpg.de/cdo)" ;
+}

@@ -1,0 +1,50 @@
+dimensions:
+latitude = 70 ;
+longitude = 170 ;
+time = 72 ;
+depth = 1 ;
+strlen = 11 ;
+variables:
+float latitude(latitude) ;
+latitude:units = "degree-N" ;
+latitude:long_name = "Latitude" ;
+float longitude(longitude) ;
+longitude:units = "degree-E" ;
+longitude:long_name = "Longitude" ;
+int time(time) ;
+time:units = "days since 1992-10-05 00:00:00" ;
+time:long_name = "Time" ;
+char date(time, strlen) ;
+date:long_name = "Date in character string" ;
+float depth(depth) ;
+depth:units = "meter" ;
+depth:long_name = "Depth" ;
+int mask(latitude, longitude) ;
+mask:long_name = "Mask" ;
+float u(time, depth, latitude, longitude) ;
+u:units = "meter/sec" ;
+u:long_name = "Zonal Velocity" ;
+u:missing_value = NaN ;
+float v(time, depth, latitude, longitude) ;
+v:units = "meter/sec" ;
+v:long_name = "Meridional Velocity" ;
+v:missing_value = NaN ;
+float uf(time, depth, latitude, longitude) ;
+uf:units = "meter/sec" ;
+uf:long_name = "Filtered Zonal Velocity" ;
+uf:missing_value = NaN ;
+float vf(time, depth, latitude, longitude) ;
+vf:units = "meter/sec" ;
+vf:long_name = "Filtered Meridional Velocity" ;
+vf:missing_value = NaN ;
+// global attributes:
+:year = "1993" ;
+:description = "Tropical Pacific Sea Surface Velocity" ;
+:version = 2002.f ;
+:source = "Gary Lagerloef, ESR (lager@esr.org) and Fabrice Bonjean (bonjean@esr.org)" ;
+:contact = "Fabrice Bonjean (bonjean@esr.org) or John T. Gunn (gunn@esr.org)" ;
+:company = "Earth & Space Researh, Seattle, WA" ;
+:reference1 = "Bonjean F. and G.S.E. Lagerloef, 2002 ,\"Diagnostic model and analysis of the surface currents in the tropical Pacific ocean\", J. Phys. Oceanogr., 32, 2,938-2,954" ;
+:reference2 = "Lagerloef, G. S. E., G. T. Mitchum, R. B. Lukas and P.P. Niiler, 1999, Tropical Pacific near-surface currents estimated from altimeter, wind and drifter data, J. Geophys. Res., 104, 23,313-23,326" ;
+:date = "19-Mar-2004" ;
+}

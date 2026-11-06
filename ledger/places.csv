@@ -1,0 +1,3 @@
+machine,root,prefix,note
+ecostats,~/ncd,extdata/nc-to-cog/,"working folder of the nc-to-cog example (2019-05-15); 1889.daily_rain.nc confirmed by fingerprint"
+ecostats,~/Git/ncmeta/inst/extdata,derived/ncmeta/,"cut-down derivatives of rasterwise files shipped as test data in the ncmeta R package"

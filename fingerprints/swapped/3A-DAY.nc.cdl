@@ -1,0 +1,85 @@
+dimensions:
+AD = 2 ;
+chn = 2 ;
+nlon = 1440 ;
+nlat = 536 ;
+variables:
+float precipRateNearSurfMean(AD, chn, nlon, nlat) ;
+precipRateNearSurfMean:DimensionNames = "AD,chn,nlon,nlat" ;
+precipRateNearSurfMean:Units = "mm/hr" ;
+precipRateNearSurfMean:units = "mm/hr" ;
+precipRateNearSurfMean:CodeMissingValue = "-9999.9" ;
+precipRateNearSurfMean:origname = "precipRateNearSurfMean" ;
+precipRateNearSurfMean:fullnamepath = "/GRID/precipRateNearSurfMean" ;
+precipRateNearSurfMean:_FillValue = -9999.9f ;
+int AD(AD) ;
+AD:comment = "Ascending or descending half of the orbit." ;
+AD:units = "level" ;
+int chn(chn) ;
+chn:comment = "Number of channels:Ku,Ka,KaHS,DPR." ;
+chn:units = "level" ;
+float nlat(nlat) ;
+nlat:units = "degrees_north" ;
+float nlon(nlon) ;
+nlon:units = "degrees_east" ;
+// global attributes:
+:FileHeader = "DOI=10.5067/GPM/DPR/3A-DAY/05;\n",
+"DOIauthority=http://dx.doi/org/;\n",
+"DOIshortName=3DPRD;\n",
+"AlgorithmID=3DPRD;\n",
+"AlgorithmVersion=V2.20170410;\n",
+"FileName=3A-DAY.GPM.DPR.V2-20170410.20180915-S000000-E235959.258.V05B.HDF5;\n",
+"SatelliteName=GPM;\n",
+"InstrumentName=DPR;\n",
+"GenerationDateTime=2018-09-17T08:43:57.000Z;\n",
+"StartGranuleDateTime=2018-09-15T00:00:00.000Z;\n",
+"StopGranuleDateTime=2018-09-15T23:59:59.999Z;\n",
+"GranuleNumber=;\n",
+"NumberOfSwaths=0;\n",
+"NumberOfGrids=1;\n",
+"GranuleStart=;\n",
+"TimeInterval=DAY;\n",
+"ProcessingSystem=PPS;\n",
+"ProductVersion=V05B;\n",
+"EmptyGranule=NOT_EMPTY;\n",
+"MissingData=;\n",
+"" ;
+:FileInfo = "DataFormatVersion=ch;\n",
+"TKCodeBuildVersion=1;\n",
+"MetadataVersion=ch;\n",
+"FormatPackage=HDF5-1.8.9;\n",
+"BlueprintFilename=GPM.V1.3DPRD.blueprint.xml;\n",
+"BlueprintVersion=BV_53;\n",
+"TKIOVersion=3.80.26;\n",
+"MetadataStyle=PVL;\n",
+"EndianType=LITTLE_ENDIAN;\n",
+"" ;
+:JAXAInfo = "GranuleFirstScanUTCDateTime=;\n",
+"GranuleLastScanUTCDateTime=;\n",
+"TotalQualityCode=Good;\n",
+"FirstScanLat=;\n",
+"FirstScanLon=;\n",
+"LastScanLat=;\n",
+"LastScanLon=;\n",
+"NumberOfRainPixelsNS=;\n",
+"NumberOfRainPixelsMS=;\n",
+"NumberOfRainPixelsHS=;\n",
+"ProcessingSubSystem=;\n",
+"ProcessingMode=;\n",
+"LightSpeed=;\n",
+"DielectricConstantKa=;\n",
+"DielectricConstantKu=;\n",
+"" ;
+:GRID.GridHeader = "BinMethod=ARITHMETIC_MEAN;\n",
+"Registration=CENTER;\n",
+"LatitudeResolution=0.25;\n",
+"LongitudeResolution=0.25;\n",
+"NorthBoundingCoordinate=67;\n",
+"SouthBoundingCoordinate=-67;\n",
+"EastBoundingCoordinate=180;\n",
+"WestBoundingCoordinate=-180;\n",
+"Origin=SOUTHWEST;\n",
+"" ;
+:GRID.fullnamepath = "/GRID" ;
+:history = "2018-10-11 12:37:07 GMT Hyrax-1.13.4 https://gpm1.gesdisc.eosdis.nasa.gov:443/opendap/GPM_L3/GPM_3DPRD.05/2018/09/3A-DAY.GPM.DPR.V2-20170410.20180915-S000000-E235959.258.V05B.HDF5.nc?precipRateNearSurfMean,AD,chn,nlon,nlat" ;
+}

@@ -1,0 +1,37 @@
+dimensions:
+time = 92 ;
+y = 405 ;
+x = 287 ;
+variables:
+float stage(time, y, x) ;
+stage:long_name = "stage" ;
+stage:esri_pe_string = "PROJCS[\"NAD_1983_UTM_Zone_17N\",GEOGCS[\"GCS_North_American_1983\",DATUM[\"D_North_American_1983\",SPHEROID[\"GRS_1980\",6378137.0,298.257222101]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"False_Easting\",500000.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",-81.0],PARAMETER[\"Scale_Factor\",0.9996],PARAMETER[\"Latitude_Of_Origin\",0.0],UNIT[\"Meter\",1.0]]" ;
+stage:coordinates = "x y" ;
+stage:grid_mapping = "transverse_mercator" ;
+stage:units = "cm" ;
+stage:min = -8.33670043945312 ;
+stage:max = 499.500701904297 ;
+int transverse_mercator ;
+transverse_mercator:grid_mapping_name = "transverse_mercator" ;
+transverse_mercator:longitude_of_central_meridian = -81. ;
+transverse_mercator:latitude_of_projection_origin = 0. ;
+transverse_mercator:scale_factor_at_central_meridian = 0.9996 ;
+transverse_mercator:false_easting = 500000. ;
+transverse_mercator:false_northing = 0. ;
+transverse_mercator:semi_major_axis = 6378137 ;
+transverse_mercator:inverse_flattening = 298.257222101 ;
+int time(time) ;
+time:long_name = "model timestep" ;
+time:units = "days since 2017-10-01T12:00:00Z" ;
+double y(y) ;
+y:long_name = "y coordinate of projection" ;
+y:standard_name = "projection_y_coordinate" ;
+y:units = "m" ;
+double x(x) ;
+x:long_name = "x coordinate of projection" ;
+x:standard_name = "projection_x_coordinate" ;
+x:units = "m" ;
+// global attributes:
+:Conventions = "CF-1.0" ;
+:Source_Software = "JEM NetCDF writer" ;
+}

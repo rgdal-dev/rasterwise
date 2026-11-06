@@ -1,0 +1,12 @@
+dimensions:
+time = 341880 ;
+region = 309 ;
+variables:
+int64 time(time) ;
+time:units = "hours since 1980-01-01 00:00:00" ;
+time:calendar = "proleptic_gregorian" ;
+string region(region) ;
+short ws10(time, region) ;
+ws10:_FillValue = -9999s ;
+ws10:scale_factor = 0.01 ;
+}

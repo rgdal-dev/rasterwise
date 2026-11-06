@@ -1,0 +1,27 @@
+dimensions:
+longitude = 60 ;
+latitude = 72 ;
+z = UNLIMITED ; // (14 currently)
+variables:
+double longitude(longitude) ;
+longitude:units = "degrees_east" ;
+longitude:long_name = "longitude" ;
+double latitude(latitude) ;
+latitude:units = "degrees_north" ;
+latitude:long_name = "latitude" ;
+int z(z) ;
+z:units = "unknown" ;
+z:long_name = "z" ;
+float variable(z, latitude, longitude) ;
+variable :_FillValue = -3.4e+38f ;
+variable :missing_value = -3.4e+38f ;
+variable :long_name = "variable" ;
+variable :min = -1.26999997161329, -0.839999981224537, -1.02999997697771, -0.979999978095293, -1.18999997340143, -0.709999984130263, -0.679999984800816, -0.589999986812472, -0.559999987483025, -0.509999988600612, -0.819999981671572, -0.949999978765845, -0.859999980777502, -0.779999982565641 ;
+variable :max = 16.1699996385723, 16.6899996269494, 16.8699996229261, 16.7099996265024, 16.4999996311963, 16.4099996332079, 16.929999621585, 16.8099996242672, 16.1599996387959, 15.9599996432662, 16.3299996349961, 16.349999634549, 16.3599996343255, 15.9399996437132 ;
+// global attributes:
+:crs = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0" ;
+:crs_format = "PROJ.4" ;
+:Conventions = "CF-1.4" ;
+:created_by = "R, packages ncdf4 and raster (version 2.6-7)" ;
+:date = "2018-08-30 08:30:13" ;
+}

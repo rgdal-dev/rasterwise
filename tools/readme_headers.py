@@ -8,7 +8,13 @@ are now lost -- usable to (a) confirm a candidate found on another machine is
 the same file, and (b) seed metadata-only store cards.
 
 usage: readme_headers.py GITDIR fingerprints
-writes OUTDIR/<extdata path>.cdl  (latest version seen) and OUTDIR/index.tsv
+         writes fingerprints/<extdata path>.cdl (latest version seen) + index.tsv
+       readme_headers.py compare FILE fingerprints/<path>.cdl
+         runs `ncdump -h FILE` and reports whether it matches the fingerprint
+
+Fingerprints are normalised so they compare reliably and stay ASCII: leading
+whitespace stripped, blank lines and the `netcdf <name> {` line dropped, and
+every non-ASCII character written as \\uXXXX (\\xNN for undecodable bytes).
 """
 import os
 import re
@@ -19,8 +25,35 @@ RULE = re.compile(r"^#{20,}\s*$")
 
 
 def git(repo, *a):
-    return subprocess.run(["git", "-C", repo] + list(a), stdout=subprocess.PIPE,
-                          check=True).stdout.decode("utf-8", "replace")
+    return subprocess.run(["git", "-C", repo] + list(a), stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
+                          check=True).stdout.decode("utf-8", "backslashreplace")
+
+
+def normalise(text):
+    out = []
+    for l in text.replace("\r", "").split("\n"):
+        l = l.strip()
+        if not l or l.startswith("netcdf "):
+            continue
+        out.append("".join(c if ord(c) < 128 else "\\u%04x" % ord(c) for c in l))
+    return "\n".join(out) + "\n"
+
+
+def compare(path, fp):
+    got = subprocess.run(["ncdump", "-h", path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    if got.returncode:
+        print("ncdump failed on %s: %s" % (path, got.stderr.decode("utf-8", "replace").strip()))
+        return 2
+    a = normalise(got.stdout.decode("utf-8", "backslashreplace"))
+    b = open(fp, encoding="ascii").read()
+    if a == b:
+        print("MATCH  %s == %s" % (path, fp))
+        return 0
+    import difflib
+    print("DIFFER %s vs %s" % (path, fp))
+    sys.stdout.writelines(list(difflib.unified_diff(b.splitlines(True), a.splitlines(True),
+                                                    "fingerprint", "file", n=1))[:40])
+    return 1
 
 
 def blocks(text):
@@ -38,7 +71,7 @@ def blocks(text):
             while k < len(lines) and not RULE.match(lines[k].strip()) \
                     and not (lines[k] and not lines[k].startswith((" ", "\t"))):
                 k += 1
-            body = "\n".join(l.strip() for l in lines[j + 1:k] if l.strip())
+            body = normalise("\n".join(lines[j + 1:k])).rstrip("\n")
             if path and " " not in path:
                 yield path, body
             i = k
@@ -47,6 +80,8 @@ def blocks(text):
 
 
 def main(repo, out):
+    if repo == "compare":
+        sys.exit(compare(out, sys.argv[3]))
     os.makedirs(out, exist_ok=True)
     commits = git(repo, "log", "--all", "--reverse", "--format=%H %ad", "--date=short",
                   "--", "README.md").split("\n")

@@ -1,0 +1,45 @@
+dimensions:
+NbLatitudes = 915 ;
+NbLongitudes = 1080 ;
+GridDepth = 1 ;
+LatLon = 2 ;
+variables:
+int LatLon(LatLon) ;
+LatLon:_FillValue = 2147483647 ;
+LatLon:long_name = "No sense but necessary for some automatic tools" ;
+LatLon:units = "count" ;
+double NbLatitudes(NbLatitudes) ;
+NbLatitudes:_FillValue = 1.84467440737096e+19 ;
+NbLatitudes:long_name = "Latitudes" ;
+NbLatitudes:units = "degrees_north" ;
+double NbLongitudes(NbLongitudes) ;
+NbLongitudes:_FillValue = 1.84467440737096e+19 ;
+NbLongitudes:long_name = "Longitudes" ;
+NbLongitudes:units = "degrees_east" ;
+double LatLonMin(LatLon) ;
+LatLonMin:_FillValue = 1.84467440737096e+19 ;
+LatLonMin:long_name = "Latitude/Longitude of south/ouest corner" ;
+LatLonMin:units = "degree" ;
+double LatLonStep(LatLon) ;
+LatLonStep:_FillValue = 1.84467440737096e+19 ;
+LatLonStep:long_name = "latitude/longitude steps" ;
+LatLonStep:units = "degree" ;
+float Grid_0001(NbLongitudes, NbLatitudes) ;
+Grid_0001:_FillValue = 1.844674e+19f ;
+Grid_0001:long_name = "U" ;
+Grid_0001:units = "cm/s" ;
+Grid_0001:Date_CNES_JD = 15627. ;
+Grid_0001:date = "1992-10-14 00:00:00.000000 UTC" ;
+float Grid_0002(NbLongitudes, NbLatitudes) ;
+Grid_0002:_FillValue = 1.844674e+19f ;
+Grid_0002:long_name = "V" ;
+Grid_0002:units = "cm/s" ;
+Grid_0002:Date_CNES_JD = 15627. ;
+Grid_0002:date = "1992-10-14 00:00:00.000000 UTC" ;
+// global attributes:
+:FileType = "GRID_DOTS_MERCATOR" ;
+:OriginalName = "dt_ref_global_merged_madt_uv_19921014_19921014_20060315.nc" ;
+:CreatedBy = "SSALTO/DUACS" ;
+:CreatedOn = "18-MAR-2006 20:07:49:000000" ;
+:title = "SSALTO/DUACS - DT Geostrophic Velocities Anomaly - Homogeneous Global Processing" ;
+}

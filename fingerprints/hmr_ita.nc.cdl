@@ -1,0 +1,45 @@
+dimensions:
+time = UNLIMITED ; // (1 currently)
+x = 223 ;
+y = 248 ;
+nv4 = 4 ;
+height = 1 ;
+variables:
+double time(time) ;
+time:standard_name = "time" ;
+time:units = "hours since 2000-1-1 00:00:00" ;
+time:calendar = "proleptic_gregorian" ;
+time:axis = "T" ;
+float lon(y, x) ;
+lon:standard_name = "longitude" ;
+lon:long_name = "longitude" ;
+lon:units = "degrees_east" ;
+lon:_CoordinateAxisType = "Lon" ;
+lon:bounds = "lon_bnds" ;
+float lon_bnds(y, x, nv4) ;
+float lat(y, x) ;
+lat:standard_name = "latitude" ;
+lat:long_name = "latitude" ;
+lat:units = "degrees_north" ;
+lat:_CoordinateAxisType = "Lat" ;
+lat:bounds = "lat_bnds" ;
+float lat_bnds(y, x, nv4) ;
+double height(height) ;
+height:standard_name = "height" ;
+height:long_name = "height" ;
+height:units = "m" ;
+height:positive = "up" ;
+height:axis = "Z" ;
+float pr(time, height, y, x) ;
+pr:code = 164 ;
+pr:table = 129 ;
+pr:coordinates = "lat lon" ;
+// global attributes:
+:CDI = "Climate Data Interface version 1.9.1 (http://mpimet.mpg.de/cdi)" ;
+:Conventions = "CF-1.4" ;
+:history = "Tue Sep 18 11:04:05 2018: cdo -C seltimestep,100 /home/clima-archive4-b/afantini/chym_simulations/analysis/rain/hmr/hmr.nc /dev/shm/hmr.nc\n",
+"Wed Jul 11 15:25:58 2018: cdo -s -C -O mergetime hmr/months/hmr200001.nc hmr/months/hmr200002.nc hmr/months/hmr200003.nc hmr/months/hmr200004.nc hmr/months/hmr200005.nc hmr/months/hmr200006.nc hmr/months/hmr200007.nc hmr/months/hmr200008.nc hmr/months/hmr200009.nc hmr/months/hmr200010.nc hmr/months/hmr200011.nc hmr/months/hmr200012.nc hmr/months/hmr200101.nc hmr/months/hmr200102.nc hmr/months/hmr200103.nc hmr/months/hmr200104.nc hmr/months/hmr200105.nc hmr/months/hmr200106.nc hmr/months/hmr200107.nc hmr/months/hmr200108.nc hmr/months/hmr200109.nc hmr/months/hmr200110.nc hmr/months/hmr200111.nc hmr/months/hmr200112.nc hmr/months/hmr200201.nc hmr/months/hmr200202.nc hmr/months/hmr200203.nc hmr/months/hmr200204.nc hmr/months/hmr200205.nc hmr/months/hmr200206.nc hmr/months/hmr200207.nc hmr/months/hmr200208.nc hmr/months/hmr200209.nc hmr/months/hmr200210.nc hmr/months/hmr200211.nc hmr/months/hmr200212.nc hmr/months/hmr200301.nc hmr/months/hmr200302.nc hmr/months/hmr200303.nc hmr/months/hmr200304.nc hmr/months/hmr200305.nc hmr/months/hmr200306.nc hmr/months/hmr200307.nc hmr/months/hmr200308.nc hmr/months/hmr200309.nc hmr/months/hmr200310.nc hmr/months/hmr200311.nc hmr/months/hmr200312.nc hmr/months/hmr200401.nc hmr/months/hmr200402.nc hmr/months/hmr200403.nc hmr/months/hmr200404.nc hmr/months/hmr200405.nc hmr/months/hmr200406.nc hmr/months/hmr200407.nc hmr/months/hmr200408.nc hmr/months/hmr200409.nc hmr/months/hmr200410.nc hmr/months/hmr200411.nc hmr/months/hmr200412.nc hmr/months/hmr200501.nc hmr/months/hmr200502.nc hmr/months/hmr200503.nc hmr/months/hmr200504.nc hmr/months/hmr200505.nc hmr/months/hmr200506.nc hmr/months/hmr200507.nc hmr/months/hmr200508.nc hmr/months/hmr200509.nc hmr/months/hmr200510.nc hmr/months/hmr200511.nc hmr/months/hmr200512.nc hmr/months/hmr200601.nc hmr/months/hmr200602.nc hmr/months/hmr200603.nc hmr/months/hmr200604.nc hmr/months/hmr200605.nc hmr/months/hmr200606.nc hmr/months/hmr200607.nc hmr/months/hmr200608.nc hmr/months/hmr200609.nc hmr/months/hmr200610.nc hmr/months/hmr200611.nc hmr/months/hmr200612.nc hmr/months/hmr200701.nc hmr/months/hmr200702.nc hmr/months/hmr200703.nc hmr/months/hmr200704.nc hmr/months/hmr200705.nc hmr/months/hmr200706.nc hmr/months/hmr200707.nc hmr/months/hmr200708.nc hmr/months/hmr200709.nc hmr/months/hmr200710.nc hmr/months/hmr200711.nc hmr/months/hmr200712.nc hmr/months/hmr200801.nc hmr/months/hmr200802.nc hmr/months/hmr200803.nc hmr/months/hmr200804.nc hmr/months/hmr200805.nc hmr/months/hmr200806.nc hmr/months/hmr200807.nc hmr/months/hmr200808.nc hmr/months/hmr200809.nc hmr/months/hmr200810.nc hmr/months/hmr200811.nc hmr/months/hmr200812.nc hmr/months/hmr200901.nc hmr/months/hmr200902.nc hmr/months/hmr200903.nc hmr/months/hmr200904.nc hmr/months/hmr200905.nc hmr/months/hmr200906.nc hmr/months/hmr200907.nc hmr/months/hmr200908.nc hmr/months/hmr200909.nc hmr/months/hmr200910.nc hmr/months/hmr200911.nc hmr/months/hmr200912.nc hmr/months/hmr201001.nc hmr/months/hmr201002.nc hmr/months/hmr201003.nc hmr/months/hmr201004.nc hmr/months/hmr201005.nc hmr/months/hmr201006.nc hmr/months/hmr201007.nc hmr/months/hmr201008.nc hmr/months/hmr201009.nc hmr/months/hmr201010.nc hmr/months/hmr201011.nc hmr/months/hmr201012.nc hmr/months/hmr201101.nc hmr/months/hmr201102.nc hmr/months/hmr201103.nc hmr/months/hmr201104.nc hmr/months/hmr201105.nc hmr/months/hmr201106.nc hmr/months/hmr201107.nc hmr/months/hmr201108.nc hmr/months/hmr201109.nc hmr/months/hmr201110.nc hmr/months/hmr201111.nc hmr/months/hmr201112.nc hmr/months/hmr201201.nc hmr/months/hmr201202.nc hmr/months/hmr201203.nc hmr/months/hmr201204.nc hmr/months/hmr201205.nc hmr/months/hmr201206.nc hmr/months/hmr201207.nc hmr/months/hmr201208.nc hmr/months/hmr201209.nc hmr/months/hmr201210.nc hmr/months/hmr201211.nc hmr/months/hmr201212.nc hmr/months/hmr201301.nc hmr/months/hmr201302.nc hmr/months/hmr201303.nc hmr/months/hmr201304.nc hmr/months/hmr201305.nc hmr/months/hmr201306.nc hmr/months/hmr201307.nc hmr/months/hmr201308.nc hmr/months/hmr201309.nc hmr/months/hmr201310.nc hmr/months/hmr201311.nc hmr/months/hmr201312.nc hmr/hmr.nc\n",
+"Wed Jul 11 15:18:09 2018: cdo -s -O -C -L splityearmon -setname,pr -sellonlatbox,6.5,19,36,48 /home/esp-shared-a/Observations/HMR//mesan_rr24_2000.nc hmr/months/hmr\n",
+"Fri Jun 10 17:06:12 2016: cdo -f nc cat -setgridtype,curvilinear /nobackup/smhid9/sm_tland/euro4m/mesan_e4m/rr24nQC/2000/rr24_MESAN_20000101.grb /nobackup/smhid9/sm_tland/euro4m/mesan_e4m/rr24nQC/2000/rr24_MESAN_20000102.grb /nobackup/smhid9/sm_tland/euro4m/mesan_e4m/rr24nQC/2000/rr24_MESAN_20000103.grb /nobackup/smhid9/sm_tland/euro4m/mesan_e4m/rr24nQC/2000/rr24_MESAN_20000104.grb /nobackup/smhid9/sm_tland/euro4m/mesan_e4m/rr24nQC/2000/rr24_MESAN_20000105.grb /nobackup/smhid9/sm_tland/euro4m/mesan_e4m/rr24nQC/2000/rr24_MESAN_20000106.grb /nobackup/smhid9/sm_tland/euro4m/mesan_e4m/rr24nQC/2000/rr24_MESAN_20000107.grb /nobackup/smhid9/sm_tland/euro4m/mesan_e4m/rr24nQC/2000/rr24_MESAN_20000108.grb /nobackup/smhid9/sm_tland/euro4m/mesan_e4m/rr24nQC/2000/rr24_MESAN_20000109.grb /nobackup/smhid9/sm_tland/euro4m/mesan_e4m/rr24nQC/2000/rr24_MESAN_20000110.grb /nobackup/smhid9/sm_tland/euro4m/mesan_e4m/rr24nQC/2000/rr24_MESAN_20000111.grb /nobackup/smhid9/sm_tland/euro4m/mesan_e4m/rr24nQC/2000/rr24_MESAN_20000112.grb" ;
+:CDO = "Climate Data Operators version 1.9.1 (http://mpimet.mpg.de/cdo)" ;
+}

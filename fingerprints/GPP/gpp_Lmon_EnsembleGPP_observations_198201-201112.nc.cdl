@@ -1,0 +1,66 @@
+dimensions:
+lon = 720 ;
+nb2 = 2 ;
+lat = 360 ;
+time = UNLIMITED ; // (360 currently)
+variables:
+double lon(lon) ;
+lon:standard_name = "longitude" ;
+lon:long_name = "longitude" ;
+lon:units = "degrees_east" ;
+lon:axis = "X" ;
+lon:bounds = "lon_bnds" ;
+double lon_bnds(lon, nb2) ;
+lon_bnds:long_name = "lon_bnds" ;
+lon_bnds:units = "1" ;
+double lat(lat) ;
+lat:standard_name = "latitude" ;
+lat:long_name = "latitude" ;
+lat:units = "degrees_north" ;
+lat:axis = "Y" ;
+lat:bounds = "lat_bnds" ;
+double lat_bnds(lat, nb2) ;
+lat_bnds:long_name = "lat_bnds" ;
+lat_bnds:units = "1" ;
+double time(time) ;
+time:standard_name = "time" ;
+time:bounds = "time_bnds" ;
+time:units = "days since 1582-10-14 00:00:00" ;
+time:calendar = "standard" ;
+time:long_name = "time" ;
+double time_bnds(time, nb2) ;
+time_bnds:units = "days since 1582-10-14 00:00:00" ;
+time_bnds:calendar = "standard" ;
+time_bnds:long_name = "time_bnds" ;
+float gpp(time, lat, lon) ;
+gpp:standard_name = "gross_primary_productivity_of_carbon" ;
+gpp:long_name = "Carbon Mass Flux out of Atmosphere due to Gross Primary Production on Land" ;
+gpp:units = "kg m-2 s-1" ;
+gpp:_FillValue = -9999.f ;
+gpp:original_name = "EnsembleGPP_GL_May12" ;
+gpp:cell_methods = "time: mean area: mean where land" ;
+gpp:history = "generated 05/2012" ;
+gpp:associated_files = "none" ;
+float std(time, lat, lon) ;
+std:standard_name = "uncertainty based on spread of ensemble" ;
+std:long_name = "standard deviation calculated based on median absolute deviation" ;
+std:units = "kg m-2 s-1" ;
+std:_FillValue = -9999.f ;
+std:original_name = "std" ;
+std:cell_methods = "time: mean area: mean where land" ;
+std:history = "generated 05/2012" ;
+std:associated_files = "none" ;
+// global attributes:
+:history = "Mon Feb 11 10:26:28 2013: cdo copy EnsembleGPP_GL_May12.1982.nc EnsembleGPP_GL_May12.1983.nc EnsembleGPP_GL_May12.1984.nc EnsembleGPP_GL_May12.1985.nc EnsembleGPP_GL_May12.1986.nc EnsembleGPP_GL_May12.1987.nc EnsembleGPP_GL_May12.1988.nc EnsembleGPP_GL_May12.1989.nc EnsembleGPP_GL_May12.1990.nc EnsembleGPP_GL_May12.1991.nc EnsembleGPP_GL_May12.1992.nc EnsembleGPP_GL_May12.1993.nc EnsembleGPP_GL_May12.1994.nc EnsembleGPP_GL_May12.1995.nc EnsembleGPP_GL_May12.1996.nc EnsembleGPP_GL_May12.1997.nc EnsembleGPP_GL_May12.1998.nc EnsembleGPP_GL_May12.1999.nc EnsembleGPP_GL_May12.2000.nc EnsembleGPP_GL_May12.2001.nc EnsembleGPP_GL_May12.2002.nc EnsembleGPP_GL_May12.2003.nc EnsembleGPP_GL_May12.2004.nc EnsembleGPP_GL_May12.2005.nc EnsembleGPP_GL_May12.2006.nc EnsembleGPP_GL_May12.2007.nc EnsembleGPP_GL_May12.2008.nc EnsembleGPP_GL_May12.2009.nc EnsembleGPP_GL_May12.2010.nc EnsembleGPP_GL_May12.2011.nc EnsembleGPP_GL.nc\n",
+"generated 05/2012" ;
+:institution = "Max Planck Institude for BioGeoChemistry Jena, Germany" ;
+:institute_id = "MPI-BGC" ;
+:experiment_id = "may12" ;
+:model_id = "may12" ;
+:forcing = "1982-1997 GIMMS 1998-2005 SeaWIFS 2006-2011 MERIS, ERAinterim meteo input" ;
+:contact = "mjung@bgc-jena.mpg.de" ;
+:references = "Jung, M., Reichstein, M., Bondeau, A. 2009 Biogeosciences, 6;    LASSLOP, G. et al. (2010),  Global Change Biology, 16: 187\u2013208." ;
+:CDO = "Climate Data Operators version 1.5.5 (http://code.zmaw.de/projects/cdo)" ;
+:title = "Gross Primary Production on Land" ;
+:description = "GPP derived by upscaling observations from the current global network of eddy-covariance towers (FLUXNET, Jung et al 2011 Journal of Geophysical Research, 116 G00J07). For the upscaling a model tree ensemble approach was used as described in (Jung, M., Reichstein, M., Bondeau, A. 2009 Biogeosciences, 6). For this dataset the flux partitioning was based on LASSLOP, G. et al. (2010), Global Change Biology, 16: 187\u2013208" ;
+}

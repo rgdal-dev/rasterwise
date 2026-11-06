@@ -1,0 +1,31 @@
+dimensions:
+west_east = 90 ;
+south_north = 162 ;
+days = 274 ;
+charlength = 10 ;
+variables:
+double lat(south_north, west_east) ;
+lat:coordinates = "XLONG XLAT" ;
+lat:units = "degrees_north" ;
+double lon(south_north, west_east) ;
+lon:coordinates = "XLONG XLAT" ;
+lon:units = "degrees_east" ;
+double elevation(south_north, west_east) ;
+elevation:coordinates = "XLONG XLAT" ;
+elevation:units = "meters" ;
+double swe(days, south_north, west_east) ;
+swe:coordinates = "XLONG XLAT" ;
+swe:units = "mm" ;
+double mask(south_north, west_east) ;
+mask:coordinates = "XLONG XLAT" ;
+mask:units = "[]" ;
+char time(charlength, days) ;
+time:units = "[]" ;
+// global attributes:
+:title = "OUTPUT FROM WRF V3.6.1 MODEL" ;
+:creation_date = "22-May-2017 16:26:16" ;
+:wateryear = "2009" ;
+:dx = 9000.f ;
+:dy = 9000.f ;
+:map_projection = "Lambert Conformal" ;
+}

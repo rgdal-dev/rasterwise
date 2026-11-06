@@ -1,0 +1,35 @@
+dimensions:
+lon = 470 ;
+lat = 307 ;
+RP = 5 ;
+variables:
+double lon(lon) ;
+lon:units = "degrees_east" ;
+lon:standard_name = "longitude" ;
+lon:long_name = "Longitude" ;
+double lat(lat) ;
+lat:units = "degrees_north" ;
+lat:standard_name = "latitude" ;
+lat:long_name = "Latitude" ;
+double RP(RP) ;
+RP:units = "years" ;
+RP:long_name = "RP" ;
+float POT(RP, lat, lon) ;
+POT:units = "percent" ;
+POT:_FillValue = -1.f ;
+POT:long_name = "Exceedance frequency" ;
+POT:coordinates = "lon lat" ;
+POT:valid_timesteps = 258480 ;
+POT:region = 4 ;
+POT:simulation = 22 ;
+POT:mask_value = 5 ;
+POT:period_name = 2100 ;
+POT:ref_period_name = 2005. ;
+// global attributes:
+:history = "2018-11-10 23:37:10 CET : created by calc_POT_noraster.R" ;
+:R_version = "R version 3.5.1 (2018-07-02)" ;
+:ncdf4_version = "1.16" ;
+:Conventions = "CF-1.7" ;
+:Creation_date = "2018-11-10 23:37:10 CET" ;
+:Return_period = 2., 10., 20., 50., 100. ;
+}

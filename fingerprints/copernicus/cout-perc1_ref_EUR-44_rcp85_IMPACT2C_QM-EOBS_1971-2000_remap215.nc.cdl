@@ -1,0 +1,97 @@
+dimensions:
+id = 35408 ;
+time = UNLIMITED ; // (1 currently)
+variables:
+double id(id) ;
+id:standard_name = "longitude" ;
+id:long_name = "SUBID" ;
+id:units = "degrees" ;
+id:axis = "X" ;
+double time(time) ;
+time:standard_name = "time" ;
+time:units = "days since 1971-01-01 00:00:00" ;
+time:calendar = "proleptic_gregorian" ;
+float variable1(time, id) ;
+variable1:units = "%" ;
+variable1:_FillValue = -9999.f ;
+float variable2(time, id) ;
+variable2:units = "%" ;
+variable2:_FillValue = -9999.f ;
+float variable3(time, id) ;
+variable3:units = "%" ;
+variable3:_FillValue = -9999.f ;
+float variable4(time, id) ;
+variable4:units = "%" ;
+variable4:_FillValue = -9999.f ;
+// global attributes:
+:Conventions = "CF-1.4" ;
+:title = "Flow duration curve (1th percentile)" ;
+:description = "The flow duration curve (FDC) gives information about how frequently certain river flow rates occur.\n",
+"Here, the FDC is described through 13 percentiles of the distribution of daily river flows during a 30-\n",
+"year period:\n",
+"\u2022 1 %\n",
+"\u2022 5 %\n",
+"\u2022 10 % to 90 % in steps of 10 %\n",
+"\u2022 95 %\n",
+"\u2022 99 %\n",
+"In case of the FDC for the full period, it is based on all daily data for a 30-year period. In the case of\n",
+"FDC\u2019s seasonality, it is based on all daily data for a 30-year period that belong to the same month,\n",
+"evaluated for all 12 months of a year (i.e. all Januaries, all Februaries etc.)\n",
+"For the reference period (1971-2000) the absolute values are given, while for the future periods the\n",
+"relative changes are provided.\n",
+"The indicators described above are delivered in a large number of NetCDF-files. This file is a part of the delivery." ;
+:variable_name = "cout-perc1" ;
+:comment = "The climate impact indicators are based on hydrological impact modelling using the hydrological\n",
+"model E-HYPEv3.1.2. The hydrological modelling was done for C3S_441_Lot1_SMHI with an ensemble of biascorrected\n",
+"climate model data provided by the EU FP7 project IMPACT2C (grant agreement 282746).\n",
+"More information on the climate-model ensemble used (for instance model selection procedures,\n",
+"uncertainties, adjustments) can be found\n",
+"here: http://impact2c.hzg.de/imperia/md/content/csc/projekte/impact2c_d5.1_fin.pdf\n",
+"Within the project IMPACT2C, the original RCM output data has been spatially interpolated, adjusted\n",
+"to the standard Gregorian calendar and has partly been bias-corrected. More details can be found here:\n",
+"http://impact2c.hzg.de/imperia/md/content/csc/projekte/impact2c_d4.1.pdf\n",
+"The dataset covers the ensemble members given in Table 1. The ensemble comprises three\n",
+"Representative Concentration Pathways (RCP) to cover a range of policy scenarios: a mitigation\n",
+"scenario (RCP2.6), a stabilization scenario (RCP4.5) and a high greenhouse gas scenario (RCP8.5).\n",
+"The C3S_441_Lot1_SMHI indicators on catchment resolution are provided for an ensemble using one hydrological\n",
+"model (E-HYPEv3.1.2).\n",
+"Further, note that the indicators for \u201cPrecipitation\u201d are meant to show the data including the influence\n",
+"of E-HYPE\u2019s pre-processing of precipitation (for e.g. height correction or spatial interpolation).\n",
+"The full ensemble of time series from the model runs is stored at SMHI and the original daily timeseries\n",
+"of some essential climate variables can be downloaded from the C3S_441_Lot1_SMHI interface." ;
+:references = "Y. Hundecha et al. 2016. A regional parameter estimation scheme for a pan-European multi-basin\n",
+"model. Journal of Hydrology: Regional Studies, 6(2016), 90-111., doi:10.1016/j.ejrh.2016.04.002" ;
+:contact = "hydro.fou@smhi.se" ;
+:date_created = "Wed Feb 17 17:07:55 2016" ;
+:invar_platform_id = "C3S_441_Lot1_SMHI contract" ;
+:invar_rcm_model_realization_id = "IMPACT2C" ;
+:invar_hm_model_id = "Hydrological models in the order of the variables are: E-HYPEv3.1.2 E-HYPEv3.1.2 E-HYPEv3.1.2 E-HYPEv3.1.2 " ;
+:invar_hm_realization_id = "Hydrological models in the order of the variables are: CSC-E-HYPEv3.1.2 KNMI-E-HYPEv3.1.2 SMHI-E-HYPEv3.1.2 SMHI-E-HYPEv3.1.2" ;
+:invar_experiment_name = "rcp85" ;
+:invar_bc_method_id = "QM-EOBS" ;
+:invar_bc_observation_id = "QM-EOBS" ;
+:invar_bc_period = "1971-2000" ;
+:reference_period = "1971-2000" ;
+:output_frequency = "day" ;
+:time_coverage_start = "19710101" ;
+:time_coverage_end = "20001231" ;
+:time_coverage_comment = "If a projection did not cover the full period 2071-2100, the indicators were calculated based on the remaining years in the period." ;
+:domain = "EUR-44" ;
+:keywords = "Flux, river flow, flow duration curve" ;
+:data_quality = "C3S_441_Lot1_SMHI uses state-of-the-art, quality controlled data to produce this indicator, but the user should\n",
+"note that underlying model performance can vary substantially by location and indicator and not all\n",
+"indicators can be evaluated at a pan-European scale. Note, that unregulated flows are not calibrated on\n",
+"observed data, hence they represent model assumptions on unregulated flow behavior. The quality of\n",
+"the E-HYPE pan-European hydrological model (incl. regulations) can be perused here:\n",
+"http://hypeweb.smhi.se/europehype/model-performance/ and is summarized in Hundecha et al. (2016)." ;
+:license = "Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0), https://creativecommons.org/licenses/by-sa/4.0/legalcode" ;
+:geographic_area = "The model spans a pan-European domain. The grid points over the sea are masked and only land points are retained." ;
+:spatial_resolution = "Irregular catchment polygons, median catchmentsize 215 km2." ;
+:package_name = "Indices have been computed using CDO (https://code.zmaw.de/projects/cdo)" ;
+:date_issued = "Wed Feb 17 17:07:55 2016" ;
+:date_modified = "Wed Feb 17 17:07:55 2016" ;
+:activity = "C3S_441_Lot1_SMHI contract" ;
+:DOI_link = "https://doi.org/10.5281/zenodo.581451" ;
+:invar_gcm_id = "GCMs in the order of the variables are: CSC-MPI-ESM-LR KNMI-EC-EARTH SMHI-EC-EARTH SMHI-HadGEM2-ES" ;
+:invar_rcm_id = "RCMs in the order of the variables are: CSC-REMO2009 KNMI-RACMO22E SMHI-RCA4 SMHI-RCA4" ;
+}

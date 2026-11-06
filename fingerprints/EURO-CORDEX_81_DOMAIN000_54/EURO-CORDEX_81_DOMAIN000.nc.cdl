@@ -1,0 +1,200 @@
+dimensions:
+jx = 530 ;
+iy = 530 ;
+kz = 24 ;
+soil_layer = 10 ;
+ntex = 17 ;
+variables:
+float jx(jx) ;
+jx:long_name = "x-coordinate in Cartesian system" ;
+jx:standard_name = "projection_x_coordinate" ;
+jx:units = "m" ;
+jx:axis = "X" ;
+jx:_CoordinateAxisType = "GeoX" ;
+float iy(iy) ;
+iy:long_name = "y-coordinate in Cartesian system" ;
+iy:standard_name = "projection_y_coordinate" ;
+iy:units = "m" ;
+iy:axis = "Y" ;
+iy:_CoordinateAxisType = "GeoY" ;
+float sigma(kz) ;
+sigma:long_name = "Sigma at full model layers" ;
+sigma:standard_name = "atmosphere_sigma_coordinate" ;
+sigma:units = "1" ;
+sigma:axis = "Z" ;
+sigma:positive = "down" ;
+sigma:formula_terms = "sigma: sigma ps: ps ptop: ptop" ;
+sigma:_CoordinateAxisType = "GeoZ" ;
+float ptop ;
+ptop:long_name = "Pressure at model top" ;
+ptop:standard_name = "air_pressure" ;
+ptop:units = "hPa" ;
+float xlon(iy, jx) ;
+xlon:long_name = "Longitude on Cross Points" ;
+xlon:standard_name = "longitude" ;
+xlon:units = "degrees_east" ;
+xlon:grid_mapping = "crs" ;
+float xlat(iy, jx) ;
+xlat:long_name = "Latitude on Cross Points" ;
+xlat:standard_name = "latitude" ;
+xlat:units = "degrees_north" ;
+xlat:grid_mapping = "crs" ;
+float dlon(iy, jx) ;
+dlon:long_name = "Longitude on Dot Points" ;
+dlon:standard_name = "longitude" ;
+dlon:units = "degrees_east" ;
+dlon:grid_mapping = "crs" ;
+float dlat(iy, jx) ;
+dlat:long_name = "latitude" ;
+dlat:standard_name = "Latitude on Dot Points" ;
+dlat:units = "degrees_north" ;
+dlat:grid_mapping = "crs" ;
+float xmap(iy, jx) ;
+xmap:long_name = "Map Factor on Cross Points" ;
+xmap:standard_name = "map_factor" ;
+xmap:units = "1" ;
+xmap:coordinates = "xlat xlon" ;
+xmap:grid_mapping = "crs" ;
+float dmap(iy, jx) ;
+dmap:long_name = "Map Factor on Dot Points" ;
+dmap:standard_name = "map_factor" ;
+dmap:units = "1" ;
+dmap:coordinates = "xlat xlon" ;
+dmap:grid_mapping = "crs" ;
+float coriol(iy, jx) ;
+coriol:long_name = "Coriolis Parameter" ;
+coriol:standard_name = "coriolis_parameter" ;
+coriol:units = "s-1" ;
+coriol:coordinates = "xlat xlon" ;
+coriol:grid_mapping = "crs" ;
+float mask(iy, jx) ;
+mask:long_name = "Land Mask" ;
+mask:standard_name = "land_binary_mask" ;
+mask:units = "1" ;
+mask:coordinates = "xlat xlon" ;
+mask:grid_mapping = "crs" ;
+float topo(iy, jx) ;
+topo:long_name = "Surface Model Elevation" ;
+topo:standard_name = "surface_altitude" ;
+topo:units = "m" ;
+topo:coordinates = "xlat xlon" ;
+topo:grid_mapping = "crs" ;
+float landuse(iy, jx) ;
+landuse:long_name = "Landuse category as defined in BATS1E" ;
+landuse:standard_name = "land_type" ;
+landuse:units = "1" ;
+landuse:coordinates = "xlat xlon" ;
+landuse:grid_mapping = "crs" ;
+landuse:legend = "1  => Crop/mixed farming\n",
+"2  => Short grass\n",
+"3  => Evergreen needleleaf tree\n",
+"4  => Deciduous needleleaf tree\n",
+"5  => Deciduous broadleaf tree\n",
+"6  => Evergreen broadleaf tree\n",
+"7  => Tall grass\n",
+"8  => Desert\n",
+"9  => Tundra\n",
+"10 => Irrigated Crop\n",
+"11 => Semi-desert\n",
+"12 => Ice cap/glacier\n",
+"13 => Bog or marsh\n",
+"14 => Inland water\n",
+"15 => Ocean\n",
+"16 => Evergreen shrub\n",
+"17 => Deciduous shrub\n",
+"18 => Mixed Woodland\n",
+"19 => Forest/Field mosaic\n",
+"20 => Water and Land mixture\n",
+"21 => Urban\n",
+"22 => Sub-Urban" ;
+float snowam(iy, jx) ;
+snowam:long_name = "Snow initial LWE in mm" ;
+snowam:standard_name = "snowfall_amount" ;
+snowam:units = "mm" ;
+snowam:coordinates = "xlat xlon" ;
+snowam:grid_mapping = "crs" ;
+snowam:_FillValue = 1.e+20f ;
+float smoist(iy, jx) ;
+smoist:long_name = "Soil Moisture" ;
+smoist:standard_name = "volume_fraction_of_water_in_soil" ;
+smoist:units = "1" ;
+smoist:coordinates = "xlat xlon" ;
+smoist:grid_mapping = "crs" ;
+smoist:_FillValue = 1.e+20f ;
+float texture(iy, jx) ;
+texture:long_name = "Texture dominant category" ;
+texture:standard_name = "soil_type" ;
+texture:units = "1" ;
+texture:coordinates = "xlat xlon" ;
+texture:grid_mapping = "crs" ;
+texture:legend = "1  => Sand\n",
+"2  => Loamy Sand\n",
+"3  => Sandy Loam\n",
+"4  => Silt Loam\n",
+"5  => Silt\n",
+"6  => Loam\n",
+"7  => Sandy Clay Loam\n",
+"8  => Silty Clay Loam\n",
+"9  => Clay Loam\n",
+"10 => Sandy Clay\n",
+"11 => Silty Clay\n",
+"12 => Clay\n",
+"13 => OM\n",
+"14 => Water\n",
+"15 => Bedrock\n",
+"16 => Other\n",
+"17 => No data" ;
+float rmoist(soil_layer, iy, jx) ;
+rmoist:long_name = "Soil Moisture" ;
+rmoist:standard_name = "volume_fraction_of_water_in_soil" ;
+rmoist:units = "kg m-2" ;
+rmoist:coordinates = "xlat xlon" ;
+rmoist:grid_mapping = "crs" ;
+rmoist:_FillValue = 1.e+20f ;
+float texture_fraction(ntex, iy, jx) ;
+texture_fraction:long_name = "Texture category fraction" ;
+texture_fraction:standard_name = "soil_type_fraction" ;
+texture_fraction:units = "1" ;
+texture_fraction:coordinates = "xlat xlon" ;
+texture_fraction:grid_mapping = "crs" ;
+texture_fraction:_FillValue = 1.e+20f ;
+char crs ;
+crs:proj4_params = "+proj=lcc +lat_1=30.00 +lat_2=65.00 +lat_0=48.00 +lon_0=9.75 +x_0=-6000. +y_0=-6000. +ellps=sphere +a=6371229. +b=6371229. +units=m +no_defs" ;
+crs:grid_mapping_name = "lambert_conformal_conic" ;
+crs:standard_parallel = 30., 65. ;
+crs:longitude_of_central_meridian = 9.75 ;
+crs:latitude_of_projection_origin = 48. ;
+crs:semi_major_axis = 6371229. ;
+crs:inverse_flattening = 0. ;
+crs:false_easting = -6000. ;
+crs:false_northing = -6000. ;
+crs:_CoordinateTransformType = "Projection" ;
+crs:_CoordinateAxisTypes = "GeoX GeoY" ;
+float soil_layer(soil_layer) ;
+soil_layer:long_name = "Soil layer levels" ;
+soil_layer:standard_name = "root_depth" ;
+soil_layer:units = "m" ;
+// global attributes:
+:title = "ICTP Regional Climatic model V4" ;
+:institution = "ICTP" ;
+:source = "RegCM Model output file" ;
+:Conventions = "CF-1.4" ;
+:references = "http://gforge.ictp.it/gf/project/regcm" ;
+:model_revision = "tag-4.6.1" ;
+:history = "2018-02-06 17:52:32 : Created by RegCM terrain program" ;
+:experiment = "EURO-CORDEX_81" ;
+:projection = "LAMCON" ;
+:grid_size_in_meters = 12000. ;
+:latitude_of_projection_origin = 48. ;
+:longitude_of_projection_origin = 9.75 ;
+:standard_parallel = 30., 65. ;
+:grid_factor = 0.749565224994391 ;
+:boundary_smoothing = "No" ;
+:minimum_h2o_pct_for_water = 50. ;
+:smoothing_level = 1 ;
+:h2o_hgt_over_water = "Yes" ;
+:intermediate_resolution = 3 ;
+:landuse_fudging = "No" ;
+:texture_fudging = "No" ;
+:initialized_soil_moisture = "No" ;
+}

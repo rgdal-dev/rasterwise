@@ -1,0 +1,98 @@
+dimensions:
+time = UNLIMITED ; // (1 currently)
+bnds = 2 ;
+rlon = 98 ;
+rlat = 63 ;
+variables:
+double time(time) ;
+time:standard_name = "time" ;
+time:long_name = "time" ;
+time:bounds = "time_bnds" ;
+time:units = "days since 1949-12-01 00:00:00" ;
+time:calendar = "proleptic_gregorian" ;
+time:axis = "T" ;
+double time_bnds(time, bnds) ;
+float rlon(rlon) ;
+rlon:standard_name = "grid_longitude" ;
+rlon:long_name = "rotated longitude" ;
+rlon:units = "degrees" ;
+rlon:axis = "X" ;
+float rlat(rlat) ;
+rlat:standard_name = "grid_latitude" ;
+rlat:long_name = "rotated latitude" ;
+rlat:units = "degrees" ;
+rlat:axis = "Y" ;
+int rotated_pole ;
+rotated_pole:grid_mapping_name = "rotated_latitude_longitude" ;
+rotated_pole:grid_north_pole_latitude = 39.25 ;
+rotated_pole:grid_north_pole_longitude = -162. ;
+float pr(time, rlat, rlon) ;
+pr:standard_name = "precipitation_flux" ;
+pr:long_name = "Precipitation" ;
+pr:units = "kg m-2 s-1" ;
+pr:grid_mapping = "rotated_pole" ;
+pr:cell_methods = "time: mean" ;
+pr:original_name = "TOT_PREC" ;
+// global attributes:
+:CDI = "Climate Data Interface version 1.9.1 (http://mpimet.mpg.de/cdi)" ;
+:history = "Thu Oct 04 14:31:20 2018: cdo -C seltimestep,1 pr_GUF-CCLM_044_1989-2008.nc /dev/shm/example2.nc\n",
+"Fri Apr 10 10:50:33 2015: cdo selyear,1989/2008 pr_GUF-CCLM_044_allyears.nc pr_GUF-CCLM_044_1989-2008.nc\n",
+"Fri Apr 10 10:31:07 2015: cdo cat /home/clima-archive2/ctorma/MED-44/GUF-CCLM4-8-18/DD/pr_MED-44_ECMWF-ERAINT_evaluation_r1i1p1_GUF-CCLM4-8-18_v1_day_1979010100-1979020100.nc /home/clima-archive2/ctorma/MED-44/GUF-CCLM4-8-18/DD/pr_MED-44_ECMWF-ERAINT_evaluation_r1i1p1_GUF-CCLM4-8-18_v1_day_1979020100-1979030100.nc /home/clima-archive2/ctorma/MED-44/GUF-CCLM4-8-18/DD/pr_MED-44_ECMWF-ERAINT_evaluation_r1i1p1_GUF-CCLM4-8-18_v1_day_1979030100-1979040100.nc /home/clima-archive2/ctorma/MED-44/GUF-CCLM4-8-18/DD/pr_MED-44_ECMWF-ERAINT_evaluation_r1i1p1_GUF-CCLM4-8-18_v1_day_1979040100-1979050100.nc /home/clima-archive2/ctorma/MED-44/GUF-CCLM4-8-18/DD/pr_MED-44_ECMWF-ERAINT_evaluation_r1i1p1_GUF-CCLM4-8-18_v1_day_1979050100-1979060100.nc /home/clima-archive2/ctorma/MED-44/GUF-CCLM4-8-18/DD/pr_MED-44_ECMWF-ERAINT_evaluation_r1i1p1_GUF-CCLM4-8-18_v1_day_1979060100-1979070100.nc /home/clima-archive2/ctorma/MED-44/GUF-CCLM4-8-18/DD/pr_MED-44_ECMWF-ERAINT_evaluation_r1i1p1_GUF-CCLM4-8-18_v1_day_1979070100-1979080100.nc\n",
+"Fri Sep 06 09:52:34 2013: cdo -s -r setreftime,1949-12-01,00:00 -settaxis,1979-01-01,12:00,1day pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc.tmp1 pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc\n",
+"Fri Sep  6 09:52:34 2013: ncks -F -O -a -x -v time_bnds pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc.tmp1\n",
+"Fri Sep  6 09:52:34 2013: ncatted -O -a calendar,time_bnds,d,, pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc\n",
+"Fri Sep  6 09:52:34 2013: ncatted -O -a long_name,time_bnds,c,c,time bounds pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc\n",
+"Fri Sep  6 09:52:34 2013: ncatted -O -a long_name,time,c,c,time -a standard_name,time,c,c,time pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc\n",
+"Fri Sep  6 09:52:34 2013: ncatted -O -a source,global,o,c,cosmo_090213_4.8_clm18 pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc\n",
+"Fri Sep  6 09:52:34 2013: ncatted -O -a product,global,o,c,output pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc\n",
+"Fri Sep  6 09:52:34 2013: ncatted -O -a CORDEX_domain,global,c,c,MED-44 pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc\n",
+"Fri Sep  6 09:52:34 2013: ncatted -O -a project_id,global,o,c,CORDEX pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc\n",
+"Fri Sep  6 09:52:34 2013: ncatted -O -a rcm_version_id,global,c,c,v1 pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc\n",
+"Fri Sep  6 09:52:34 2013: ncatted -O -a model_id,global,c,c,CCLM4-8-18 pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc\n",
+"Fri Sep  6 09:52:34 2013: ncatted -O -a institute_id,global,c,c,GUF pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc\n",
+"Fri Sep  6 09:52:34 2013: ncatted -O -a institution,global,o,c,Climate Limited-area Modelling Community (CLM-Community) pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc\n",
+"Fri Sep  6 09:52:34 2013: ncatted -O -a frequency,global,c,c,day pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc\n",
+"Fri Sep  6 09:52:34 2013: ncatted -O -a driving_experiment_name,global,c,c,evaluation pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc\n",
+"Fri Sep  6 09:52:34 2013: ncatted -O -a driving_model_ensemble_member,global,c,c,r1i1p1 pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc\n",
+"Fri Sep  6 09:52:34 2013: ncatted -O -a driving_model_id,global,c,c,ECMWF-ERAINT pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc\n",
+"Fri Sep  6 09:52:34 2013: ncatted -O -a driving_experiment,global,c,c,ECMWF-ERAINT, evaluation, r1i1p1 pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc\n",
+"Fri Sep  6 09:52:34 2013: ncatted -O -a experiment_id,global,o,c,r1i1p1 pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc\n",
+"Fri Sep  6 09:52:34 2013: ncatted -O -a experiment,global,c,c,Evaluation run with reanalysis forcing pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc\n",
+"Fri Sep  6 09:52:34 2013: ncatted -O -a contact,global,o,c,kothe@iau.uni-frankfurt.de pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc\n",
+"Fri Sep  6 09:52:34 2013: ncatted -O -a Conventions,global,o,c,CF-1.4 pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc\n",
+"Fri Sep  6 09:51:12 2013: ncatted -O -a cell_methods,pr,o,c,time: mean pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc\n",
+"Fri Sep 06 09:51:12 2013: cdo -s shifttime,1min -daymean -shifttime,-1min /gpfs/ahrenshsmfs/archive/skothe/COSMO_4_8_18_MED_CORDEX_ERAINT_044_extended/CMOR/OUT/T2/pr_CCLM4-8-18_MED-44_1hr_1979010100_1979020100.nc pr_CCLM4-8-18_MED-44_day_1979010100_1979020100.nc\n",
+"Fri Sep  6 09:51:11 2013: ncatted -O -a cell_methods,pr,o,c,time: mean pr_CCLM4-8-18_MED-44_1hr_1979010100_1979020100.nc\n",
+"Fri Sep 06 09:51:11 2013: cdo -s divc,3600 lffd197901_T2_1hr_TOT_PREC.nc pr_CCLM4-8-18_MED-44_1hr_1979010100_1979020100.nc\n",
+"Fri Sep 06 09:51:10 2013: cdo -s seltimestep,2/745 lffd197901_T2_1hr_TOT_PREC.nc lffd197901_T2_1hr_TOT_PREC.tmp.nc\n",
+"Fri Sep  6 09:51:10 2013: ncatted -O -a units,pr,o,c,kg m-2 s-1 lffd197901_T2_1hr_TOT_PREC.nc\n",
+"Fri Sep  6 09:51:09 2013: ncatted -O -a standard_name,pr,o,c,precipitation_flux lffd197901_T2_1hr_TOT_PREC.nc\n",
+"Fri Sep  6 09:51:09 2013: ncatted -O -a original_name,pr,c,c,TOT_PREC lffd197901_T2_1hr_TOT_PREC.nc\n",
+"Fri Sep  6 09:51:09 2013: ncatted -O -a long_name,pr,o,c,Precipitation lffd197901_T2_1hr_TOT_PREC.nc\n",
+"Fri Sep  6 09:51:09 2013: ncrename -v TOT_PREC,pr lffd197901_T2_1hr_TOT_PREC.nc\n",
+"Fri Sep 06 09:51:09 2013: cdo -s selname,TOT_PREC lffd197901.nc lffd197901_T2_1hr_TOT_PREC.nc\n",
+"Fri Sep  6 09:51:05 2013: ncks -O -F -d rlon,9,106 -d rlat,9,71 /gpfs/ahrenshsmfs/archive/skothe/COSMO_4_8_18_MED_CORDEX_ERAINT_044_extended/out03/lffd1979010100.nc lffd1979010100.nc\n",
+"2013-09-06 09:52 : add_bounds: time bounds added" ;
+:institution = "Climate Limited-area Modelling Community (CLM-Community)" ;
+:Conventions = "CF-1.4" ;
+:title = "COSMO_CLM_4.8 simulation (0.44 Deg) with ERAInt present day forcing" ;
+:project_id = "CORDEX" ;
+:experiment_id = "r1i1p1" ;
+:realization = 1 ;
+:conventionsURL = "http://www.unidata.ucar.edu/packages/netcdf/conventions.html" ;
+:contact = "kothe@iau.uni-frankfurt.de" ;
+:references = "http//www.clm-community.eu, http://www.geo.uni-frankfurt.de/iau/meso/" ;
+:creation_date = "2013-03-31 19:25:58" ;
+:experiment = "Evaluation run with reanalysis forcing" ;
+:driving_experiment = "ECMWF-ERAINT, evaluation, r1i1p1" ;
+:driving_model_id = "ECMWF-ERAINT" ;
+:driving_model_ensemble_member = "r1i1p1" ;
+:driving_experiment_name = "evaluation" ;
+:frequency = "day" ;
+:institute_id = "GUF" ;
+:model_id = "CCLM4-8-18" ;
+:rcm_version_id = "v1" ;
+:CORDEX_domain = "MED-44" ;
+:product = "output" ;
+:CDO = "Climate Data Operators version 1.9.1 (http://mpimet.mpg.de/cdo)" ;
+}
