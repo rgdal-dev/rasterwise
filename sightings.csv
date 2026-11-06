@@ -171,20 +171,6 @@ ba6453ee94605a850fed6ac328f74218dafd97e7fe1140f4ca2ca35fa2ae4159,428217080,ok,hd
 3a81ccc25a62f1a31c7d3404389935ced50831abea5e848408745ad1a1bf6126,205,ok,none,,text,file,ecostats,/perm_storage/home,~/ncd,ncd.Rproj,,2019-05-23T00:42:27,2026-11-06
 5049578e719776eaf7df1ad3882c7c20f2aec53209c717d7d7f559a1f26ecc19,48752606,ok,tiff-blocks,48752606,geotiff,file,ecostats,/perm_storage/home,~/ncd,out.tif,,2019-05-15T15:11:46,2026-11-06
 98ce7d30850e8163cefaee9a127a218ad1e8d482129dc8922cf6ee35581992df,138234,ok,none,,text,file,ecostats,/perm_storage/home,~/ncd,out.tif.aux.xml,,2019-05-15T15:11:45,2026-11-06
-e84c35452481ed40a719c6694365d1a7b39baacb1cc6838f1966b11230281d5c,76,ok,none,,text,file,ecostats,/perm_storage/home,~/rasterwise,.Rbuildignore,,2026-11-06T23:37:32,2026-11-06
-e45b63cf3a1fd7a6fc790b2ccc85e6e4eadef932645c52abce28c558c8fa4d80,43,ok,none,,text,file,ecostats,/perm_storage/home,~/rasterwise,.gitignore,,2026-11-06T23:37:32,2026-11-06
-416e785fec601689bbd34af3f11077e07a104125fcc0d03095a4dbf3e76a29de,454,ok,none,,text,file,ecostats,/perm_storage/home,~/rasterwise,DESCRIPTION,,2026-11-06T23:37:32,2026-11-06
-2e7e1354b1aeb24a3a05d11cff88cdba218b52c7a9dbaa7d2dbc689343c490cd,46,ok,none,,text,file,ecostats,/perm_storage/home,~/rasterwise,NAMESPACE,,2026-11-06T23:37:32,2026-11-06
-c4ce0b441c2b05a69a78252a45791859bf635f1c2092bb06259db3251b7b44c2,2317,ok,none,,script,file,ecostats,/perm_storage/home,~/rasterwise,README.Rmd,,2026-11-06T23:37:32,2026-11-06
-e2e786d81b4c65e50afa5fcfd1854312794f282335cccc754a00d5e31bacbbed,297726,ok,none,,text,file,ecostats,/perm_storage/home,~/rasterwise,README.md,,2026-11-06T23:37:32,2026-11-06
-754b2204cf37ea223b01c491c2b7026ec00bc4a8f941713cbc87906f840f1372,105,ok,none,,text,file,ecostats,/perm_storage/home,~/rasterwise,data-raw/1D-readme,,2026-11-06T23:37:32,2026-11-06
-369b6a0bef60ec6703e9e5d193f5c37ae94dc84c15da0d05cb123db6e1de7734,7789577,ok,hdf5-eoa,7789577,netcdf4/hdf5,file,ecostats,/perm_storage/home,~/rasterwise,data-raw/dt_global_allsat_phy_l4_19930101_20190101.nc,,2026-11-06T23:37:32,2026-11-06
-d7dcc72ce30b707c02c69c32a77bcbde638bb06ea9cbc530fcc68501e6481414,7923224,ok,nc3-header,7923224,netcdf3,file,ecostats,/perm_storage/home,~/rasterwise,data-raw/dt_ref_global_merged_madt_uv_19921014_19921014_20060315.nc,,2026-11-06T23:37:32,2026-11-06
-9c933b8fef755827bb305836b8cb04ea9c771ca9eec7fdadf8fb57df6d7c0eab,8651,ok,none,,script,file,ecostats,/perm_storage/home,~/rasterwise,data-raw/high-dim.R,,2026-11-06T23:37:32,2026-11-06
-61cf44d9e37463b08ec0595f44bbeff07d8981c01a7c4c014d1dab15e9e8a09e,219,ok,none,,script,file,ecostats,/perm_storage/home,~/rasterwise,data-raw/large-mem.R,,2026-11-06T23:37:32,2026-11-06
-da47930e9aba281b200020455f44351f055227fe0267a95d63301e4194e42977,338174,ok,hdf5-eoa,338174,netcdf4/hdf5,file,ecostats,/perm_storage/home,~/rasterwise,data-raw/spherical.nc,,2026-11-06T23:37:32,2026-11-06
-da47930e9aba281b200020455f44351f055227fe0267a95d63301e4194e42977,338174,ok,hdf5-eoa,338174,netcdf4/hdf5,file,ecostats,/perm_storage/home,~/rasterwise,data-raw/spherical.nc1,,2026-11-06T23:37:32,2026-11-06
-da47930e9aba281b200020455f44351f055227fe0267a95d63301e4194e42977,338174,ok,hdf5-eoa,338174,netcdf4/hdf5,file,ecostats,/perm_storage/home,~/rasterwise,data-raw/spherical.nc2,,2026-11-06T23:37:32,2026-11-06
 549a1b01dda6aa14aaa58037d5458d7d257834185f1e875d7f4fbc41e7e40477,840508,ok,nc3-header,840508,netcdf3,file,ecostats,/perm_storage/home,~/rasterwise,extdata/19911203.nc,,2018-10-13T12:24:46,2026-11-06
 0ca0d4aa0124af62f2ded9f6893024b876fb72b602bbc88230dc39eeb6124aec,44955316,ok,nc3-header,44955316,netcdf3,file,ecostats,/perm_storage/home,~/rasterwise,extdata/EURO-CORDEX_81_DOMAIN000_54/EURO-CORDEX_81_DOMAIN000.nc,,2018-10-04T09:52:44,2026-11-06
 7f0316eeb1b1ffa4b69a3eeebed7f823ca90360a6e587607b4715bfbb2d2f8c7,522,ok,none,,script,file,ecostats,/perm_storage/home,~/rasterwise,extdata/EURO-CORDEX_81_DOMAIN000_54/issue_54.R,,2018-10-04T09:44:21,2026-11-06
@@ -214,7 +200,6 @@ e3fce81277e9373cf541318feb4805e85a828ea55d6251829dc55874518e99c3,67,ok,none,,tex
 b9d6e8d15d5d0e8c0ba1c7f888befd294815c2a84781fdf428f31f4ee3139749,61,ok,none,,script,file,ecostats,/perm_storage/home,~/rasterwise,extdata/test.nc_60/num60.R,,2018-10-03T12:47:10,2026-11-06
 cfe075db7f203ab1c970b819888d513f83bdff5d100e616fc337b84645482814,3527924,ok,hdf5-eoa,3527924,netcdf4/hdf5,file,ecostats,/perm_storage/home,~/rasterwise,extdata/test.nc_60/test.nc,,2018-10-03T12:47:10,2026-11-06
 33765f301d00219ae7bff2e404c8bb94b29c49d38b29ec7fb0ec5a51304df1d7,10854,ok,hdf5-eoa,10854,netcdf4/hdf5,file,ecostats,/perm_storage/home,~/rasterwise,extdata/timeseries.nc,,2018-08-29T03:03:56,2026-11-06
-88a6cea6897937d69011da84b452aa3eef70a62f3e3b5583cfb8c7e79020b712,386,ok,none,,text,file,ecostats,/perm_storage/home,~/rasterwise,rasterwise.Rproj,,2026-11-06T23:37:32,2026-11-06
 9029c5e91a8d7aa871302e91a372f0fead5d36d46a3908ee0bcfd7ff4c35381d,46034534,ok,none,,gzip,file,ecostats,/perm_storage/home,~/rasterwise,weird.tar.gz,,2021-12-07T00:39:39,2026-11-06
 549a1b01dda6aa14aaa58037d5458d7d257834185f1e875d7f4fbc41e7e40477,840508,ok,nc3-header+archive,840508,netcdf3,archive-member,ecostats,/perm_storage/home,~/rasterwise,weird.tar.gz,extdata/19911203.nc,2018-10-13T12:24:46,2026-11-06
 0ca0d4aa0124af62f2ded9f6893024b876fb72b602bbc88230dc39eeb6124aec,44955316,ok,nc3-header+archive,44955316,netcdf3,archive-member,ecostats,/perm_storage/home,~/rasterwise,weird.tar.gz,extdata/EURO-CORDEX_81_DOMAIN000_54/EURO-CORDEX_81_DOMAIN000.nc,2018-10-04T09:52:44,2026-11-06
@@ -245,8 +230,6 @@ e3fce81277e9373cf541318feb4805e85a828ea55d6251829dc55874518e99c3,67,ok,archive,,
 b9d6e8d15d5d0e8c0ba1c7f888befd294815c2a84781fdf428f31f4ee3139749,61,ok,archive,,script,archive-member,ecostats,/perm_storage/home,~/rasterwise,weird.tar.gz,extdata/test.nc_60/num60.R,2018-10-03T12:47:10,2026-11-06
 cfe075db7f203ab1c970b819888d513f83bdff5d100e616fc337b84645482814,3527924,ok,hdf5-eoa+archive,3527924,netcdf4/hdf5,archive-member,ecostats,/perm_storage/home,~/rasterwise,weird.tar.gz,extdata/test.nc_60/test.nc,2018-10-03T12:47:10,2026-11-06
 33765f301d00219ae7bff2e404c8bb94b29c49d38b29ec7fb0ec5a51304df1d7,10854,ok,hdf5-eoa+archive,10854,netcdf4/hdf5,archive-member,ecostats,/perm_storage/home,~/rasterwise,weird.tar.gz,extdata/timeseries.nc,2018-08-29T03:03:56,2026-11-06
-8679c006395b7beed41ff4a2807cafc1a16c3104cc486fe1b94f63f9e51bd7c2,437,ok,none,,script,file,ecostats,/perm_storage/home,~/rasterwise,weird_update.R,,2026-11-06T23:37:32,2026-11-06
-ee7480e032904c570c310fc89a8e14373860a5eaae3a1751b7b56ccefa1e9616,2552,ok,none,,text,file,ecostats,/perm_storage/home,~/rasterwise,weirdlist.txt,,2026-11-06T23:37:32,2026-11-06
 962842b794a686578cff05af83afb582bf09e42046ae69ed69f988a2ac93e098,50,ok,none,,text,git-blob,github,git,rasterwise,,.Rbuildignore@0cf60946e27e,,2026-11-06
 e84c35452481ed40a719c6694365d1a7b39baacb1cc6838f1966b11230281d5c,76,ok,none,,text,git-blob,github,git,rasterwise,,.Rbuildignore@717a6e211b53,,2026-11-06
 25a854b4d4d7bef98cec16a2ce8cd418d87a7d53daa36143a475a11946f1789c,13,ok,none,,text,git-blob,github,git,rasterwise,,.Rbuildignore@daebf375fba1,,2026-11-06
