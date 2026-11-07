@@ -1,0 +1,103 @@
+id: aad-fast-ice-raw-cea-grid-as-lonlat-arrays
+title: "AAD MODIS 20-day fast ice: headerless images stored south-up, geolocated by raw lat/lon arrays that are a 2 km cylindrical equal-area grid"
+status: understood
+costume:
+  - A
+  - E
+summary: "4300 x 425 byte images with no header; the separate float32 lats.img/lons.img are a regular 2000 m grid in WGS84 Lambert cylindrical equal-area (standard parallel 65 S) to within 0.42 m, rows stored south to north; the README omits byte order and row order, never mentions coastmask.img (Int16, stored north to south), and promises a .gpd file that is not there."
+files:
+  - 710a226e331a2a74e04c32c8c0252dd8ad784d452c2e97e7cefe84bffdc45dd9  # raad/aad-modis-20day-fast-ice/imgs/2000_061-080_sqc.img
+  - ddbb7f8b46a6ee52bb00247189eefd0a56d78c4273bd662c8ef4e266eb91835c  # raad/aad-modis-20day-fast-ice/imgs/2008_341-366_sqc.img
+  - 9ea0d2cfeeea9b0f88567f6db08bfc4cc17b7b17a2c5d36065973c809117b981  # raad/aad-modis-20day-fast-ice/geo/lats.img
+  - 57c853e812682947fbe9e4dc521c2795f43d6cfd843d29480943843b29d79104  # raad/aad-modis-20day-fast-ice/geo/lons.img
+  - 8c6573fc07b23ce2af731958105dc8a6c35b337c64d7223f726f1dccf1d9c135  # raad/aad-modis-20day-fast-ice/geo/coastmask.img
+  - 48abaf47c29eccebb16b52d4395dbe6002594ca8d39caf432bc8b152b9e08683  # raad/aad-modis-20day-fast-ice/README
+  - 1c5fd359d929a58b85aab888d9da7b2bd2eeba84ac51eb3e4a6d1971cd8ef417  # raad/aad-modis-20day-fast-ice/readme.txt
+whats_wrong: |
+  Checked on the bytes, 2026-11-07, for all 159 images in the AAD public
+  services fast-ice dataset (modis_20day_fast_ice, version 1.2 per its
+  readme; 20-day composites from DOY 61-80 2000 to DOY 341-366 2008).
+  1. No headers anywhere. Each imgs/*.img is 1,827,500 bytes; only the
+     README says that is 4300 x 425 pixels of 8-bit byte, and gives the
+     classes (0 ocean/pack ice, 1 continent and ice shelves, 2 fast ice from
+     one MODIS composite, 3 fast ice from AMSR-E, 4 fast ice from the
+     previous or next composite). It does not say which dimension is which,
+     or the row order. 4300 columns x 425 rows is the reading that makes the
+     lat/lon arrays separable (point 3).
+  2. geo/lats.img and geo/lons.img (7,310,000 bytes each) are the README's
+     "unformatted 32-bit floating point" with no byte order stated: they are
+     little-endian (big-endian gives values to 1e38). Cell centres.
+  3. The 2D lat/lon is a 1D grid in disguise. Latitude is constant along
+     every row and longitude constant down every column (zero spread).
+     Longitude is uniform, -10 to 172.2555 E in steps of 0.0423949 degrees
+     (linear fit residual 7.6e-6 degrees, float32 rounding). Latitude runs
+     71.99189 S to 63.5 S with steps shrinking from 0.0245 to 0.0170
+     degrees: it is not uniform (14 rows of error for a linear fit) and not
+     Mercator (30 rows), but its WGS84 authalic latitude function q is
+     linear in the row to 0.0002 rows. That is a Lambert cylindrical
+     equal-area grid on the WGS84 ellipsoid. With standard parallel 65 S the
+     pixels are square, 2000.0000 x 2000.0001 m, and every one of the
+     1,827,500 centres lies within 0.36 m (x) and 0.43 m (y) of an exact
+     2000 m grid. A spherical CEA (EASE-Grid, EPSG:3410) fits worse, 48 m.
+     EPSG:6933 (EASE-Grid 2.0, standard parallel 30) also fits to 0.74 m
+     but with 4090.5 x 977.9 m pixels. The extent is anchored on round
+     lon/lat (first column centre at 10 W, last row centre at 63.5 S), not on
+     round metres.
+  4. Rows are stored south to north (row 0 is 71.99 S). Read as a north-up
+     raster the images are upside down. Checked against geography: in
+     storage order the southern rows are 99 percent class 1 and the northern
+     rows have none. At ten sampled coast, ice-shelf and ocean points from
+     10 E to 150 E, storage order gives the expected class at nine (the
+     tenth, 78.2 E 68.6 S on the Vestfold Hills coast, reads fast ice);
+     flipped, six of those nine are wrong.
+  5. geo/coastmask.img (3,655,000 bytes) is not in either readme. It is
+     Int16 little-endian, values 0 and 1, and it is stored the other way up
+     from the images: north to south. Flipped, its 1s equal class 1 of the
+     images exactly (2000_061-080).
+  6. Both readmes say "The .gpd Grid Point Descriptor file used to build the
+     projection is also included". It is not: geo/ holds only coastmask.img,
+     lats.img and lons.img. So the CRS above is recovered from the
+     coordinates, not stated by the producers; the standard parallel of 65 S
+     is inferred from square pixels.
+  7. Smaller oddities: the north-east corner cell (172.26 E, 63.5 S, open
+     ocean; the last byte of each file) is non-zero in 135 of 159 images
+     (class 3 in 87, class 4 in 47, class 1 in one), which looks like a
+     marker rather than data; class 3 otherwise occurs in only 30 images.
+     Class 1 (land) is identical in 136 images and differs by 1 to 8 cells
+     in the other 23.
+how_to_read: |
+  Verified with GDAL 3.14.0dev on 2026-11-07. A raw VRT per file, flipping
+  the rows with a negative line offset so the result is north-up:
+    <VRTDataset rasterXSize="4300" rasterYSize="425">
+      <SRS>+proj=cea +lat_ts=-65 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs</SRS>
+      <GeoTransform>-472755.311, 2000, 0, -13426012.821, 0, -2000</GeoTransform>
+      <VRTRasterBand dataType="Byte" band="1" subClass="VRTRawRasterBand">
+        <SourceFilename relativeToVRT="0">/abs/path/imgs/2000_061-080_sqc.img</SourceFilename>
+        <ImageOffset>1823200</ImageOffset>
+        <PixelOffset>1</PixelOffset>
+        <LineOffset>-4300</LineOffset>
+        <ByteOrder>LSB</ByteOrder>
+      </VRTRasterBand>
+    </VRTDataset>
+  (ImageOffset is 424 x 4300, the start of the last stored row.) Open it with
+  --config GDAL_VRT_RAWRASTERBAND_ALLOWED_SOURCE ALL unless the VRT sits in
+  the same directory as the .img. The same VRT with dataType Float32,
+  PixelOffset 4, LineOffset -17200, ImageOffset 7292800 reads lats.img and
+  lons.img; GDAL's pixel centres transformed to lon/lat reproduce them to
+  within 7.6e-6 degrees of longitude and 3.8e-6 of latitude (under 0.5 m). For coastmask.img use Int16, PixelOffset 2,
+  LineOffset 8600, ImageOffset 0 (no flip); it then equals class 1 of the
+  north-up image. gdalwarp -t_srs EPSG:3031 -tr 2000 2000 -r near from the
+  image VRT runs and gives a 1720 x 2918 grid. EPSG:6933 with pixel
+  4090.5223 x 977.8703 m is an equivalent description (untested as a VRT).
+links:
+  - "https://data.aad.gov.au/metadata/records/modis_20day_fast_ice"
+  - "https://doi.org/10.4225/15/5667AC726B224"
+  - "https://hypertidy.github.io/regular-in-what/03-costumes.html"
+findings:
+  - RAW_NO_HEADER
+  - GRID_2D_LONLAT_ONLY
+  - LONLAT_2D_SEPARABLE
+  - Y_ASCENDING
+  - ROW_ORDER_INCONSISTENT
+  - DOC_FILE_MISSING
+  - DOC_DIMS_ONLY

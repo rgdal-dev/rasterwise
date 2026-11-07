@@ -1,0 +1,107 @@
+id: aviso-mdt-lon-major-transposed
+title: "AVISO mean dynamic topography (CNES-CLS09, RIO07 Mediterranean): lon-major grids that GDAL georeferences with latitude as x"
+status: understood
+costume:
+  - C
+summary: "Regular 1/4 and 1/8 degree MDT grids stored (lon, lat); GDAL's classic view gives them a plausible geotransform with latitude across and longitude down, so the map is transposed without any error. RIO07 longitudes run past 360, CLS09's height holds two undocumented 9999 cells, and the CNES-CLS13 successor is CF (lat, lon) and reads correctly."
+files:
+  - 38db0841edef47ba888b591fb91c89eaff504e5fbc0b93a0c97380fbc4889aab  # raad/aviso-mdt/mdt_cnes_cls2009_global/mdt_cnes_cls2009_global_v1.1.nc
+  - 72254e15b4294c10bf474d64a08b9537ccca2b3bcfb0a7cd2268164395807df1  # raad/aviso-mdt/mdt_cnes_cls2009_global/mdt_cnes_cls2009_global_v1.1.ascii
+  - dd5ce265446f4380991c7d9052559c778d2ea692b4cccf422efcbef45b983ece  # raad/aviso-mdt/mdt_cnes_cls2009_global/readme_mdt_cnes_cls2009_global_v1.1_nc.txt
+  - a29d3f2e347b02cd728dcab5da769b8edb3f2e73dd18ff9c974d2ee271faddf8  # raad/aviso-mdt/mdt_cnes_cls2009_global/readme_mdt_cnes_cls2009_global_v1.1_ascii.txt
+  - fd6105f271f356788db7e8024f2a76c5cc3b3f83a226f516be5f629c419b05df  # raad/aviso-mdt/mdt_rio2007_mediterranean/mdt_rio2007_mediterranean.nc
+  - 3b4f1234788053cdd5810a5256b37496f1b3f897b161011050ca55cb60111e76  # raad/aviso-mdt/mdt_rio2007_mediterranean/mdt_rio2007_mediterranean.ascii
+  - 82401b811631451bca828e38e23da39a7c52ca1c3e4f11e09a5edd8cb0aa65e1  # raad/aviso-mdt/mdt_rio2007_mediterranean/readme_mdt_rio2007_mediterranean_nc.txt
+  - 9a7aff2d78c604788c73de8518e3ad31472e3ad0d48adb7cd0274981af61783d  # raad/aviso-mdt/mdt_rio2007_mediterranean/readme_mdt_rio2007_mediterranean_ascii.txt
+  - ade511135fb757c4ae6f11e26fdc16d28d6cbc8112f634ea13e63e4a0ed89a28  # raad/aviso-mdt/mdt_cnes_cls2013_global.nc
+whats_wrong: |
+  AVISO's auxiliary MDT products, private copies. Checked on the bytes,
+  2026-11-07.
+
+  CNES-CLS09 v1.1 (global, netCDF-3, CreatedOn 11-MAR-2010, FileType
+  "GRID_DOTS") and RIO07 (Mediterranean, CreatedOn 25-JUL-2008, same
+  layout, OriginalName smdt_med07_huv_1_8.nc):
+
+  1. Lon-major storage. Grid_0001..Grid_0007 (CLS09: height, U, V, their
+     errors, a 0/1 flag) and Grid_0001..Grid_0003 (RIO07: H, U, V) are
+     declared (NbLongitudes, NbLatitudes), so latitude varies fastest.
+  2. Unlike the old AVISO Mercator grid (FileType "GRID_DOTS_MERCATOR"),
+     the axes are regular: CLS09 latitude -89.875 to 89.875 and
+     longitude 0.125 to 359.875 in 0.25 steps (720 x 1440); RIO07
+     latitude 30 to 46 and longitude 355 to 396.875 in 0.125 steps
+     (129 x 336). LatLonMin/LatLonStep agree with the axes.
+  3. Because the axes are regular, GDAL's classic view (GDAL 3.14.0dev)
+     gives a geotransform that looks fine but is transposed: CLS09
+     Grid_0001 is 720 columns x 1440 rows with origin (-90, 360) and
+     pixel size (0.25, -0.25), i.e. x is latitude and y is longitude
+     (descending). RIO07 is 129 x 336 with origin (29.9375, 396.9375).
+     No CRS is set, so nothing errors; assign EPSG:4326 and the map is
+     silently wrong.
+  4. RIO07 longitudes run past 360 (355 to 396.875, i.e. 5 W to 36.875 E
+     written as 355 to 396.875), in the netCDF and in the ascii file.
+  5. CLS09 Grid_0001 (height) holds 9999.0 at two cells, (279.875 E,
+     2.875 S) and (279.875 E, 2.625 S), where U, V and the errors are
+     ordinary values. 9999 is the readme's "default value" for the ascii
+     form, but in the netCDF it is not the _FillValue (1.84467e19) and
+     no other grid has it.
+  6. Fill: 407351 CLS09 cells hold 1.84467e19 in every grid (land and
+     beyond 79.125 S / 80.125 N). The readme says latitudes reach
+     80.625 N; valid data stop at 80.125 N. In RIO07, H is valid at
+     16902 cells but U and V at only 15557.
+
+  The ascii forms (9 and 5 whitespace columns, ordered lon-major with
+  latitude ascending within each longitude) hold exactly the netCDF
+  values (max difference 0). CLS09's ascii lists exactly the 629449
+  non-fill cells and includes the two 9999 heights; RIO07's ascii lists
+  only the 15557 cells where U/V are valid, dropping 1345 cells that have
+  a height. The RIO07 ascii readme calls the file "cmdt_riomed.asc", a
+  different name. The four readmes are ISO-8859-1 text (degree and
+  one-quarter signs), not UTF-8.
+
+  CNES-CLS13 (date_created 2014-01-13, Conventions CF-1.6) changed the
+  layout: mdt, u, v, err_mdt, err_u, err_v are int32 (time, lat, lon)
+  with scale_factor 1e-4 and _FillValue -2147483647, lat/lon have axis,
+  standard_name and bounds, and a crs variable gives a sphere of
+  6371000 m. GDAL's classic view is correct by default (1440 x 720,
+  origin (0, 90), 0.25 degree). Small faults: lat_bnds lists each pair
+  upper-then-lower, err_v has units "m" (it is a velocity error), and
+  the time dimension has no coordinate variable (GDAL warns "No 1D
+  variable is indexed by dimension time"). The mean is referenced to
+  1993-2012 (comment attribute); CLS09 is 1993-1999 per its readme. The
+  .nc.gz copy decompresses to the same bytes as the .nc.
+how_to_read: |
+  Verified with GDAL 3.14.0dev on 2026-11-07. Transpose and flip with the
+  multidimensional API, then assign the extent (edges half a cell beyond
+  the outer centres):
+
+    gdalmdimtranslate mdt_cnes_cls2009_global_v1.1.nc mdt09.tif \
+      -array "name=Grid_0001,transpose=[1,0],view=[::-1,:]"
+    gdal_translate mdt09.tif mdt09_ll.tif -a_srs EPSG:4326 -a_ullr 0 90 360 -90
+
+    gdalmdimtranslate mdt_rio2007_mediterranean.nc rio.tif \
+      -array "name=Grid_0001,transpose=[1,0],view=[::-1,:]"
+    gdal_translate rio.tif rio_ll.tif -a_srs EPSG:4326 \
+      -a_ullr -5.0625 46.0625 36.9375 29.9375
+
+  (The RIO07 extent subtracts 360 from every longitude.) Both outputs
+  were checked equal to the stored array transposed with latitude
+  reversed, and 3000 random stored (lon, lat) pairs each fell in a cell
+  holding the matching value. Use name=Grid_000k for the other grids.
+  For CLS09 height, set 9999 to missing as well as the 1.84467e19 fill.
+  The CRS label is nominal: CLS09 and RIO07 give none; CLS13 says a
+  sphere. As a cross-check, CLS13 minus the transposed CLS09 height over
+  common ocean cells has mean -0.015 m and s.d. 0.053 m.
+
+  CNES-CLS13 needs nothing: GDAL's default read of
+  NETCDF:"mdt_cnes_cls2013_global.nc":mdt, with its own geotransform,
+  matched the stored value at 3000 random (lon, lat) cells.
+links:
+  - "https://hypertidy.github.io/regular-in-what/03-costumes.html"
+  - "https://hypertidy.github.io/regular-in-what/07-cases.html#sec-case-aviso"
+findings:
+  - AXES_X_BEFORE_Y
+  - GEOTRANSFORM_TRANSPOSED
+  - Y_ASCENDING
+  - LON_0_360
+  - LON_ABOVE_360
+  - SENTINEL_UNDECLARED

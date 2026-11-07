@@ -1,0 +1,139 @@
+id: coco-displaced-pole-model-axes-as-lonlat
+title: "COCO Southern Ocean ice-ocean output: displaced-pole model coordinates labelled as longitude and Mercator-spaced latitude"
+status: understood
+costume:
+  - D
+  - E
+summary: "Daily sea ice fields on a 1024 x 384 COCO model grid whose 1D longitude/latitude axes are model coordinates (pole moved to 82S 45E), not geography; read them as lon/lat and cells land a median 45 degrees of arc from where they belong. The true positions are in separate 2D lon0/lat0 files, which are regular in a polar stereographic -> shift -> log-polar PROJ pipeline to within 7 m."
+files:
+  - fc71d8b64fe1dc4703c6b8c3cd0e69167354e5a57ab4d2fc52e251da0876ae7f  # raad/coco-ice-ocean/output/concentration/ai.2016.nc
+  - 36f263eb52a8b5b943667108c7c3a6e31961736d36c4dc2c2cee0076086f1e5d  # raad/coco-ice-ocean/output/thickness/hi.2016.nc
+  - cdc8a718b5fca54fdd300c8d630a9253db1a5266234fd618b7b81a6d43bae7df  # raad/coco-ice-ocean/geoinfo/lon0.nc
+  - 8e4c2eb4f7592df54af7483011f0c2eae3c94e76539d7615bb736aa549ba352f  # raad/coco-ice-ocean/geoinfo/lat0.nc
+  - f0ba9ade0349523af53eaee329f6109a154176009ef2a0b12c838399e8f3bcb2  # raad/coco-ice-ocean/geoinfo/lon1.nc
+  - c82d55ed03592ed80e0553eff11b59ec3aa47d54871c075aab81ac5c24d3c778  # raad/coco-ice-ocean/geoinfo/lat1.nc
+  - 2f4b076d0c601c37ec96d511591a53b139c62e150b27ebc9df84b9a1cbb34bc5  # raad/coco-ice-ocean/geoinfo/lon2.nc
+  - 15011641947ebba0a3ee6a38e4d2681b70fdcadfb2491fc762c14009dd8e5dc8  # raad/coco-ice-ocean/geoinfo/lat2.nc
+  - 665a4a26399f142859e38e1fdf7a08219715b57e2a1c307003f470138fa2232a  # raad/coco-ice-ocean/geoinfo/lon3.nc
+  - 0dc1dd63d66d5b57e6e6bec0ad1cacdd90bd0f29eb909010aa09d6ca296fde5a  # raad/coco-ice-ocean/geoinfo/lat3.nc
+  - 672d6bfbe9a8e6ccb8e522e49ec2307663b36c10c716e8d798765fa5898c3981  # raad/coco-ice-ocean/geoinfo/lon4.nc
+  - 8dd05c7aa000343f1dba581d028de7a91fa2c769e44f2c435efd04e92c3a3f32  # raad/coco-ice-ocean/geoinfo/lat4.nc
+  - 87a1732e70b429cf7e22b0a610a34d4903b32810b05b7d374981534127d928f3  # raad/coco-ice-ocean/geoinfo/angle.nc
+  - f2712fda31186946ac0ff08c175f3b8256b6b5a798234df5fb2f443e00f0d1e3  # raad/coco-ice-ocean/geoinfo/xscale.nc
+  - b89f15767ebdfd12a499c55dcdee513c42f1b27043647f9be5a26632db861603  # raad/coco-ice-ocean/geoinfo/yscale.nc
+  - 4aaeec41061d94c51666eb893c7ee64750992ba8dd6c643b4fff37277c111e6a  # raad/coco-ice-ocean/geoinfo/mask.nc
+  - 25c37a705f486552c8e59b5b2c04b87e1b1990f4e09440f2a84563d55f5316d9  # raad/coco-ice-ocean/geoinfo/depth.nc
+  - d6d1f4c8d878ac802fe964544f7f995bfa07eab2d0d618c868da0b651b24c73a  # raad/coco-ice-ocean/geoinfo/draft.nc
+whats_wrong: |
+  Output of the COCO ice-ocean model for the Southern Ocean, from a user's
+  research working area: yearly files of daily sea ice concentration
+  (ai, unitless "-") and thickness (hi, "cm"), 366 x 1 x 384 x 1024
+  float32 for 2016, plus a geoinfo/ folder of static fields. No file has
+  global attributes, a CRS, a grid_mapping or CF axis attributes. Checked
+  on the bytes, 2026-11-07.
+
+  1. The 1D axes are model coordinates in geographic costume. Every file
+     has longitude(1024), "degrees_east", 0.17578 to 359.82 in steps of
+     exactly 360/1024, and latitude(384), "degrees_north", -80.277 to
+     -34.612. The latitude step runs from 0.046 to 0.224 degrees; in
+     spherical Mercator y, ln(tan(pi/4 + lat/2)), it is a constant
+     0.272250 degrees (relative spread 1.5e-4, float32 storage). So the
+     axes look like costume D, as in the old AVISO Mercator grid, but
+     with a y step that is 0.7744 of the x step, not equal to it. They are
+     not geographic positions: the true cell centres (geoinfo/lon0.nc,
+     lat0.nc) reach -88.24 to -28.40 latitude, and column 0 sits at about
+     226 E, not 0.18 E. Read with the 1D axes as lon/lat, cells land a
+     median 44.6 and up to 105 degrees of great-circle arc from their true
+     centres, and up to 8.0 degrees off in latitude. GDAL's classic view
+     of ai/hi does exactly that: no geotransform (latitude is irregular),
+     and GEOLOCATION metadata pointing at the 1D longitude/latitude with
+     EPSG:4326. It also reports NoData 9.96921e+36 (the netCDF default
+     fill), though the variables have no _FillValue and never hold it.
+  2. What the model grid is. Put the 2D lon0/lat0 into a south polar
+     stereographic plane on a sphere (radius 0.5, so rho =
+     tan(pi/4 + lat/2)). Every row is then a circle, to a relative
+     residual below 1e-6, and all 384 circles share one centre,
+     (0.0494457, 0.0494457), which is the point 82.0 S, 45.0 E. Columns
+     are rays from that centre. About that centre, the polar angle is the
+     1D longitude minus 135 degrees (to 1.1e-4 degrees), and the radius is
+     1.0024425 * tan(pi/4 + lat/2) with lat the 1D latitude (log residual
+     3e-6). So the model's south pole is displaced to 82 S, 45 E (a
+     translation in the stereographic plane; the north pole stays put),
+     and the grid is uniform in angle and in log-radius about it. It is
+     not a rotated sphere: the best sphere rotation from the 1D axes to
+     lon0/lat0 still misses by up to 1.78 degrees (197 km). It is not
+     tripolar. The constants above are fitted from lon0/lat0; nothing in
+     the files states them.
+  3. The five lon/lat pairs are the cell centre and its four corners, all
+     on the same 1024 x 384 index and all carrying the same centre 1D
+     axes. In model-index units, relative to pair 0 (centre), pair 1 is
+     at (-1/2, -1/2), pair 2 at (+1/2, -1/2), pair 3 at (+1/2, +1/2) and
+     pair 4 at (-1/2, +1/2) (x = column, y = row; spread 0.0003 in x,
+     0.0014 in y). Measured in Mercator-y cells the y offsets are
+     -0.5005 and +0.4995, not exactly 1/2; they are not latitude
+     midpoints either (those would give the opposite sign), and how the
+     corners were made is not determined. Corner 3 of cell (i, j) equals corner 1 of
+     cell (i+1, j+1). lon4.nc and lat4.nc were flagged as Mercator-spaced
+     only because they carry the same 1D centre axes as every other file.
+  4. angle.nc (no units given, actually radians) is the direction of the
+     model's +column axis, counterclockwise from true east: it matches
+     finite differences of lon0/lat0 to within 0.014 rad, and reaches
+     +-0.958 rad (54.9 degrees) near the displaced pole. xscale and
+     yscale are cell widths in metres (6508 to 34044 and 5040 to 26364);
+     their ratio is 0.7744 everywhere, the same as the axis step ratio,
+     and they fit great-circle edge lengths on a sphere of about 6370 km.
+  5. mask.nc: 0 = land (121623 cells), 1 = open ocean (253941), 2 =
+     ocean under an ice shelf (17652); draft > 0 exactly where mask == 2
+     and depth > 0 exactly where mask > 0. ai is 0 on land and under ice
+     shelves. hi is never below 10.0 and is exactly 10.0 wherever ai ==
+     0, land included, so it has no fill value; use ai > 0 or the mask.
+     Not determined: whether hi is thickness per ice-covered area.
+  6. Time: units "secs since 0000-1-1 0:0:0", calendar "standard", values
+     0 to 31536000 in 86400 s steps, restarting at 0 in every yearly file
+     (1979, 2015 and 2016 checked). The year is only in the file name.
+     netCDF4/cftime refuses to decode it ("zero not allowed as a
+     reference year"). The latitude axis in the output files differs from
+     the geoinfo one by up to 2.7e-5 degrees (float noise).
+how_to_read: |
+  Verified with GDAL 3.14.0dev on 2026-11-07. The grid is regular in a
+  model plane: x = model longitude in degrees, y = spherical Mercator y of
+  model latitude in degrees, cell 0.3515625 x 0.2722502815. Pull out a
+  day, give it that plane (x shifted by -180 so the 0/360 seam does not
+  split the source), then warp with an explicit coordinate operation.
+  GDAL's classic read already flips the rows north-up (checked equal to
+  the stored rows reversed):
+
+    gdal_translate -b 201 -a_nodata none \
+      -a_srs "+proj=merc +lon_0=180 +R=57.29577951308232 +no_defs" \
+      -a_ullr -180 -36.7961890970 180 -141.3402971898 \
+      hi.2016.nc hi_d201_model.tif
+    gdalwarp -s_srs "+proj=merc +lon_0=180 +R=57.29577951308232 +no_defs" \
+      -t_srs EPSG:3031 -te -7500000 -7500000 7500000 7500000 -tr 5000 5000 -r near \
+      -ct "+proj=pipeline +step +inv +proj=merc +lon_0=180 +R=57.29577951308232 +step +proj=stere +lat_0=-90 +lon_0=135 +R=0.5 +k_0=1.0024425 +step +proj=affine +xoff=0.0494457 +yoff=0.0494457 +step +inv +proj=stere +lat_0=-90 +lon_0=0 +R=0.5 +step +proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +ellps=WGS84" \
+      -dstnodata -9999 hi_d201_model.tif hi_3031.tif
+
+  (Band k is day k of the year; use ai.2016.nc for concentration.) The
+  last pipeline step treats the model's spherical lon/lat as WGS84
+  geodetic coordinates, as is usual for ocean model output. Checks: run
+  through cct, the pipeline (without its last step) reproduces lon0/lat0
+  at all 393216 cell centres to within 6.5 m (mean 2.1 m). 3000 random
+  ocean cells with hi != 10 for day 201, located by their lon0/lat0 in
+  hi_3031.tif, all held the matching stored value. Without the
+  -180 shift and +lon_0=180, half the grid came out empty.
+
+  Without PROJ, use lon0/lat0 (and the corner pairs for cell bounds)
+  directly as 2D coordinates; this is the generic route, untested here
+  with gdalwarp -geoloc. Rotating ui/vi by angle to east/north (u_east =
+  u cos(angle) - v sin(angle), v_north = u sin(angle) + v cos(angle)) is
+  untested, and which grid point ui/vi sit on is not determined.
+links:
+  - "https://hypertidy.github.io/regular-in-what/03-costumes.html"
+  - "https://hypertidy.github.io/regular-in-what/07-cases.html#sec-case-aviso"
+findings:
+  - LAT_MERCATOR_SPACED
+  - MODEL_COORDS_AS_LONLAT
+  - GRID_DISPLACED_POLE
+  - GRID_STAGGERED_CORNERS
+  - TIME_REF_YEAR_ZERO
+  - Y_ASCENDING
+  - LON_0_360

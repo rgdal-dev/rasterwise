@@ -1,0 +1,147 @@
+id: ucsd-topo-raw-mercator-headers-disagree
+title: "UCSD global 1-minute topography: a headerless spherical Mercator grid whose ERS header, hand-written VRTs and netCDF all describe it differently"
+status: understood
+costume:
+  - A
+  - B
+  - C
+summary: "topo_N.img is 21600 x 17280 big-endian Int16 on a spherical Mercator grid with square 1-arcminute pixels (0 to 360 E, 80.738 S to 80.738 N); the ERS header gives GDAL no geotransform, the hand-written VRTs misplace cells by up to 11 km in latitude (and 0.4 degrees in longitude for the sphere-based ones), and topo_N.nc is not the same grid but a float32 resample onto regular lon/lat that drops the sounding flag."
+files:
+  - 0804ca23ec395440ebbc7ee98ac14ec8055c51e9442650c72542afb13aeee0bc  # raad/ucsd-global-topo-1min/topo_19.1.img
+  - c655276530afdf8c7c303939cdc945030a4c2d8ea19495637ec97ac8e28e58cc  # raad/ucsd-global-topo-1min/topo_19.1.img.ers
+  - a8744b2763eaf3256a14985343098fa813e85a882e5d8e77ffe1267796a2a008  # raad/ucsd-global-topo-1min/topo_19.1.nc
+  - 477d7e804c65e3ac4d67eff7a1fca27be7d3c1e4553cab5ca597ebe726825f66  # raad/ucsd-global-topo-1min/topo_27.1.img
+  - 254ed798d28354174e299ae62439981d41eda444564d64d1336f2af38ebc556f  # raad/ucsd-global-topo-1min/topo_27.1.nc
+  - 3c5a9030c2208c7d741646c8303664b6ef902ebe37d7af99ddee1eb9be9563fe  # raad/ucsd-global-topo-1min/README_V19.1.txt
+  - 1063fe8c5fdc444dd44ffdf7b188628bfd7abf23b90dc163a1a95018c3650193  # raad/ucsd-global-topo-1min/.gmtcommands4
+  - ca35b9544ef0b8398dbb2725cf6a37ec28ab468e063fccd43ca9f188c6a81388  # raad/ucsd-global-topo-1min/.vrt/topo_19.1.vrt
+  - ee410a420ea7efe25207422a1d28cbbe11a89d7dc400012115514deccab89c58  # raad/ucsd-global-topo-1min/.vrt/topo_19.1atlantic.vrt
+  - c975a7d309ad80de46e4156f6d42d67063b0e9a8b364a243b275c4bde74c1fef  # raad/ucsd-global-topo-1min/.vrt/topo_20.1.vrt
+  - 96f682741270dd1a7816df1ae21df5f0e0540a93ef09c0e12dcfabbe19640871  # raad/ucsd-global-topo-1min/.vrt/topo_20.1_atlantic.vrt
+whats_wrong: |
+  Checked on the bytes, 2026-11-07, for versions 19.1 and 27.1 (the mirror of
+  the UCSD topex.ucsd.edu global_topo_1min directory also holds 17.1, 18.1,
+  20.1 and 23.1 to 26.1 .img files of the same size).
+  1. The .img is raw: 746,496,000 bytes, no header, 21600 columns x 17280
+     rows of 2-byte signed integers, big-endian (read big-endian the values
+     run -10133 to 5671 m in a strided sample; read little-endian they fill
+     the whole Int16 range). Odd values mark cells constrained by a sounding,
+     even values are predicted depths. Row 0 is the northern edge.
+  2. The grid is Mercator on a sphere with square pixels of 1 arcminute of
+     longitude: column j centre at (j + 0.5)/60 degrees east (0 to 360 E),
+     row edges at Mercator y = (8640 - i) * pi/10800 on the unit sphere, so
+     the top edge is 80.738 N, the bottom 80.738 S, and the equator is the
+     edge between rows 8639 and 8640. In metres on any sphere this is an
+     affine grid; on EPSG:3857 (radius 6378137) the pixel is
+     1855.3248465545596 m both ways and y spans +-16030006.674 m. Evidence:
+     the netCDF copy (point 5) matches this layout to RMS 0.9 to 3.2 m in
+     sampled windows (gdalwarp, cubic), and in a separate bilinear check
+     shifting the grid by a quarter cell in x or y made the fit worse in
+     every window tested; the leftover .gmtcommands4 records a region
+     whose latitude limits (-80.0023237126, -59.9969352129) fall exactly on row edges
+     8376 and 4527 rows south of the equator.
+  3. The README does not describe this file plainly. Its format paragraph is
+     the old 2-minute version 5.2 text (6336 x 10800, 72.006 S to 72.006 N);
+     the 1-minute layout appears only in the version 9.1 change notes
+     (nlon 21600, nlat 17280, latitude +-80.738), with the byte-order warning
+     and a dd byte-swap recipe.
+  4. The ER Mapper header does not georeference it. One 822-byte header
+     (identical sha256) sits beside versions 17.1, 18.1, 19.1 and 20.1; it
+     was written for version 9.2 (its band label says so, LastUpdated 2005).
+     Versions 23.1 to 27.1 have no header at all. The header gets the raw
+     layout right (ByteOrder MSBFirst, Signed16BitInteger, 21600 x 17280; GDAL
+     reads values identical to the raw bytes) and says MRWORLD, SPHERE, cell
+     size 1853.247 m (one arcminute on a 6370997 m sphere) and
+     RegistrationCellY 8640, but it has no RegistrationCoord. GDAL's ERS
+     driver returns the default geotransform (0, 1, 0, 0, 0, 1), pixel
+     coordinates, with a Mercator CRS on a 6371000 m sphere and false easting
+     20000000.
+  5. The .nc is a different grid, not the same grid with coordinates. Its
+     history attribute is a GMT grdsample to -R-180/180/-80/80 -I1m: 21600 x
+     9600 float32 on regular 1-minute lon/lat, pixel registered
+     (node_offset 1), -180 to 180, 80 S to 80 N. So latitude is
+     resampled, the bands north of 80 N and south of 80 S are dropped,
+     longitude is rotated by 180 degrees, and the values are interpolated
+     (0.05 percent integers in a 500 x 500 sample), which destroys the
+     odd/even sounding flag. It is 548 MB against the raw 746 MB.
+  6. The hand-written GDAL VRTs in the mirror's hidden .vrt/ directory (a
+     working solution added by the collection's maintainers, not by the
+     producers) misplace the grid. All use pixel size 1855.325 x 1850.436 m
+     (not square) and top edge y 15987768 m. topo_18.1.vrt and topo_19.1.vrt
+     (and their atlantic variants) pair that with a 6370997 m sphere: the
+     right edge lands at 360.40 E, so longitude is wrong by 0.2 degrees at
+     180 E, and latitudes are off by up to 0.058 degrees (6.4 km, 7 rows at
+     60 degrees). topo_20.1.vrt uses EPSG:3857, which fixes longitude, but
+     latitudes are off by up to 0.100 degrees (11.1 km, 12 rows at 60
+     degrees); the top edge comes out at 80.677 N, not 80.738. Warped to
+     lon/lat they differ from the producers' own .nc by RMS 646 m (19.1) and
+     319 m (20.1) over 140-145 E 35-40 N, against 3 m for the grid in point 2.
+     topo_18.1_unpolished.vrt also names ../topo_18.1_unpolished.img, which
+     does not exist (the file is topo_18_unpolished.img).
+  7. Current GDAL refuses those VRTs as written: a VRTRawRasterBand whose
+     source is not a sibling or child of the VRT path (here ../topo_N.img) is
+     rejected unless GDAL_VRT_RAWRASTERBAND_ALLOWED_SOURCE is set.
+how_to_read: |
+  Verified with GDAL 3.14.0dev on 2026-11-07. Where an .ers header exists
+  (17.1 to 20.1), assign the correct grid to it; GDAL reads the raw layout
+  from the header:
+    gdal_translate -of VRT -a_srs EPSG:3857 \
+      -a_ullr 0 16030006.674231391 40075016.686 -16030006.674231391 \
+      topo_19.1.img.ers topo_19.1_0360.vrt
+  That grid runs 0 to 360 E, so lon/lat requests west of 0 fall outside it
+  (gdalwarp returned all zeros for 35-30 W).
+  For -180 to 180, swap the halves (as the mirror's atlantic VRTs do, but
+  with the correct geotransform):
+    <VRTDataset rasterXSize="21600" rasterYSize="17280">
+      <SRS>EPSG:3857</SRS>
+      <GeoTransform>-20037508.342789244, 1855.3248465545596, 0, 16030006.674231391, 0, -1855.3248465545596</GeoTransform>
+      <VRTRasterBand dataType="Int16" band="1">
+        <SimpleSource>
+          <SourceFilename relativeToVRT="0">topo_19.1.img.ers</SourceFilename>
+          <SourceBand>1</SourceBand>
+          <SrcRect xOff="10800" yOff="0" xSize="10800" ySize="17280"/>
+          <DstRect xOff="0" yOff="0" xSize="10800" ySize="17280"/>
+        </SimpleSource>
+        <SimpleSource>
+          <SourceFilename relativeToVRT="0">topo_19.1.img.ers</SourceFilename>
+          <SourceBand>1</SourceBand>
+          <SrcRect xOff="0" yOff="0" xSize="10800" ySize="17280"/>
+          <DstRect xOff="10800" yOff="0" xSize="10800" ySize="17280"/>
+        </SimpleSource>
+      </VRTRasterBand>
+    </VRTDataset>
+  (use an absolute path to the .ers.) Warped with gdalwarp -t_srs EPSG:4326
+  -tr 0.016666666666666666 0.016666666666666666 -r cubic, this reproduces topo_19.1.nc with RMS 0.9 to 3.2 m
+  (median 0.1 to 1.1 m) in four 5 x 5 degree windows (Atlantic, Antarctic
+  Peninsula, Japan, central Pacific).
+  Where there is no header (23.1 to 27.1), describe the raw bytes in a VRT
+  with the same geotransform and SRS, and allow the raw source:
+    <VRTRasterBand dataType="Int16" band="1" subClass="VRTRawRasterBand">
+      <SourceFilename relativeToVRT="0">/path/to/topo_27.1.img</SourceFilename>
+      <ImageOffset>0</ImageOffset>
+      <PixelOffset>2</PixelOffset>
+      <LineOffset>43200</LineOffset>
+      <ByteOrder>MSB</ByteOrder>
+    </VRTRasterBand>
+    gdalwarp --config GDAL_VRT_RAWRASTERBAND_ALLOWED_SOURCE ALL ...
+  For 27.1 this matches topo_27.1.nc with RMS 2.0 to 7.5 m in four windows
+  (one Antarctic window has a maximum difference of 531 m; not investigated).
+  Any sphere radius works if the pixel size is 2 pi R / 21600 in both
+  directions; EPSG:3857 is convenient because its inverse returns the grid's
+  latitudes exactly. Keep the Int16 values if you need the odd/even sounding
+  flag: the .nc has lost it. If the regular lon/lat grid is what you want and
+  80 S to 80 N is enough, read the .nc directly; it is a resample, not the
+  native grid.
+links:
+  - "https://topex.ucsd.edu/pub/global_topo_1min/"
+  - "https://hypertidy.github.io/regular-in-what/03-costumes.html"
+  - "https://gdal.org/drivers/raster/vrt.html#vrtrawrasterband_restricted_access"
+findings:
+  - RAW_NO_HEADER
+  - LAT_MERCATOR_SPACED
+  - LON_0_360
+  - HEADER_NO_GEOTRANSFORM
+  - SIDECAR_GEOREF_WRONG
+  - COPY_IS_RESAMPLED
+  - FLAG_IN_VALUE_PARITY
+  - VRT_RAW_SOURCE_BLOCKED
