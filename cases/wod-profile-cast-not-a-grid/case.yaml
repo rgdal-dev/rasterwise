@@ -1,0 +1,45 @@
+id: wod-profile-cast-not-a-grid
+title: "World Ocean Database single-cast profile: 1D in depth, not a raster"
+status: understood
+summary: "A WOD CF featureType=Profile file holds one ocean cast (scalar lon/lat/time, 12 depth levels); GDAL's raster open fails and its subdatasets are 12 x 1 strips."
+files:
+  - 5e5e6e71163d8eb49dde1b74b64f096d7326b72b896bd4fb5c920bb1eec9f6cf  # extdata/1D/test.nc
+  - 754b2204cf37ea223b01c491c2b7026ec00bc4a8f941713cbc87906f840f1372  # data-raw/1D-readme
+whats_wrong: |
+  The file is one World Ocean Database cast ("World Ocean Database - Unique
+  Cast 000410903", netCDF-3, featureType = "Profile", CF-1.6). lat, lon
+  and time are 0-d scalars (lon 14.56667, lat -32.66667, time 70774.1667
+  days since 1770-01-01 = 1963-10-11 04:00, matching date = 19631011 and
+  GMT_time = 4). The only dimension the measurements have is z (12 levels,
+  0 to 989 m): Temperature(z), Salinity(z), Oxygen(z), Phosphate(z) plus
+  per-level flag and sigfig variables, and many strnlen=200 char metadata
+  variables.
+
+  It is a single vertical profile, not a grid. GDAL 3.14 checks on
+  2026-11-06:
+  - gdalinfo test.nc fails: "not recognized as being in a supported file
+    format" (after a warning that candidate vector fields do not share a
+    primary dimension); ogrinfo fails the same way.
+  - gdalinfo NETCDF:"test.nc":Temperature opens a 12 x 1 raster with no
+    georeferencing: depth becomes the x axis.
+
+  A smaller metadata inconsistency: z has standard_name = "altitude" but
+  long_name = "depth_below_sea_level" and positive = "down"; CF altitude is
+  positive up. Trust positive/long_name: values increase downward from 0.
+how_to_read: |
+  Read the variables as 1D arrays along z with scalar position and time.
+  Verified with the GDAL 3.14 Python multidimensional API on 2026-11-06:
+
+    from osgeo import gdal
+    gdal.UseExceptions()
+    rg = gdal.OpenEx("test.nc", gdal.OF_MULTIDIM_RASTER).GetRootGroup()
+    get = lambda n: rg.OpenMDArray(n).ReadAsArray()
+    lon, lat, t = get("lon"), get("lat"), get("time")   # scalars
+    z = get("z")                                        # m, positive down
+    temp, sal = get("Temperature"), get("Salinity")     # length 12, along z
+
+  Gives lon 14.567, lat -32.667 and e.g. Temperature 16.84 at 0 m to 3.41
+  at 989 m. Treat it as one point feature with a depth profile.
+links: []
+findings:
+  - DSG_NOT_GRID

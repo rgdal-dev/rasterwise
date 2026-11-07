@@ -1,0 +1,42 @@
+id: regcm-ascending-lat-south-up
+title: "RegCM exceedance grid stored south-to-north (latitude ascending)"
+status: understood
+summary: "Rows are stored with latitude ascending, so any reader that takes array order as image order shows it upside down; GDAL's netCDF driver flips it correctly."
+files:
+  - 7ac6cca2ea001ab25a80795237bfcdc12d3b2456daaebf2c6e325ab8117f38c4  # extdata/inverted_73/regcm-nn-2100_reg4_22.nc
+whats_wrong: |
+  A small regular lon/lat grid (470 x 307, 0.008 degree cells, about
+  10.2-13.95 E, 44.75-47.2 N) of POT "Exceedance frequency" for five return
+  periods (dimension RP = 2, 10, 20, 50, 100 years), written by R ncdf4
+  (history attribute: calc_POT_noraster.R, 2018-11-10).
+  Checked on the bytes: the 1-D lat variable is ascending (44.75 ... 47.198,
+  step 0.008), so the first stored row is the southernmost. The coordinates are
+  complete and correct; the trap is only the row order. The archive folder was
+  named inverted_73 after r-spatial/stars issue 73; that thread is not archived
+  here, so the exact symptom reported there is not recorded, but the folder
+  name and the ascending latitude agree.
+  Verified behaviour (GDAL 3.14.0dev, 2026-11-07):
+  - netCDF driver: reports a north-up geotransform (origin 10.196, 47.202,
+    pixel -0.008) and its pixel array equals the stored array flipped
+    vertically, i.e. it corrects the order.
+  - HDF5 driver (the file is netCDF-4): no geotransform, rows in storage order,
+    i.e. south at the top when drawn as an image. GDAL picked the HDF5 driver
+    for a copy of the file without a .nc extension.
+  - Neither driver assigns a CRS (there is no grid_mapping).
+  RP is a non-time, non-vertical extra dimension; GDAL warns about it and
+  exposes the five return periods as bands.
+how_to_read: |
+  Use GDAL's netCDF driver explicitly (keeps the .nc name or force it with the
+  NETCDF: prefix), and assume WGS84 longlat since the file declares no CRS.
+  Verified with GDAL 3.14.0dev on 2026-11-07:
+    gdal_translate -oo ASSUME_LONGLAT=YES \
+      NETCDF:regcm-nn-2100_reg4_22.nc:POT pot.tif
+  gives 5 bands (RP 2, 10, 20, 50, 100), north-up, origin (10.196, 47.202),
+  pixel 0.008, CRS OGC:CRS84.
+  If reading the raw array yourself (ncdf4, h5py, netCDF4), reverse the lat
+  axis before treating row 0 as the top, or carry the lat values with the
+  array and let them define orientation.
+links:
+  - "https://github.com/r-spatial/stars/issues/73"
+findings:
+  - Y_ASCENDING

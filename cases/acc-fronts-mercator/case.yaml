@@ -1,0 +1,64 @@
+id: acc-fronts-mercator
+title: "ACC frontal indices on the AVISO Mercator grid, with a duplicated seam and no time coordinate"
+status: understood
+summary: "Weekly Southern Ocean front classes 1992-2009 on the Southern Ocean part of the old AVISO Mercator grid; lat is Mercator-spaced, lon 0..360 repeats the seam column, time is split into year/month/day variables, and GDAL's classic view returns 0 where the file stores NaN."
+files:
+  - bec3c3cf8baa9a8d24066cf47022ebbc1ddff9b0d956af626d7443ab126c547f  # extdata/rectilinear/ACCfronts_nc4.nc
+  - 611d8dce5af2c74ae8903d60d3e66aea2bb0ebd256944fd66f40667634bb88e3  # extdata/rectilinear/readme_rectlinear.txt
+  - 230514509f27a2bb2c97f1709f23ff55268a11b9e00f35b41be131ec5a3b5442  # extdata/rectlinear/readme_rectlinear.txt
+whats_wrong: |
+  front(time, lat, lon) holds 854 x 363 x 1081 float frontal indices 0..12
+  (CSIRO, generated 2009; Conventions = "none"). The readme says the file
+  was made from a 1 GB original with nccopy -d 9 -k nc7, "also a Mercator
+  grid". Checked on the bytes:
+
+  1. lat (363 values, -82.0 to -30.246) is Mercator-spaced: in spherical
+     Mercator y the step is 1/3 degree (relative spread 2.4e-4, from float32
+     storage). It equals the first 363 latitudes of the AVISO file in
+     cases/aviso-mercator-as-lonlat to within 4e-6 degrees. Latitude
+     ascends.
+  2. lon has 1081 values, 0 to 360 inclusive, so the 0 and 360 columns
+     are the same place; the data in those columns were identical for the
+     time steps checked.
+  3. There is no time coordinate variable. Dates are in separate float
+     variables year, month, day (day: "central time of +/- 10-15 day
+     window"). They run 1992-10-14 to 2009-02-18 in constant 7-day steps.
+     GDAL warns "Several 1D variables are indexed by dimension time".
+  4. front:units is "valid range from 0 to 12", which is not a unit. There
+     is no _FillValue. Cells without a class are stored as NaN (h5dump and
+     ncks show NaN for the cells sampled). The GDAL multidimensional API
+     reads 238070 of the 392403 cells at time 1 as NaN. What the NaN
+     cells mean (land, unmapped) is not documented in the file.
+  5. Reader discrepancy: in GDAL 3.14.0dev, the classic raster API
+     (gdal.Open, gdallocationinfo, gdal_translate; plain file or
+     NETCDF:...:front) returns 0 at every stored-NaN cell and reports no
+     nodata. Those cells then merge with class 0 ("south of sBdy"), which
+     really has only 549 cells at time 1. The multidimensional API returns
+     NaN. Not determined: why. A small synthetic netCDF-4 file with a NaN,
+     read the same way, gave the netCDF default fill (9.97e36) instead, so
+     this is not a general rule.
+  6. The classic view has 1081 x 363 pixels with no geotransform or CRS
+     (irregular lat).
+how_to_read: |
+  Verified with GDAL 3.14.0dev on 2026-11-07. Read through the
+  multidimensional API (keeps NaN), drop the repeated 360 column, flip to
+  north-up, then assign the same spherical Mercator as the AVISO grid
+  (cell 37106.4969 m; top edge half a cell above Mercator y of lat -30.246):
+
+    gdalmdimtranslate ACCfronts_nc4.nc fronts.tif \
+      -array "name=front,view=[:,::-1,0:1080]"
+    gdal_translate fronts.tif fronts_merc.tif -a_nodata nan \
+      -a_srs "+proj=merc +R=6378137 +units=m +no_defs" \
+      -a_ullr -18553.2485 -3516691.8060 40056463.4371 -16986350.1920
+
+  This was run with view=[0:3,::-1,0:1080] (first three weeks, 33 s; the
+  file is deflate-9 with chunks of 122 time steps, so expect it to be
+  slow). 3000 random stored (lon, lat) pairs for week 3 each fell in a
+  cell with the matching value, NaN included. Band k is week k. Build
+  dates from year/month/day, e.g. in Python:
+  [datetime.date(int(y), int(m), int(d)) for y, m, d in zip(year, month, day)].
+links: []
+findings:
+  - LAT_MERCATOR_SPACED
+  - Y_ASCENDING
+  - LON_0_360

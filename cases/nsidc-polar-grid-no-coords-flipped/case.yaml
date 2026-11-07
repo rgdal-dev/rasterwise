@@ -1,0 +1,43 @@
+id: nsidc-polar-grid-no-coords-flipped
+title: "SSM/I sea ice on the NSIDC south polar grid with no coordinates; GDAL reads it upside down"
+status: understood
+summary: "No coordinate variables and no CRS, only grid = NSIDC in a global attribute; rows are stored top-down but GDAL assumes bottom-up and flips them."
+files:
+  - 549a1b01dda6aa14aaa58037d5458d7d257834185f1e875d7f4fbc41e7e40477  # extdata/19911203.nc
+whats_wrong: |
+  IFREMER/CERSAT daily SSM/I (F13) sea-ice concentration for 1991-12-03,
+  variables concentration and quality_flag, byte (time=1, nj=664, ni=632).
+  The only georeferencing is in global attributes: grid = "NSIDC",
+  pole = "south", spatial_resolution = "12.5 km". There are no coordinate
+  variables, no grid_mapping and no CRS. 632 x 664 at 12.5 km is exactly the
+  NSIDC southern polar stereographic grid (x -3950 to 3950 km, y -3950 to
+  4350 km, the 25 km grid's 316 x 332 doubled).
+  Row order (checked): with nothing to say which way is up, GDAL's netCDF
+  driver assumes bottom-up and flips the rows (GDAL default array == stored
+  array reversed; GDAL_NETCDF_BOTTOMUP=NO returns storage order). The file is
+  actually stored top-down: placing storage order on the NSIDC grid puts
+  quality_flag land (value 1) on the Antarctic Peninsula (62 W 66 S, 64 W 68 S)
+  and ocean (0) in the Weddell Sea at 40 W 65 S, with 87-100 percent ice there
+  in early December; GDAL's default flipped order puts non-land values on the
+  Peninsula. So the GDAL default read is upside down.
+  Also: concentration is 82 percent missing (-128) over this day, including
+  land and much of the open ocean; values 0-100 are percent and 127 occurs
+  (3127 cells) with no flag meaning recorded in the file. quality_flag takes
+  values 0-14 with no flag_meanings. The archive first held this file in a
+  folder named rectlinear; it is not rectilinear in lon/lat.
+how_to_read: |
+  Read in storage order and assign the NSIDC south polar stereographic grid.
+  Verified with GDAL 3.14.0dev on 2026-11-07:
+    gdal_translate --config GDAL_NETCDF_BOTTOMUP NO \
+      -a_srs EPSG:3412 \
+      -a_ullr -3950000 4350000 3950000 -3950000 \
+      NETCDF:19911203.nc:concentration conc.tif
+  (same for :quality_flag). EPSG:3412 is NSIDC Sea Ice Polar Stereographic
+  South (Hughes 1980 ellipsoid, true scale 70 S); EPSG:3976 is the WGS84
+  equivalent if preferred. The config option is needed at translate time;
+  a VRT made this way does not remember it, so write a real file (GTiff) or
+  flip the array yourself. Nodata is -128.
+links:
+  - "fingerprints/19911203.nc.cdl"
+findings:
+  - GRID_NO_COORDS

@@ -1,0 +1,49 @@
+id: topex-ssh-noncf-fill-sentinels
+title: "TOPEX/POSEIDON sea level: land and no-data sentinels declared under non-CF attribute names"
+status: understood
+summary: "sea_level marks land as 32766 and no data as 32767 via attributes land_value and fill_value, which CF readers ignore; only valid_min/valid_max catches them. Grid is 0-360, latitude ascending."
+files:
+  - 0bc799977131422574b2603943d88cf965b9e9201f6e56007ca57e14eaa0b753  # extdata/ssh05d19921006.nc
+whats_wrong: |
+  WOCE CD-ROM V2.00 TOPEX/POSEIDON ten-day sea level (1992-10-02 to
+  1992-10-11), sea_level(latitude=360, longitude=720) short, millimetres,
+  0.5 degree global grid.
+  Sentinels (checked on the bytes with ncdump and GDAL HONOUR_VALID_RANGE=NO):
+  117250 cells hold 32767 and 88417 hold 32766, out of 259200; the
+  remaining 53533 lie in -815 ... 925. The file declares these only as
+  sea_level:fill_value = 32767 and sea_level:land_value = 32766. Those names
+  mean nothing to CF readers, which look for _FillValue / missing_value; there
+  are neither. A reader that ignores valid_min/valid_max (-1500, 1500) sees
+  sea level of 32.8 m over land and gaps; including them drags a global mean
+  to about 26 m instead of about 36 mm.
+  GDAL 3.14 by default honours valid_min/valid_max, turns both sentinels into
+  nodata and reports NoData = -32767 (the netCDF default short fill, which
+  does not occur in the file). That gives correct statistics but merges land
+  and no-data into one mask.
+  Grid: latitude -89.75 ... 89.75 ascending (row 0 is the south) and
+  longitude 0.25 ... 359.75. GDAL's netCDF driver flips to north-up and
+  reports origin (0, 90), pixel 0.5; no CRS. There is no time coordinate
+  variable: the time dimension carries woce_date (19921006),
+  julian_day_1990 and depth(time) = 0 instead.
+  Odd details, recorded not explained: the northernmost row (89.75 N) is all
+  land_value; 63 cells marked land have bin_count > 0, and every valid cell
+  has bin_count >= 1.
+how_to_read: |
+  Verified with GDAL 3.14.0dev on 2026-11-07.
+  If one mask is enough, GDAL's default does the right thing:
+    gdal_translate -oo ASSUME_LONGLAT=YES NETCDF:ssh05d19921006.nc:sea_level sl.tif
+    gdalwarp -te -180 -90 180 90 -tr 0.5 0.5 sl.tif sl_180.tif
+  (20.65 percent valid, range -815 to 925 mm, mean 35.8 mm, north-up).
+  To keep land separate from no-data, switch off valid-range masking and set
+  only 32767 as nodata; then treat 32766 as land yourself:
+    gdal_translate -oo HONOUR_VALID_RANGE=NO -oo ASSUME_LONGLAT=YES \
+      -a_nodata 32767 NETCDF:ssh05d19921006.nc:sea_level sl_raw.tif
+  In other readers, mask sea_level == 32767 (no data) and == 32766 (land),
+  or anything outside -1500..1500, before any arithmetic, and do not rely on
+  the reader's _FillValue handling.
+links:
+  - "fingerprints/ssh05d19921006.nc.cdl"
+findings:
+  - Y_ASCENDING
+  - LON_0_360
+  - FILL_ATTR_NONSTANDARD

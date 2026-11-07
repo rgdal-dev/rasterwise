@@ -1,0 +1,46 @@
+id: eobs-pp-ensemble-large-memory
+title: "E-OBS v19.0e sea-level pressure ensemble mean: 25202 daily grids, too big to read whole"
+status: open
+summary: "A download script for the E-OBS 0.25 degree pp ensemble-mean file survives; the data file is lost but its header shows 25202 x 201 x 464 int16, about 4.7 GB unpacked, listed as a large-memory example."
+files:
+  - 61cf44d9e37463b08ec0595f44bbeff07d8981c01a7c4c014d1dab15e9e8a09e  # data-raw/large-mem.R
+missing:
+  - large-mem/pp_ens_mean_0.25deg_reg_v19.0e.nc
+whats_wrong: |
+  Only data-raw/large-mem.R survives: it downloads
+  pp_ens_mean_0.25deg_reg_v19.0e.nc from www.ecad.eu into
+  extdata/large-mem/. The data file is lost (missing.csv); its header is
+  kept in fingerprints/large-mem/pp_ens_mean_0.25deg_reg_v19.0e.nc.cdl:
+
+  - pp(time, latitude, longitude), short, scale_factor 0.1, add_offset 0,
+    _FillValue -9999, units hPa, standard_name air_pressure_at_sea_level.
+  - latitude = 201, longitude = 464 (double 1D coordinates with CF
+    attributes), time UNLIMITED with 25202 steps, int days since
+    1950-01-01, standard calendar. If daily from 1950-01-01, 25202 steps
+    end on 2018-12-31 (time values are not in the header).
+  - E-OBS version 19.0e, CF-1.4; history shows an ncks time subset
+    (2019-02-18).
+
+  Arithmetic from the header: 25202 x 201 x 464 values = 2.35e9; as int16
+  that is 4.70 GB, as float32 after scaling 9.40 GB, as R doubles 18.8 GB.
+  The commit message ("ensemble large file") and folder name suggest the
+  point was memory use when reading it whole (inference). Nothing records
+  what failed, with which software, or on what machine. Chunking and
+  compression are unknown: the fingerprint is ncdump -h, not -hs.
+
+  Not determined: the actual symptom; the file size on disk; whether the
+  layout made time-series extraction or band reads slow.
+how_to_read: |
+  Untested: the bytes are lost. With a fresh download (the URL in
+  large-mem.R may no longer serve v19.0e), read subsets rather than the
+  whole array, e.g. one day with GDAL (each time step is a band):
+
+    gdal_translate -b 1 -unscale -ot Float32 pp_ens_mean_0.25deg_reg_v19.0e.nc day1.tif
+
+  or a time window / bounding box with xarray or the GDAL multidimensional
+  API. Check _ChunkSizes with ncdump -hs first: if chunks span many time
+  steps, band-by-band reading repeats work (compare
+  silo-rain-year-chunks-slow-band-reads).
+links:
+  - "https://www.ecad.eu/download/ensembles/data/Grid_0.25deg_reg_ensemble/pp_ens_mean_0.25deg_reg_v19.0e.nc"
+findings: []

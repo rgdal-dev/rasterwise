@@ -1,0 +1,49 @@
+id: nhsce-polar-stereo-labelled-longlat
+title: "NOAA snow cover CDR: a polar stereographic grid labelled latitude_longitude"
+status: understood
+summary: "The 88 x 88 grid carries only 2-D lon/lat and a grid_mapping that says latitude_longitude, but it is an exact polar stereographic grid (lat_ts 60, lon_0 -80) recoverable as a geotransform."
+files:
+  - f43715f25daf39e50cc896be98ccee7f12a792ed7f4e359396321e01246d131d  # extdata/nhsce_v01r01_19661004_20140203.nc
+whats_wrong: |
+  NOAA/NCDC Climate Data Record of Northern Hemisphere snow cover extent
+  (v01r01), weekly 1966-10-04 to 2014-02-03: snow_cover_extent(time=2470,
+  rows=88, cols=88), byte 0/1, plus land and area.
+  The grid_mapping variable coord_system declares
+  grid_mapping_name = "latitude_longitude" (WGS84 axes). That is wrong for
+  the grid: dimensions rows/cols have no coordinate variables and the only
+  coordinates are 2-D latitude(rows, cols) and longitude(rows, cols), whose
+  long_name says "half mesh grid, based on NOAA NMC Limited Area Fine Mesh
+  Grid". GDAL 3.14 therefore reports a geographic WGS84 CRS with geolocation
+  arrays and no geotransform, and warns that rows/cols are not lat/lon axes.
+  Checked: projecting the 2-D lon/lat with
+  +proj=stere +lat_0=90 +lat_ts=60 +lon_0=-80 +ellps=WGS84 gives x and y that
+  are exactly affine in (col, row): cell size 190640.28 m, x of column 0
+  centre -8292852.2 m, y of row 0 centre +8292852.2 m, no shear, maximum
+  residual 12 m (the coordinates are stored to 4 decimals). The pole falls
+  between cells 43 and 44 in both directions; corner cells reach latitude
+  0.66 N. On a sphere (R 6371200 or 6371228) the residual is about 21 km, so
+  the WGS84 ellipsoid given in coord_system is the right one. Note lat_ts is
+  not identifiable from the fit (it only rescales); 60 N is the conventional
+  value for this NMC-derived grid and the cell size above goes with it.
+  Row order: the file is stored top-down (row 0 is +y). With no 1-D y
+  coordinate GDAL assumes bottom-up and flips both the data and the lon/lat
+  arrays (checked), which is self-consistent for geolocation-array warping
+  but must be undone when attaching a north-up geotransform.
+how_to_read: |
+  Read in storage order and attach the fitted grid. Verified with GDAL
+  3.14.0dev on 2026-11-07 (pixel-centre lon/lat from this geotransform match
+  the file's latitude/longitude arrays to within 5e-5 degrees everywhere;
+  land is 1 over Greenland 40 W 72 N and 0 at 30 W 50 N):
+    gdal_translate --config GDAL_NETCDF_BOTTOMUP NO \
+      -a_srs "+proj=stere +lat_0=90 +lat_ts=60 +lon_0=-80 +ellps=WGS84 +units=m +no_defs" \
+      -a_ullr -8388172.4 8388172.4 8388172.4 -8388172.4 \
+      NETCDF:nhsce_v01r01_19661004_20140203.nc:snow_cover_extent sce.tif
+  This gives 2470 bands (one per week); same command for :land and :area.
+  The config option is read-time only, so write a real file rather than a
+  VRT. Alternative without the fit (untested here): gdalwarp -geoloc using
+  GDAL's default flipped data plus its flipped lon/lat arrays.
+links:
+  - "fingerprints/nhsce_v01r01_19661004_20140203.nc.cdl"
+findings:
+  - GRID_2D_LONLAT_ONLY
+  - GRID_MAPPING_MISLABELLED

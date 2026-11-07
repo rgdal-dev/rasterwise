@@ -1,0 +1,48 @@
+id: cordex-rotated-pole-stripped
+title: "CORDEX EUR-11 file with the rotated-pole CRS and rlon/rlat stripped, leaving only 2D lon/lat"
+status: understood
+summary: "A DMI-HIRHAM5 EUR-11 precipitation field, post-processed with cdo/nco, that has lost its rlon/rlat axes and rotated_pole grid_mapping; the 2D lon/lat match the standard EUR-11 rotated grid exactly, so the regular grid can be restored."
+files:
+  - cfe075db7f203ab1c970b819888d513f83bdff5d100e616fc337b84645482814  # extdata/get1index_64/test.nc
+  - b9d6e8d15d5d0e8c0ba1c7f888befd294815c2a84781fdf428f31f4ee3139749  # extdata/test.nc_60/num60.R
+whats_wrong: |
+  test.nc (424 x 412, one month of pr from DMI-HIRHAM5, CORDEX_domain
+  EUR-11, rcp85) has dimensions x/y with no coordinate variables and no
+  grid_mapping, only 2D lon/lat. Its history shows ncrcat, cdo selyear,
+  cdo mulc and cdo -C seltimestep steps, ending at /dev/shm/test.nc on
+  2018-10-03. At which step rlon/rlat and the grid mapping were lost is
+  not recorded. pr units still say "kg m-2 s-1" after "cdo mulc,86400",
+  so the values are probably mm/day. The range (mean 2.84, max 92.6) fits
+  that; the values were not compared with an original.
+
+  GDAL 3.14.0dev opens it with no geotransform or CRS, exposing lon/lat
+  as geolocation arrays.
+
+  Checked: transformed into the usual EUR-11 rotated-pole system (grid
+  north pole 39.25N, -162E; PROJ +proj=ob_tran +o_proj=longlat +o_lat_p=39.25
+  +lon_0=18), the 2D lon/lat form an exact regular grid: rlon = -28.375 +
+  0.11 i, rlat = -23.375 + 0.11 j, maximum residual 5e-6 degree. So the
+  file is a regular rotated-pole grid with its CRS stripped, not a
+  curvilinear grid.
+
+  The same bytes appear in two folders, test.nc_60 and get1index_64,
+  linked to stars issues 60 and 64. num60.R contains only read_ncdf(.x)
+  and a link to issue 60. What those issues reported is not archived here.
+how_to_read: |
+  Verified with GDAL 3.14.0dev on 2026-11-07. Restore the rotated-pole
+  CRS and geotransform (GDAL's classic view already puts north at the
+  top):
+
+    gdal_translate -a_srs "+proj=ob_tran +o_proj=longlat +o_lon_p=0 +o_lat_p=39.25 +lon_0=18 +datum=WGS84 +no_defs" \
+      -a_ullr -28.43 21.89 18.21 -23.43 test.nc pr_rot.tif
+
+  Check: every cell centre of pr_rot.tif, converted to lon/lat, matches the
+  stored 2D lon/lat to within 6e-6 degrees, and the values equal the
+  stored pr. The CRS goes to pr_rot.tif.aux.xml, so keep the sidecar (see
+  cases/rotated-pole-as-lonlat). Alternatively, gdalwarp -geoloc works on
+  the 2D arrays, but it resamples a grid that is regular to begin with.
+links:
+  - "https://github.com/r-spatial/stars/issues/60"
+  - "https://github.com/r-spatial/stars/issues/64"
+findings:
+  - GRID_2D_LONLAT_ONLY

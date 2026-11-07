@@ -1,0 +1,95 @@
+id: silo-rain-year-chunks-slow-band-reads
+title: "SILO daily rain: chunks span the whole year, so GDAL reads the full file once per band"
+status: understood
+summary: "A SILO annual daily_rain netCDF-4 file is chunked (365, 30, 50); GDAL's band-by-band read pulls every chunk for every day, about 428 MB per band, which made nc-to-GeoTIFF conversion take tens of minutes in 2019."
+files:
+  - ba6453ee94605a850fed6ac328f74218dafd97e7fe1140f4ca2ca35fa2ae4159  # extdata/nc-to-cog/1889.daily_rain.nc
+  - 030cf5d7204526aded7dec6198102303f9d91708ae4c960158cac0ab198d4766  # extdata/nc-to-cog/llt.nc
+  - 5049578e719776eaf7df1ad3882c7c20f2aec53209c717d7d7f559a1f26ecc19  # extdata/nc-to-cog/out.tif
+  - 98ce7d30850e8163cefaee9a127a218ad1e8d482129dc8922cf6ee35581992df  # extdata/nc-to-cog/out.tif.aux.xml
+missing:
+  - nc-to-cog/nc-to-cog-readme.R
+whats_wrong: |
+  1889.daily_rain.nc (SILO, Queensland Government) is netCDF-4:
+  daily_rain(time = 365, lat = 681, lon = 841), int16, scale 0.1 mm,
+  _FillValue -32768, on a regular 0.05 degree lon/lat grid with lat
+  ascending (-44 to -10). ncdump -hs shows _ChunkSizes = 365, 30, 50 and
+  no compression: each chunk holds a full year for a 30 x 50 tile.
+
+  issues/007.md (2019-05-15) reports that gdal_translate of this file to a
+  tiled LZW GeoTIFF (-unscale -ot Float32 -a_srs EPSG:4283) took about 40
+  minutes, while reordering to (lon, lat, time) with ncpdq and then
+  translating took about a minute each, and concludes "purely down to
+  dimension order".
+
+  Checks run on 2026-11-06 with GDAL 3.14.0dev and netCDF 4.9.2:
+  - GDAL exposes each day as a band and reads band by band. Reading 10
+    bands read 4.28 GB from the file (process rchar), i.e. the whole
+    variable (about 428 MB) per band: every band read touches every chunk,
+    and each chunk is read whole. For 365 bands that is about 156 GB of
+    reads for a 428 MB file. This, not dimension order as such, is the
+    mechanism; the chunk shape is what makes dimension order matter.
+  - With h5py, one day's slice took 0.014 s with a 1 MiB chunk cache
+    (smaller than a 1.1 MB chunk, so HDF5 reads only the needed bytes)
+    and 0.073 s with 4 to 64 MiB caches (whole chunks read).
+  - The issue's exact command now finishes in 26 s on this machine (the
+    file sits in the OS page cache); the output is identical to the 2019
+    out.tif on the bands compared. The 40 minutes in 2019 is consistent
+    with re-reading the file from disk 365 times (inference; not
+    reproduced).
+  - The workaround in the issue does not produce a correct raster with
+    GDAL 3.14: llt.nc has daily_rain(lon, lat, time) and gdalinfo reads it
+    as 365 x 681 pixels (x = time, y = lat) with 841 bands (one per
+    longitude). Whether the 2019 run noticed this is not recorded.
+
+  Evidence vs inference for the files: 1889.daily_rain.nc matches the
+  listed nc-to-cog/1889.daily_rain.nc by header fingerprint
+  (ledger/aliases.csv). llt.nc, out.tif and out.tif.aux.xml come from the
+  same working folder (mtimes 2019-05-15 14:12 to 15:11 UTC). llt.nc's
+  history attribute records exactly the issue's ncpdq and ncks commands
+  (2019-05-16 00:21 local). out.tif is 841 x 681 x 365 Float32, LZW,
+  256 x 256 tiles, EPSG:4283, with NETCDF_DIM_time metadata: it was made
+  from 1889.daily_rain.nc, not from llt.nc. All 365 bands are identical
+  to a fresh run of the issue's first gdal_translate command (checked).
+  Its mtime is 50 minutes after llt.nc. That it is the output of the slow
+  run is inference. The script nc-to-cog/nc-to-cog-readme.R is lost.
+how_to_read: |
+  The plain command works and is correct, only slow on a cold disk.
+  Verified with GDAL 3.14.0dev on 2026-11-06 (26 s here):
+
+    gdal_translate 1889.daily_rain.nc out.tif -co TILED=YES -co COMPRESS=LZW \
+      -co INTERLEAVE=BAND -unscale -ot Float32 -a_srs EPSG:4283
+
+  To read the file once instead of 365 times, read the whole variable in
+  one call with the multidimensional API and write the bands from memory
+  (about 420 MB of RAM). Verified 2026-11-06: 437 MB read, 5.5 s, all 365
+  bands identical to the 2019 out.tif:
+
+    import numpy as np
+    from osgeo import gdal
+    gdal.UseExceptions()
+    src = "1889.daily_rain.nc"
+    gt = gdal.Open(src).GetGeoTransform()
+    rg = gdal.OpenEx(src, gdal.OF_MULTIDIM_RASTER).GetRootGroup()
+    a = rg.OpenMDArray("daily_rain").ReadAsArray()        # (time, lat, lon) int16
+    lat = rg.OpenMDArray("lat").ReadAsArray()
+    if lat[0] < lat[-1]:
+        a = a[:, ::-1, :]                                  # lat ascending -> north-up
+    out = np.where(a == -32768, -32768, a * 0.1).astype("float32")
+    d = gdal.GetDriverByName("GTiff").Create("out.tif", 841, 681, 365, gdal.GDT_Float32,
+            ["TILED=YES", "COMPRESS=LZW", "INTERLEAVE=BAND"])
+    d.SetGeoTransform(gt); d.SetProjection("EPSG:4283")
+    for k in range(365):
+        b = d.GetRasterBand(k + 1); b.SetNoDataValue(-32768); b.WriteArray(out[k])
+    d = None
+
+  Do not reorder to (lon, lat, time) for GDAL; it then misreads the axes.
+  Rechunking (e.g. one chunk per day) should also fix the access pattern
+  but was not tested.
+links:
+  - "issues/007.md"
+  - "https://s3-ap-southeast-2.amazonaws.com/silo-open-data/annual/daily_rain/1889.daily_rain.nc"
+findings:
+  - Y_ASCENDING
+  - AXES_X_BEFORE_Y
+  - CHUNKS_SPAN_BAND_DIM

@@ -1,0 +1,74 @@
+id: laea-globe-transposed-inf-lonlat
+title: "Whole-globe Lambert azimuthal disk stored transposed, with Inf lon/lat off the disk"
+status: understood
+summary: "A 128 x 128 GEBCO elevation image of the whole sphere in Lambert azimuthal equal-area, described only by 2D lon/lat arrays that are Inf outside the disk; the array is transposed (north to the left) and GDAL's geolocation warp fails."
+files:
+  - da47930e9aba281b200020455f44351f055227fe0267a95d63301e4194e42977  # data-raw/spherical.nc
+whats_wrong: |
+  netCDF-4 file, dimensions y = 128, x = 128: gebco(y, x) float with
+  coordinates = "lon lat" and grid_mapping = "crs"; lon(y, x), lat(y, x)
+  double with only a long_name (no units, no standard_name); crs has
+  grid_mapping_name = "latitude_longitude" and a GEOGCS WKT on a sphere
+  of radius 6378137. No _FillValue on gebco. Written with netCDF 4.7.3.
+  Producer and purpose are not recorded.
+
+  Checks run on 2026-11-06 (Python, h5py and GDAL 3.14):
+  - 3492 of 16384 cells (21.3 percent, close to 1 - pi/4) have lon and lat
+    = +Inf. The finite cells form an inscribed disk and span the whole
+    globe (lon -179.9..179.9, lat -89.1..89.1). gebco is 0 at every
+    off-disk cell, indistinguishable from sea level.
+  - Radius in pixels from the centre matches sin(c/2) for angular distance
+    c from (0, 0) to within 0.001 of the disk radius (azimuthal
+    equidistant and orthographic fit badly): the image is a Lambert
+    azimuthal equal-area projection of the whole sphere centred on 0, 0,
+    disk radius 2R, pixel about 199.3 km.
+  - The image is transposed: along x latitude runs north to south, along
+    y longitude runs west to east. Fitting LAEA coordinates to pixel
+    indices gives easting = f(row) and northing = f(column). gebco, lon
+    and lat are mutually consistent (the highest cells fall at 81-89 E,
+    29-35 N; the deepest at 145.7 E, 12.7 N), so only the axes are
+    swapped, not the data relative to its coordinates.
+  - The crs variable describes the lon/lat arrays, not the grid. The
+    actual projection is not stated anywhere.
+
+  Reader behaviour with GDAL 3.14.0dev (2026-11-06):
+  - Opened as spherical.nc, the netCDF driver finds geolocation arrays
+    from coordinates = "lon lat", but gdalwarp -geoloc fails with
+    "ERROR 1: Int overflow : -nan x -nan", apparently because of the Inf
+    values.
+  - It also returns gebco rows in reverse order (its bottom-up default)
+    unless GDAL_NETCDF_BOTTOMUP=NO is set.
+  - Under a name without a .nc extension GDAL opened the bytes with the
+    HDF5 driver instead.
+how_to_read: |
+  Mask the off-disk cells, transpose, and assign the LAEA grid directly.
+  Verified with GDAL 3.14.0dev Python bindings on 2026-11-06:
+
+    import numpy as np
+    from osgeo import gdal
+    gdal.UseExceptions()
+    gdal.SetConfigOption("GDAL_NETCDF_BOTTOMUP", "NO")   # keep file row order
+    rd = lambda v: gdal.Open('NETCDF:"spherical.nc":%s' % v).ReadAsArray()
+    g, lon = rd("gebco"), rd("lon")
+    g = np.where(np.isfinite(lon), g, np.nan)            # off-disk: lon/lat Inf, gebco 0
+    a = g.T                                              # stored transposed
+    R = 6378137.0; ext = 2 * R
+    res = 2 * ext / a.shape[1]
+    d = gdal.GetDriverByName("GTiff").Create("spherical_laea.tif", 128, 128, 1, gdal.GDT_Float32)
+    d.SetGeoTransform([-ext, res, 0, ext, 0, -res])
+    d.SetProjection("+proj=laea +lat_0=0 +lon_0=0 +R=6378137 +units=m +no_defs")
+    b = d.GetRasterBand(1); b.SetNoDataValue(float("nan")); b.WriteArray(a)
+    d = None
+
+  Inverse-projecting the result's cell centres reproduces the file's
+  lon/lat to within 0.2 degrees of longitude (where |lat| < 80) and 0.4
+  degrees of latitude, under a quarter of a pixel. The exact extent the
+  producer used is not recorded, so the geotransform above is a best fit
+  rather than the original. Spot values: 4831 m at 85 E 32 N, -7314 m at
+  145.7 E 12.7 N, 218 m at 60 W 10 S. The GeoTIFF warps to EPSG:4326 with
+  plain gdalwarp.
+links: []
+findings:
+  - GRID_2D_LONLAT_ONLY
+  - COORD_NONFINITE
+  - ARRAY_TRANSPOSED

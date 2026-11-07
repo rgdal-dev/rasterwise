@@ -1,0 +1,39 @@
+id: oscar-pacific-0-360-dateline
+title: "OSCAR tropical Pacific currents: a 0-360 grid that spans the antimeridian"
+status: open
+summary: "Reads correctly in GDAL; the only awkward features found are longitudes 120.5-289.5 E across the antimeridian, non-CF unit spellings and no CRS. Why it was collected is not recorded."
+files:
+  - 01bf16d9b390122be82844c9994aacab9c8ddd0d9b771d3518eaebb03cec8ae6  # extdata/oscar_gdr_5d1993.nc
+whats_wrong: |
+  Not determined: no issue, commit message or note says what problem this
+  file was collected for. What was checked (GDAL 3.14.0dev, ncdump,
+  2026-11-07):
+  - Layout is plain: u, v, uf, vf (time=72, depth=1, latitude=70,
+    longitude=170), float, missing_value NaN, 1 degree cells, depth 15 m,
+    1993-01-01 to 1993-12-26 (time "days since 1992-10-05", 88 ... 447; 67
+    steps of 5 days and 4 of 6 days, so the time axis is not exactly
+    regular; the char variable date holds the same dates as strings).
+  - longitude is 120.5 ... 289.5, i.e. 0-360 and crossing 180 inside the
+    grid. Converting to -180..180 by relabelling splits the basin in two;
+    keep 0-360 or warp.
+  - latitude is 34.5 ... -34.5, descending (north-up); no flip needed.
+  - Units are "degree-N" and "degree-E", not CF spellings. GDAL still finds
+    the 1 degree geotransform (origin 120, 35). GDAL assigns no CRS; that is
+    not caused by the unit spelling (a scratch copy with degrees_north /
+    degrees_east also got no CRS), it is GDAL's default when there is no
+    grid_mapping.
+  - mask(latitude, longitude) is an int with no flag meanings.
+  Nothing here stops a careful reader; the file stays open until the reason
+  it was collected is known.
+how_to_read: |
+  Verified with GDAL 3.14.0dev on 2026-11-07:
+    gdal_translate -oo ASSUME_LONGLAT=YES NETCDF:oscar_gdr_5d1993.nc:u u.tif
+  gives 72 bands, origin (120, 35), 1 degree pixels, CRS OGC:CRS84, x up to
+  290. To put it on a -180..180 frame, warp rather than relabel:
+    gdalwarp -t_srs EPSG:4326 -te -180 -35 180 35 -tr 1 1 u.tif u_180.tif
+  (checked on band 1: 9321 valid cells before, 9322 after; the extra cell
+  comes from resampling at the seam).
+links:
+  - "fingerprints/oscar_gdr_5d1993.nc.cdl"
+findings:
+  - LON_0_360

@@ -1,0 +1,67 @@
+id: ukcp18-rotated-pole-tas-truncated
+title: "UKCP18 12 km rotated-pole tas: full file lost, only 48 MiB truncated copies survive"
+status: open
+summary: "A 4D UKCP18 regional tas file (ensemble_member, time, grid_latitude, grid_longitude) on a rotated pole grid was listed for its dimensions; the 814,764,140-byte file is lost and the surviving copies are cut off at about 50 MB."
+files:
+  - 86d3b131192adc921c1fc6fe029878edbff14fd2abc8aea582da1590d2b538df  # extdata/ceda/ceda_dims.readme
+  - 4cea951df213d37961904a4a2f13649108c552197d3d1d688ba83fdcd2479f3e  # extdata/ceda/tas_rcp85_land-rcm_eur_12km_01_mon_198012-208011.nc
+  - d0d999549f6b0acc5eb22f09b9c529063c5c49d8d533ccd6259db6dc764675ee  # extdata/ceda/tas_rcp85_land-rcm_eur_12km_01_mon_198012-208011.nc~d0d99954
+missing:
+  - ceda/tas_rcp85_land-rcm_eur_12km_01_mon_198012-208011.nc
+whats_wrong: |
+  Two problems, one known and one not.
+
+  1. The data are lost. The archive header of the v0.5.0 release
+  weird.tar.gz records this member as 814,764,140 bytes, but the tarball
+  was cut off during upload: the member in it, and in three local copies
+  of the tarball, is 50,331,648 bytes (exactly 48 MiB; sha d0d999549f6b).
+  A second partial copy, a loose file in extdata/ and tmp/extdata/ of one
+  working tree (mtime 2021-03-24), is 50,887,168 bytes (sha
+  4cea951df213); it is larger than the tar member, so it was not simply
+  extracted from it, and how it was made is not known. Both are marked
+  truncated in the manifest. storecard's first pass failed
+  to open the latter ("NetCDF: HDF error"); neither copy is on the machine
+  where this case was written, so that was not re-checked. No complete
+  copy has been found.
+
+  2. The intended lesson is not recorded. The file was listed with a
+  companion ceda/ceda_dims.readme (47 bytes) whose name points at the
+  dimensions, but its text is not available here. What the dimensions
+  were is known from the header fingerprint
+  (fingerprints/ceda/tas_rcp85_land-rcm_eur_12km_01_mon_198012-208011.nc.cdl):
+  - tas(ensemble_member = 1, time = 1200, grid_latitude = 406,
+    grid_longitude = 418), float, units degC, cell_methods "time: mean";
+    a degenerate leading ensemble_member dimension makes it 4D.
+  - grid_mapping rotated_latitude_longitude, grid_north_pole_latitude
+    39.25, grid_north_pole_longitude 198, earth_radius 6371229; axes
+    grid_latitude / grid_longitude in rotated degrees with bounds. No 2D
+    true lon/lat arrays are listed in the header.
+  - time in hours since 1970-01-01, calendar 360_day, with time_bnds;
+    tas:coordinates names auxiliary ensemble_member_id (char),
+    month_number, year and yyyymm (char, string64).
+  - UKCP18 land-rcm, 12 km, domain eur, RCP8.5, member 01, Dec 1980 to
+    Nov 2080 monthly, CF-1.5, version v20181122.
+  1200 x 406 x 418 float32 is 814,598,400 bytes, within 166 kB of the
+  recorded size, so the variable was stored essentially uncompressed
+  (inference).
+
+  Which of these features (4D with length-1 member, rotated pole,
+  360_day time, char auxiliary coordinates) caused the trouble that got
+  the file listed is not determined.
+how_to_read: |
+  Untested: no complete bytes exist to test against.
+
+  For a fresh download of the same UKCP18 product (version v20181122),
+  GDAL's netCDF driver should treat ensemble_member and time as extra
+  dimensions (1200 bands), and the rotated_latitude_longitude grid mapping
+  as a rotated-pole CRS on grid_longitude / grid_latitude. Drop the
+  length-1 member dimension and decode time with a 360_day calendar
+  (e.g. cftime) rather than as Gregorian dates. Check gdalinfo's CRS
+  against the pole parameters above before trusting it.
+
+  For the truncated copies: recovering the leading time steps might be
+  possible if storage is contiguous, but this has not been attempted.
+links:
+  - "https://ukclimateprojections.metoffice.gov.uk"
+findings:
+  - TRUNCATED

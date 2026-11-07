@@ -1,0 +1,56 @@
+id: rotated-pole-as-lonlat
+title: "CORDEX EUR-44 rotated-pole grids, and a GeoTIFF that labels rotated coordinates as WGS84"
+status: understood
+summary: "Two CF rotated_latitude_longitude files that current GDAL reads correctly, plus out.tif, a copy of the first whose rotated rlon/rlat extent is tagged EPSG:4326, which puts European data in the tropical Atlantic."
+files:
+  - 9e5bac9b61351cf130295b86b28d0fe0c7521d202b67259e2458cb4b806af876  # extdata/ob_tran/example_ob_tran.nc
+  - 4e94d7b897c9b7ff54460a704836acf1005805e4d43d8af44c82e2035aa023f3  # extdata/ob_tran/example_ob_tran2.nc
+  - e3f71e978fee4e889ce0c0a46537eb38fcf582a74140e7d1e892e96115202978  # extdata/ob_tran/out.tif
+  - 446b80ff3b411188c689e47b2e2b73f50397ee5658655450795029a0a5cf36e1  # extdata/ob_tran/readme.txt
+whats_wrong: |
+  example_ob_tran.nc (CLMcom-CCLM4-8-17) and example_ob_tran2.nc
+  (KNMI-RACMO22E) are one month of EUR-44 tas, each 106 x 103, on 1D
+  rlon/rlat (0.44 degree) with a rotated_latitude_longitude grid_mapping
+  (grid north pole 39.25N, -162E), plus 2D lon/lat. The second file omits
+  north_pole_grid_longitude and lat/lon bounds; both are valid CF. GDAL
+  3.14.0dev reads both as a "Rotated_pole" CRS with origin (-28.43, 21.89)
+  and 0.44 degree cells. Converting every cell centre to lon/lat with that
+  CRS reproduces the stored 2D lon/lat to within 8e-6 degrees. So the 2D
+  lon/lat are derived and redundant.
+
+  out.tif holds exactly the same values as example_ob_tran.nc tas, with the
+  same geotransform in rotated degrees (-28.43..18.21, -23.43..21.89). But
+  its CRS is plain EPSG:4326, so a reader puts the data at 28W-18E,
+  23S-22N instead of over Europe (44W-65E, 22N-67N in true coordinates).
+  That is the failure to avoid: treating rlon/rlat as longitude/latitude.
+  How out.tif was made is not recorded.
+
+  Related, checked: gdal_translate of the netCDF to GeoTIFF with GDAL
+  3.14.0dev writes the rotated-pole CRS only to a .aux.xml sidecar. With
+  the sidecar removed, the GeoTIFF has no CRS at all. Copying such a file
+  without its sidecar loses the CRS, and assigning EPSG:4326 afterwards
+  gives an out.tif.
+
+  The readme points to a comment in stars issue 52 (the commit that added
+  the files says "ob_tran from stars #52"). What that issue reported is not
+  archived here.
+how_to_read: |
+  Verified with GDAL 3.14.0dev on 2026-11-07. Read the netCDF directly
+  (GDAL picks up the rotated pole), and warp to lon/lat if needed:
+
+    gdalwarp -t_srs EPSG:4326 -tr 0.25 0.25 -r near \
+      NETCDF:"example_ob_tran.nc":tas tas_ll.tif
+
+  All 2756 sampled cells, looked up in tas_ll.tif at their stored 2D
+  lon/lat, held the matching value. If a GeoTIFF in the rotated system is
+  wanted, keep the .aux.xml sidecar, or carry the CRS explicitly:
+  +proj=ob_tran +o_proj=longlat +o_lon_p=0 +o_lat_p=39.25 +lon_0=18 +datum=WGS84
+  (this is GDAL's own PROJ string for these files). To repair out.tif:
+  gdal_translate -a_srs "<that string>" out.tif fixed.tif. This was run:
+  fixed.tif's cell centres match the stored 2D lon/lat of
+  example_ob_tran.nc to within 8e-6 degrees. As above, the CRS goes into
+  fixed.tif.aux.xml, so keep the sidecar.
+links:
+  - "https://github.com/r-spatial/stars/issues/52"
+findings:
+  - GRID_2D_WITH_PROJECTED_1D

@@ -1,0 +1,62 @@
+id: copernicus-fdc-catchment-id-as-longitude
+title: "C3S flow-duration indicators per catchment: SUBID codes labelled as longitude"
+status: understood
+summary: "The remap215 files hold one value per E-HYPE catchment, but the catchment id coordinate claims standard_name longitude, units degrees, axis X; there is no grid and no geometry in the file."
+files:
+  - 077840ba933a0d4ba2651b68206a9f1602cb69ece899b44f2e0ac591c6188348  # extdata/copernicus/cout-perc1_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap215.nc
+  - d491c7b26d010a31de0a17cdb26a63b7f79bdcf48ecfd7c94f7d0e89b696912a  # extdata/copernicus/cout-perc5_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap215.nc
+whats_wrong: |
+  Two C3S_441_Lot1_SMHI climate impact indicator files (flow duration curve,
+  1st and 5th percentile, reference period 1971-2000, netCDF-3, CF-1.4,
+  computed with CDO). Headers differ only in title and variable_name
+  ("cout-perc1", "cout-perc5").
+
+  The only spatial dimension is id = 35408. The coordinate variable
+  id(id) is double with standard_name = "longitude", units = "degrees",
+  axis = "X" and long_name = "SUBID". Its values are integers 8000001 to
+  9791075, all unique and not sorted: E-HYPE catchment identifiers, not
+  longitudes. The global attribute spatial_resolution says "Irregular
+  catchment polygons, median catchmentsize 215 km2" (hence "remap215").
+  The polygons are not in the file. Data are variable1..variable4(time=1,
+  id), one per ensemble member; the model order is given only in the
+  global attribute invar_hm_realization_id (CSC-, KNMI-, SMHI-, SMHI-
+  E-HYPEv3.1.2).
+
+  Consequences seen with GDAL 3.14 (2026-11-06): the default open shows
+  only subdatasets; NETCDF:"file":variable1 opens as a 35408 x 1 raster
+  in pixel coordinates (warning "1-pixel width/height files not
+  supported") with id's longitude attributes attached as metadata. A
+  reader trusting the CF attributes would place values at "longitudes"
+  of eight to ten million degrees. storecard's first-pass findings on id
+  (LON_0_360, COORD_NONMONOTONIC) are both artefacts of this mislabel;
+  only the non-monotonic part is literally true.
+
+  Not determined: why variable units are "%" when the description says
+  reference-period files carry absolute values (values range -0.04 to
+  about 2600 across the two files; -9999 is the fill, 181 to 196 cells
+  per variable; both files list the same ids in the same order); and
+  where the matching catchment polygons can be obtained (the files cite
+  DOI 10.5281/zenodo.581451, not checked).
+how_to_read: |
+  Read it as a table keyed by catchment id and ignore the longitude
+  labelling. Verified with the GDAL 3.14 Python multidimensional API on
+  2026-11-06 (35408 unique ids):
+
+    import numpy as np
+    from osgeo import gdal
+    gdal.UseExceptions()
+    rg = gdal.OpenEx("cout-perc1_..._remap215.nc", gdal.OF_MULTIDIM_RASTER).GetRootGroup()
+    subid = rg.OpenMDArray("id").ReadAsArray().astype("int64")
+    cols = {"subid": subid}
+    for k in range(1, 5):
+        v = rg.OpenMDArray("variable%d" % k).ReadAsArray()[0]   # drop time
+        cols["variable%d" % k] = np.where(v == -9999, np.nan, v)
+
+  Mapping needs E-HYPE catchment polygons keyed by SUBID, from outside the
+  file.
+links:
+  - "https://github.com/r-spatial/stars/issues/73"
+  - "https://doi.org/10.5281/zenodo.581451"
+findings:
+  - COORD_NONMONOTONIC
+  - ID_AS_COORDINATE

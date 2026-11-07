@@ -1,0 +1,56 @@
+id: argo-profiles-char-dim-dropped
+title: "Argo float profiles: not a grid, and char variables whose string dimension gets dropped"
+status: understood
+summary: "Float profile data (profile x depth) with per-profile lon/lat, plus char flag variables with a length-1 string dimension that R readers silently drop, breaking dimension bookkeeping."
+files:
+  - 5d49cbcda73866fba063e0f821d4b802924d77b0201de3bb9ee560dc66884ee7  # extdata/R13352.nc
+whats_wrong: |
+  Two separate traps, both checked on the bytes.
+  1. It is not a raster. Global title "ARGO-CSIRO dataset": 54 profiles from
+  one float (float_id 13352 throughout), 1999-02-12 to 2001-06-18. Measurements are p, t, s (and
+  *_calibrate) shaped (profile=54, depth=51); lon, lat, jday etc. are 1-D on
+  profile, i.e. one position per profile, not grid axes. lon is declared 0-360
+  (valid_range 0, 360) and the track crosses the prime meridian (355.25 ...
+  359.9, then 0.38 ... 5.04), so in this convention it looks
+  non-monotonic and splits across the 0/360 seam; lat is 2.84 to 6.31. GDAL's
+  classic netCDF driver offers each 2-D variable as a subdataset (for example
+  t as a 51 x 54 "image" with no georeferencing) and reports a dummy 512 x 512
+  size for the file itself.
+  2. Char variables with a length-1 string dimension. The *_qc flags are
+  char(profile, depth, string1) with string1 = 1; data_file and float_id are
+  char(profile, string_df=72) and char(profile, string8=8). Issue 4 records
+  that stars::read_ncdf failed on this file because "the 1-dim first dimension"
+  was dropped even with collapse = FALSE, and the answer given there: ncdf4
+  and RNetCDF drop the NC_CHAR dimension and return a vector of strings (not
+  padded to the dimension length), so the returned array no longer has the
+  dimensions the header promises. GDAL's multidimensional API behaves the same
+  way for the long strings (data_file is returned as a 1-D list of 54 strings)
+  but keeps t_qc as a numeric profile x depth x string1 array, so tools differ.
+  Minor: times are given as jday with units "days since -4712/1/1 12:00:0.0
+  (julian day)" and decimal_time "years since 1-1-1", neither of which is a
+  CF-friendly time encoding; the year/month/day/hour/minute/second variables
+  are the easiest route. s and all *_calibrate variables are entirely 99999
+  (missing); checked, every value is 99999.
+how_to_read: |
+  Read it as a table of profiles, not as a raster. Verified with GDAL
+  3.14.0dev Python bindings on 2026-11-07:
+    from osgeo import gdal
+    gdal.UseExceptions()
+    ds = gdal.OpenEx("R13352.nc", gdal.OF_MULTIDIM_RASTER)
+    rg = ds.GetRootGroup()
+    t   = rg.OpenMDArray("t").ReadAsArray()     # (54, 51), 99999 = missing
+    lon = rg.OpenMDArray("lon").ReadAsArray()   # (54,), 0-360
+    lat = rg.OpenMDArray("lat").ReadAsArray()
+    files = rg.OpenMDArray("data_file").Read()  # list of 54 strings
+    qc  = rg.OpenMDArray("t_qc").ReadAsArray()  # (54, 51, 1) char codes
+  Then mask 99999, convert lon to -180..180 if you want a continuous track
+  ((lon + 180) % 360 - 180), and attach lon/lat/time per profile row. Code that
+  checks variable shapes against the header must expect char dimensions to be
+  dropped (or kept) depending on the library.
+links:
+  - "issues/004.md"
+  - "issues/005.md"
+findings:
+  - LON_0_360
+  - DSG_NOT_GRID
+  - CHAR_DIM_DROPPED

@@ -1,0 +1,49 @@
+id: regcm-lcc-cross-dot-points
+title: "RegCM domain file: proper LCC grid with two staggered 2D lon/lat sets (cross and dot points)"
+status: understood
+summary: "A RegCM 4.6.1 EURO-CORDEX terrain/domain file on a 12 km Lambert conformal conic grid; GDAL georeferences it from jx/iy and crs, the cross-point xlon/xlat are the cell centres, and the dot-point dlon/dlat sit half a cell (6 km) to the south-west."
+files:
+  - 0ca0d4aa0124af62f2ded9f6893024b876fb72b602bbc88230dc39eeb6124aec  # extdata/EURO-CORDEX_81_DOMAIN000_54/EURO-CORDEX_81_DOMAIN000.nc
+  - 7f0316eeb1b1ffa4b69a3eeebed7f823ca90360a6e587607b4715bfbb2d2f8c7  # extdata/EURO-CORDEX_81_DOMAIN000_54/issue_54.R
+whats_wrong: |
+  EURO-CORDEX_81_DOMAIN000.nc ("Created by RegCM terrain program",
+  model_revision tag-4.6.1) is 530 x 530 at 12 km. jx/iy are regular,
+  -3174000..3174000 m. The crs variable is lambert_conformal_conic (standard
+  parallels 30/65, origin 48N 9.75E, sphere R 6371229) with false
+  easting/northing -6000 m, and also carries a proj4_params string. Its
+  inverse_flattening is 0, which means a sphere here. Checked on the bytes:
+
+  1. GDAL 3.14.0dev opens NETCDF:...:topo (and the other 2D fields) with
+     an LCC CRS, origin (-3180000, 3180000) and 12000 m cells. The plain
+     file opens as a list of subdatasets.
+  2. xlon/xlat ("Cross Points") match GDAL's cell centres to float32
+     precision. Projecting xlon/xlat with the file's own CRS gives jx/iy to
+     within 0.5 m.
+  3. dlon/dlat ("Dot Points") project to jx - 6000, iy - 6000: they are the
+     cell corners, half a cell to the south-west. Using them as centres
+     shifts everything by 6 km in x and y. The -6000 false easting/northing
+     is what makes jx/iy the cross points.
+  4. dlat has its long_name and standard_name swapped (long_name
+     "latitude", standard_name "Latitude on Dot Points").
+  5. Variables carry both grid_mapping = "crs" and coordinates = "xlat
+     xlon", so a reader may take either path. Both agree.
+
+  issue_54.R (from stars issue 54) builds a curvilinear stars object from
+  xlon/xlat for topo. That works, but it ignores the regular LCC grid the
+  file already defines. What stars issue 54 reported about this file is not
+  archived here.
+how_to_read: |
+  Verified with GDAL 3.14.0dev on 2026-11-07. Open a field subdataset and
+  use GDAL's georeferencing:
+
+    gdalinfo NETCDF:"EURO-CORDEX_81_DOMAIN000.nc":topo
+    gdal_translate NETCDF:"EURO-CORDEX_81_DOMAIN000.nc":topo topo.tif
+
+  Equivalent CRS, from the file: +proj=lcc +lat_1=30 +lat_2=65 +lat_0=48
+  +lon_0=9.75 +x_0=-6000 +y_0=-6000 +R=6371229 +units=m; extent
+  -3180000 -3180000 3180000 3180000. If 2D coordinates are needed, use
+  xlon/xlat (cell centres), not dlon/dlat.
+links:
+  - "https://github.com/r-spatial/stars/issues/54"
+findings:
+  - GRID_2D_WITH_PROJECTED_1D

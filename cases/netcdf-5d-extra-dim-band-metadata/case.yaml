@@ -1,0 +1,44 @@
+id: netcdf-5d-extra-dim-band-metadata
+title: "5D netCDF test file: GDAL band metadata for more than one extra dimension"
+status: fixed-upstream
+summary: "A tiny 5D variable a(c5, c4, c3, y, x) built in 2009 to test a GDAL netCDF patch; old GDAL labelled bands with wrong c3/c4 values, GDAL 3.14 labels all 12 bands correctly."
+files:
+  - fae2e2fc0b30d100a75bb3d6c0ad6a051649f2dff5394bcd066d955e9c6eb411  # extdata/high-dim/test-1.nc
+  - 9c933b8fef755827bb305836b8cb04ea9c771ca9eec7fdadf8fb57df6d7c0eab  # data-raw/high-dim.R
+whats_wrong: |
+  test-1.nc is a synthetic netCDF-3 file written with RNetCDF by
+  data-raw/high-dim.R: a(c5=3, c4=2, c3=2, y=3, x=2), doubles, with
+  coordinate variables x = 0,5; y = 0,1,2; c3 = 0,1; c4 = 0,1;
+  c5 = 0,0.5,1 and no attributes at all (no Conventions, units or axis).
+  The values are known by construction: m = 1:24 over (x, y, c3, c4), and
+  the c5 slices are m, m + 0.1 and m * 2.
+
+  The file is fine. It exists to test how a raster reader maps the three
+  non-spatial dimensions onto 12 bands. The script records (as comments)
+  gdalinfo output from GDAL 1.7.0dev / FWTools 2.4.3 (2009) where the band
+  metadata was wrong: NETCDF_DIMENSION_c4 stayed 0 on every band and c3
+  did not follow the band order (bands 3 and 4 both c3=0, c4=0). It also
+  records output from a patched GDAL with the correct sequence. The
+  script cites GDAL trac tickets 2582 and 2583 and says the file was made
+  to test the patch for 2583.
+how_to_read: |
+  Current GDAL reads it correctly. Verified with GDAL 3.14.0dev on
+  2026-11-06: gdalinfo test-1.nc gives 12 bands, NETCDF_DIM_EXTRA =
+  {c5,c4,c3}, and per-band NETCDF_DIM_c5/c4/c3 that step c3 fastest, then
+  c4, then c5 (band 1 = 0,0,0; band 2 = c3 1; band 3 = c4 1; band 5 =
+  c5 0.5; band 12 = 1,1,1). Band values match the construction (band 1 =
+  1..6, band 2 = 7..12, band 5 = 1.1..6.1, band 12 = 38..48).
+
+  Two differences from the 2009 output: GDAL 3.14 sets no geotransform
+  (pixel coordinates 0..2, 0..3; the 2009 output derived origin
+  -2.5, 2.5 and pixel size 5 x -1 from x and y), and it returns rows in
+  reverse file order (y = 2 first), its usual bottom-up assumption. Set
+  GDAL_NETCDF_BOTTOMUP=NO to get file order.
+
+  No upstream commit or ticket closure is archived here; "fixed-upstream"
+  rests on current GDAL behaviour.
+links:
+  - "https://trac.osgeo.org/gdal/ticket/2583"
+  - "https://trac.osgeo.org/gdal/ticket/2582"
+  - "https://www.unidata.ucar.edu/mailing_lists/archives/galeon/2005/msg00138.html"
+findings: []

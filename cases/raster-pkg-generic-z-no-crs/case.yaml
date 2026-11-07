@@ -1,0 +1,35 @@
+id: raster-pkg-generic-z-no-crs
+title: "R raster writeRaster output: generic z layer dimension and CRS only in a global attribute"
+status: open
+summary: "A clean 0.25 degree lon/lat grid around Tasmania; the only awkward features found are a z dimension with units unknown and a PROJ.4 crs global attribute that CF readers ignore. Why it was collected is not recorded."
+files:
+  - aee3480029732d72666c15403dcfa5881e212f9b1531a8588b724fb375413594  # extdata/file.nc
+whats_wrong: |
+  Not determined: no issue, commit message or note says what problem this
+  file was collected for. What was checked (GDAL 3.14.0dev, ncdump,
+  2026-11-07):
+  - Written by R packages ncdf4 and raster 2.6-7 (created_by attribute,
+    2018-08-30). variable(z=14, latitude=72, longitude=60), float,
+    _FillValue and missing_value -3.4e+38, long_name "variable", no units.
+  - longitude 140.125 ... 154.875 and latitude -38.125 ... -55.875
+    (descending), both regular at 0.25. GDAL gets the geotransform right
+    (origin 140, -38, pixel 0.25) and the data north-up; missing cells are
+    land (for example Tasmania at 146.5 E 42 S), values -1.27 to 16.93.
+  - z is 1 ... 14 with units "unknown": whatever the 14 layers were (dates?),
+    that identity was lost on writing. GDAL warns "dimension #0 (z) is not a
+    Time or Vertical dimension" and exposes them as bands 1-14.
+  - The CRS is stored as global attributes crs = "+proj=longlat +datum=WGS84
+    ..." and crs_format = "PROJ.4", not as a CF grid_mapping, so GDAL (and CF
+    tools) assign no CRS.
+  - variable:min and variable:max hold 14 per-layer values each, a raster
+    package convention.
+  Nothing here stops a reader; the file stays open until the reason it was
+  collected is known.
+how_to_read: |
+  Verified with GDAL 3.14.0dev on 2026-11-07:
+    gdal_translate -oo ASSUME_LONGLAT=YES file.nc file.tif
+  gives 14 bands, origin (140, -38), pixel 0.25, WGS84 longlat. The meaning
+  of the 14 layers is not in the file; carry z = 1..14 as a plain index.
+links:
+  - "fingerprints/file.nc.cdl"
+findings: []

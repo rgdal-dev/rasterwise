@@ -1,0 +1,47 @@
+id: gpm-dpr-swapped-axes
+title: "GPM DPR 3A-DAY via OPeNDAP: (nlon, nlat) order gives GDAL a grid with latitude as x"
+status: understood
+summary: "A GPM DPR daily grid subset from a Hyrax OPeNDAP server with dimensions (AD, chn, nlon, nlat); GDAL's classic view makes latitude the x axis and longitude the y axis, so it has to be transposed."
+files:
+  - df20ee33704c86265fdd85de3254f5061649fd95ccb1cb7d5851cf824ac534e7  # extdata/swapped/3A-DAY.nc
+  - e3fce81277e9373cf541318feb4805e85a828ea55d6251829dc55874518e99c3  # extdata/swapped/gdal-dev-readme.txt
+whats_wrong: |
+  3A-DAY.nc is precipRateNearSurfMean from
+  3A-DAY.GPM.DPR.V2-20170410.20180915-S000000-E235959.258.V05B.HDF5, as
+  served by Hyrax 1.13.4 at GES DISC on 2018-10-11 (global history). It is
+  a GPM Dual-frequency Precipitation Radar product, not TRMM. The variable is
+  precipRateNearSurfMean(AD, chn, nlon, nlat) = (2, 2, 1440, 536). nlon is
+  -179.875..179.875 and nlat is -66.875..66.875, both regular at 0.25 degree,
+  and nlat ascends. The GridHeader attribute says Origin=SOUTHWEST. So
+  latitude is the fastest-varying dimension.
+
+  GDAL 3.14.0dev (classic API) opens it as a 536 x 1440 raster with origin
+  (-67, 180) and pixel size (0.25, -0.25): x is latitude and y is
+  longitude. Band 1 equals the stored [0, 0, :, :] with the nlon order
+  reversed. The georeferencing is self-consistent, but x and y are the
+  wrong way round for any lon/lat CRS. There is no CRS. The 4 bands are
+  the AD x chn combinations.
+
+  Minor: chn:comment reads "Number of channels:Ku,Ka,KaHS,DPR." (four
+  names), but chn has length 2. Which two are present is not recorded in
+  the file. The readme points to a gdal-dev mailing list message of
+  October 2018; what that thread concluded is not archived here.
+how_to_read: |
+  Verified with GDAL 3.14.0dev on 2026-11-07. Transpose to (nlat, nlon)
+  with the multidimensional tools, flip latitude to north-up, and pick one
+  AD/chn slice:
+
+    gdalmdimtranslate 3A-DAY.nc gpm.tif \
+      -array "name=precipRateNearSurfMean,transpose=[0,1,3,2],view=[0,0,::-1,:]"
+    gdal_translate -a_srs EPSG:4326 gpm.tif gpm_4326.tif
+
+  gpm.tif comes out as 1440 x 536, origin (-180, 67), pixel 0.25, and
+  equals the stored [0, 0] slice transposed with latitude reversed.
+  gdalmdimtranslate applies transpose before view, so the ::-1 acts on
+  nlat. Change the leading 0,0 to select another AD/chn. gdalmdimtranslate
+  writes no CRS, hence the second step.
+links:
+  - "https://lists.osgeo.org/pipermail/gdal-dev/2018-October/049139.html"
+findings:
+  - AXES_X_BEFORE_Y
+  - Y_ASCENDING

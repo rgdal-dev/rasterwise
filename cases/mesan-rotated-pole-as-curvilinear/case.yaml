@@ -1,0 +1,47 @@
+id: mesan-rotated-pole-as-curvilinear
+title: "MESAN precipitation over Italy: a rotated-pole grid flattened to 2-D lon/lat by cdo"
+status: understood
+summary: "cdo setgridtype,curvilinear replaced the native rotated lat/lon axes with 2-D lon/lat; the grid is exactly regular (0.05 degree) in a rotated pole at lon -165, lat 29."
+files:
+  - cc8761e5b094dcbeaa7e8b00e59082fbe95aa5c6721acf467db952ad50f3fe49  # extdata/hmr_ita.nc
+whats_wrong: |
+  pr(time=1, height=1, y=248, x=223), float, one daily step, cut to Italy
+  (cdo sellonlatbox 6.5,19,36,48) from a MESAN (EURO4M) 24-hour
+  precipitation analysis. The history attribute shows the GRIB source was
+  converted with "cdo -f nc cat -setgridtype,curvilinear", which writes
+  every grid as 2-D lon(y, x) / lat(y, x) with 4-corner bounds and drops the
+  native projection. So the file has no 1-D coordinates, no grid_mapping and
+  no CRS; GDAL 3.14 offers only geolocation arrays (lon/lat), no
+  geotransform. Readers see a "curvilinear" grid.
+  Checked: the lon/lat arrays are an exactly regular grid in a rotated pole.
+  Fitting a pole rotation gives grid north pole longitude -165, latitude 29
+  (PROJ: +proj=ob_tran +o_proj=longlat +o_lon_p=0 +o_lat_p=29 +lon_0=15),
+  rotated longitude -7.55 ... 3.55 and rotated latitude -25.0 ... -12.65 at
+  cell centres, step 0.05 in both, maximum residual 2e-6 degrees (float32
+  precision). Storage rows run south to north (row 0 is rotated latitude
+  -25); GDAL assumes bottom-up and flips, which here gives the correct
+  north-up order.
+  Also: pr has no units and no _FillValue or missing_value; GDAL reports
+  nodata 9.96921e+36 (the netCDF default float fill), which does not occur.
+  All 55304 cells are valid, range 0 to 51.4. The time value 2376 hours since
+  2000-01-01 is 2000-04-09 00:00 (cdo seltimestep,100). Units are not stated
+  in the file; the source name rr24 suggests 24-hour totals in mm, unconfirmed.
+how_to_read: |
+  Attach the rotated-pole grid as a geotransform. Verified with GDAL 3.14.0dev
+  on 2026-11-07 (every pixel centre reproduces the file's lon/lat to within
+  2e-6 degrees):
+    gdal_translate \
+      -a_srs "+proj=ob_tran +o_proj=longlat +o_lon_p=0 +o_lat_p=29 +lon_0=15 +datum=WGS84 +no_defs" \
+      -a_ullr -7.575 -12.625 3.575 -25.025 \
+      NETCDF:hmr_ita.nc:pr pr_rotated.tif
+  No GDAL_NETCDF_BOTTOMUP change is needed for this file: GDAL's default
+  flip already yields north-up rows. In CF terms the grid is
+  rotated_latitude_longitude with grid_north_pole_longitude = -165,
+  grid_north_pole_latitude = 29, rlon = -7.55 + 0.05 * x,
+  rlat = -25.0 + 0.05 * y (storage order). To get plain lon/lat, warp the
+  result (gdalwarp -t_srs EPSG:4326) rather than treating lon/lat as
+  rectilinear.
+links:
+  - "fingerprints/hmr_ita.nc.cdl"
+findings:
+  - GRID_2D_LONLAT_ONLY

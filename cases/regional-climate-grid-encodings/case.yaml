@@ -1,0 +1,60 @@
+id: regional-climate-grid-encodings
+title: "Three regional climate files, three grid encodings: 2D lon/lat only, rotated pole without 2D lon/lat, projected LAEA"
+status: understood
+summary: "Examples sent to stars issue 62. A PROMES MED-44 file with only 2D lon/lat and no CRS, a CCLM MED-44 rotated-pole file, and an EURO4M-APGD LAEA file; current GDAL georeferences the last two, and the first reads through its geolocation arrays."
+files:
+  - 6fc294f033288a26318a9a557d2c6787c0ff05a7d41d4e3bc1a330506ddac006  # extdata/bad_examples_62/example1.nc
+  - 46f5e1cadb0601e9a5c30f15d78150c46294e040fddb217f4d35f7afd98c02d4  # extdata/bad_examples_62/example2.nc
+  - a7ac72b0d8db97dac2c6f12c9ba5c4b4ac3217443a56b017a1a4b4a2fb5d6407  # extdata/bad_examples_62/example3.nc
+  - 86530e5b3447f24c8ede50386c83f065ab9e851b0a5ca79c21540f038a630d9a  # extdata/bad_examples_62/bad_examples.R
+whats_wrong: |
+  bad_examples.R quotes the report on stars issue 62. "One does not have
+  any projection information, but relies only on lat-lon arrays; one
+  instead has some indication of the projection, but it is not formatted
+  according to common practice". A third, projected on LAEA "with a proper
+  grid description", "should work OOTB". The script does not say which
+  file is which. Checked on the bytes:
+
+  example1.nc (UCLM PROMES, CORDEX MED-44, daily pr, 97 x 65): dims x/y
+  have no coordinate variables. There is no grid_mapping, only 2D lon/lat
+  (lon -22.4..56.2, lat 25.3..59.0). GDAL 3.14.0dev gives no geotransform
+  or CRS but exposes lon/lat as geolocation arrays. It is not a 0.44 degree
+  rotated-pole grid: in the MED-44 rotated system, the column steps vary
+  (sd 0.011 degree). A least-squares fit I ran matches a Lambert conformal
+  conic on a sphere (R 6371229, standard parallels 20 and 60, cells of
+  about 50.0 km, axis-aligned for lon_0 near 15.45) with a maximum
+  residual of 0.3 m. Other parameter sets may fit equally well, and the producer's
+  actual projection is not recorded. The history shows a cdo setgrid step
+  that took the grid from another MED-44 PROMES file.
+
+  example2.nc (GUF-CCLM4-8-18, MED-44, pr, 98 x 63): 1D rlon/rlat at
+  0.44 degree, with a rotated_pole grid_mapping (39.25N, -162E). It has
+  no 2D lon/lat, although CORDEX output usually carries them, and pr has
+  no _FillValue (GDAL reports the netCDF default 9.96921e36). GDAL
+  3.14.0dev reads the rotated-pole CRS and a 0.44 degree geotransform.
+  Whether this is the file the reporter called "not formatted according
+  to common practice" is not determined.
+
+  example3.nc (EURO4M-APGD daily precipitation, 243 x 138, 5 km): X/Y in
+  metres plus ETRS89-LAEA grid_mapping, plus 2D lon/lat. GDAL reads a LAEA
+  CRS (GRS80 ellipsoid, datum unnamed). The CRS reproduces the stored
+  lon/lat to 4e-6 degrees, so the 2D lon/lat are derived.
+how_to_read: |
+  Verified with GDAL 3.14.0dev on 2026-11-07.
+
+  example1.nc: warp through the geolocation arrays GDAL already exposes.
+
+    gdalwarp -geoloc -t_srs EPSG:4326 -tr 0.1 0.1 -r near example1.nc ex1_ll.tif
+
+  Every one of the 6305 cells, looked up in ex1_ll.tif at its stored
+  lon/lat, held its own value. The LCC fit above could give a regular
+  grid; it is untested as a read path.
+
+  example2.nc and example3.nc: open directly (NETCDF:"example2.nc":pr),
+  or gdalwarp -t_srs EPSG:4326 as with any georeferenced raster. For
+  example2, set nodata explicitly if 9.96921e36 is not wanted.
+links:
+  - "https://github.com/r-spatial/stars/issues/62"
+findings:
+  - GRID_2D_LONLAT_ONLY
+  - GRID_2D_WITH_PROJECTED_1D

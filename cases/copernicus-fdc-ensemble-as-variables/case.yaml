@@ -1,0 +1,53 @@
+id: copernicus-fdc-ensemble-as-variables
+title: "C3S flow-duration indicators on a 0.5 degree grid: ensemble members as value1..value12"
+status: understood
+summary: "Gridded companions of the catchment files: a regular 0.5 degree grid with ascending latitude that GDAL reads correctly, but the 12 ensemble members are separate variables identified only by global-attribute strings, with inconsistent units."
+files:
+  - 8ad498d2332470f0371e64562f3f8abf2b5bf66d54c81d5a53d328d2097ccf18  # extdata/copernicus/cout-perc1_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap0.5.nc
+  - 4cb5979532ced516ece9a7a04f1962cd6a1a6ab01095905cc41f4a0ff7785ee2  # extdata/copernicus/cout-perc5_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap0.5.nc
+whats_wrong: |
+  Two C3S_441_Lot1_SMHI flow duration curve files (1st and 5th percentile,
+  river discharge "dis", reference period 1971-2000, netCDF-3, CF-1.4).
+  Headers differ only in title and variable_name. Grid: lat = 78
+  (33.25 to 71.75, ascending, step 0.5), lon = 130 (-24.75 to 39.75),
+  time = 1 (unlimited). Nothing is wrong with the grid; lat simply runs
+  south to north.
+
+  The awkward parts are in the variables and metadata:
+  - The 12 ensemble members are 12 variables value1..value12(time, lat,
+    lon), not a member dimension. Which hydrological model, GCM and RCM
+    each one is appears only as space-separated lists in the global
+    attributes invar_hm_realization_id, invar_gcm_id, invar_rcm_id
+    ("in the order of the variables"). Note the variables are stored in
+    the order value1, value10, value11, value12, value2, ... so "order"
+    must mean the numeric suffix (inference).
+  - units are "m-3 s-1" on value1..value4 and "m3 s-1" on value5..value12,
+    all with original_name "dis". Medians and maxima of value1..4 are of
+    the same order as the others (median 2.8 vs 1.2 to 8.1, max about
+    2100 to 3800 in the perc1 file), so "m-3 s-1" is a typo for m3 s-1
+    (inference).
+  - geospatial_lat_min/max are given as "33.25 degrees_east" /
+    "71.75 degrees_east" and geospatial_lon_min/max as "... degrees_west"
+    with negative and positive values; the unit words are wrong, the
+    numbers agree with the coordinates.
+  - _FillValue -1e20 marks sea (the files say only land points are kept),
+    and the valid mask differs by hydrological model: 4323 cells for
+    value1..4 (E-HYPE21), 4618 for value5..8 (VIC421), 3933 for
+    value9..12 (Lisflood) in the perc1 file.
+how_to_read: |
+  GDAL handles the grid. Verified with GDAL 3.14.0dev on 2026-11-06:
+  gdalinfo on the file lists 12 subdatasets; for one member
+
+    gdalinfo NETCDF:"cout-perc1_..._remap0.5.nc":value1
+
+  gives 130 x 78, origin (-25, 72), pixel size (0.5, -0.5), i.e. the
+  ascending lat is flipped to north-up correctly. NoData -1e20.
+
+  To keep members together, read value1..value12 in numeric order and
+  label each with the matching entry of invar_hm_realization_id (12
+  entries, e.g. KNMI-E-HYPE21 ... SMHI-Lisflood). Treat units as m3 s-1
+  for all 12. The CRS is not stated; regular lon/lat degrees.
+links:
+  - "https://github.com/r-spatial/stars/issues/73"
+findings:
+  - Y_ASCENDING

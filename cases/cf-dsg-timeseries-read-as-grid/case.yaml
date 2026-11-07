@@ -1,0 +1,41 @@
+id: cf-dsg-timeseries-read-as-grid
+title: "CF timeSeries station file that GDAL opens as a 20 x 10 raster"
+status: understood
+summary: "A CF-1.7 featureType=timeSeries file (10 stations x 20 days) is not a grid, but GDAL presents it as a time-by-station image with no geolocation."
+files:
+  - 33765f301d00219ae7bff2e404c8bb94b29c49d38b29ec7fb0ec5a51304df1d7  # extdata/timeseries.nc
+whats_wrong: |
+  The file is a CF discrete sampling geometry (global featureType =
+  "timeSeries", Conventions CF-1.7): pr(station, time) with per-station
+  coordinates lat(station), lon(station), alt(station) and a station id
+  num(station) carrying cf_role = "timeseries_id". Stations are points
+  (lat 40..49, lon 10..19, alt 100..1000 m, step 1 degree / 100 m); time
+  is 20 daily steps (days since 1970-01-01). Nothing in it is a raster.
+
+  The file itself is valid CF. The problem is the reader. GDAL 3.14 classic
+  raster mode opens it as a 20 x 10 single-band image, x = time and
+  y = station, in pixel coordinates (0..20, 0..10), and warns
+  "dimension #1 (time) is not a Longitude/X dimension" and "dimension #0
+  (station) is not a Latitude/Y dimension". The station positions are
+  dropped. Opened as vector (ogrinfo), GDAL gives one layer "timeseries"
+  with 20 features, no geometry and only a time field. Neither view is
+  the data.
+
+  storecard's first-pass Y_ASCENDING on lat is not a finding: lat is a
+  per-station coordinate, not a grid axis.
+how_to_read: |
+  Read it as a table, one row per (station, time), keeping the station
+  coordinates. Verified with xarray (dev build, 2026.7) on 2026-11-06:
+
+    import xarray as xr
+    ds = xr.open_dataset("timeseries.nc")
+    df = ds.to_dataframe().reset_index()
+    # 200 rows: station, time, pr, num, lat, lon, alt
+
+  Points can then be built from lon/lat per station (CRS not stated in the
+  file; assume geographic WGS84-like lon/lat). Do not use GDAL raster mode
+  for this file.
+links:
+  - "https://cfconventions.org/Data/cf-conventions/cf-conventions-1.7/cf-conventions.html"
+findings:
+  - DSG_NOT_GRID
