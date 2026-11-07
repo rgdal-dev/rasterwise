@@ -1,0 +1,71 @@
+id: rgdal-2007-netcdf-crash-tiff-named-nc
+title: "2007: rgdal crashed R on the first four problem files, and the workaround wrote TIFFs named .nc"
+status: fixed-upstream
+costume:
+  - D
+  - C
+  - none
+summary: "The origin of this archive: R 2.5.0 with rgdal 0.5-9 and GDAL 1.4.0 crashed on GDAL.open() of four netCDF files; gdal_translate to *.nc names produced GeoTIFFs, misoriented and off by a cell."
+files:
+  - de9acc211f9efaa3480c36fbbf6a7dcef4dc2633178db824a0e05b07240e21aa  # legacy/R/nc/nctrouble.R
+  - 7829d57d7618c7d51c9b35fc70867058dc20d4f2b11dc6aa03f2533e68c6232a  # legacy/R/nc/extract.R
+  - efb5c257601a6ffff2c6a4c505b6bcfd16239de593cccf51ccd50530d4e74db2  # legacy/R/nc/RCrash.png
+  - d7dcc72ce30b707c02c69c32a77bcbde638bb06ea9cbc530fcc68501e6481414  # extdata/dt_ref_global_merged_madt_uv_19921014_19921014_20060315.nc
+  - 01bf16d9b390122be82844c9994aacab9c8ddd0d9b771d3518eaebb03cec8ae6  # extdata/oscar_gdr_5d1993.nc
+  - 5d49cbcda73866fba063e0f821d4b802924d77b0201de3bb9ee560dc66884ee7  # extdata/R13352.nc
+  - 0bc799977131422574b2603943d88cf965b9e9201f6e56007ca57e14eaa0b753  # extdata/ssh05d19921006.nc
+  - 039219ff85991c426aada9ec59a977874eccc9c4d84ca14e45c1b5625c4adffa  # legacy/R/nc/dt_ref_global_merged_madt_uv_19921014_19921014_20060315.txt
+  - d7457975bf6488366f3e9e7b0aadfc87962ae2e3fedc7684578a1fdcd57ec6a4  # legacy/R/nc/oscar_gdr_5d1993.txt
+  - 43f3a885af31dc6e4358420851ae66251b4cb33ac7f57efe1db086b0f1f4dbf7  # legacy/R/nc/R13352.txt
+  - 0dbb68ee4370129fbdb4240e26c1cc54f7526ccdedfa41b0ad088f3fea7849d6  # legacy/R/nc/ssh05d19921006.txt
+  - e141d8c9632bf4c250e7204e32912a7a5da3a61f3e2f6e1bac5dd8c81c0b4012  # legacy/R/nc/dt.nc
+  - f02a0d35610373c03d635d30e864a6c42f9f864650d6739d23622856a1d6ff00  # legacy/R/nc/oscar.nc
+  - 2ebc7041670d0742bc6933fa24e670f072a565ffd84fc412d5c440691206098b  # legacy/R/nc/R133.nc
+  - cbf4670d361491779d787a627e58679066706eaa8287ff6cf1633baea9d7be76  # legacy/R/nc/ssh05.nc
+  - 61073733f640357798299ab24bbdfe5dc5f79efde0edde56fbd3b5a8912347a7  # legacy/R/nc/p.nc
+  - f977f8c2f2a066001c71d7b26594da4bade84b80f97785494ac0e6e136d3b4c4  # ranch/weird_nc/p_calibrate.nc
+  - 99e3c19603af4ce82383c1043e2028d35e422b79cda797fa25dd1b584e70d78b  # legacy/R/nc/dt.png
+  - e4ebe7109c98d90a88080d02101bbfaea26864d5fc9aab062b4042e3667eee3a  # legacy/R/nc/oscarU.png
+whats_wrong: |
+  The working folder nctrouble.R lives in is dated 2007-05-01. The script records
+  R 2.5.0 (i386-pc-mingw32), rgdal 0.5-9, sp 0.9-13 and GDAL 1.4.0 from FWTools
+  1.2.2. The four files are the AVISO DT geostrophic velocity grid, OSCAR
+  tropical Pacific currents, an Argo float (R13352) and WOCE sea surface
+  height (ssh05d).
+  1. rgdal's GDAL.open() crashed R on each of them (RCrash.png is the Windows
+     "R for Windows GUI front-end has encountered a problem" dialog), and opening
+     their subdatasets (NETCDF:"file":var) failed as well.
+  2. The workaround was gdal_translate NETCDF:"file":var out.nc. gdal_translate's
+     default output format was GTiff, so every result is a GeoTIFF named .nc
+     (dt.nc, oscar.nc, R133.nc, ssh05.nc; p.nc and p_calibrate.nc are 51 x 54
+     like R133.nc and look like the same pattern applied to other R13352
+     variables, though the script doesn't show those calls).
+  3. The converted grids carry the orientation problems the 2026 cases describe.
+     dt.nc is 915 x 1080 (latitude along x: "aligned E-W up" in the script; the
+     source is stored lon-major), and ssh05.nc has a south-up origin (-89.75)
+     with positive pixel height ("aligned South-up"; latitude is ascending).
+  4. GDAL 1.4 built the geotransform from the coordinate values wrongly in two
+     ways: it put the origin at the first cell centre rather than its edge, and
+     divided the centre-to-centre span by the number of cells. oscar.nc has
+     origin (120.5, 34.5) and pixel size 0.9941 x 0.9857 for a 1 degree grid
+     (169 / 170 and 69 / 70); ssh05.nc has 0.4993 x 0.4986 for a 0.5 degree grid.
+  The .txt files are gdalinfo output from GDAL 1.4 for each source file, a
+  baseline for comparison with current GDAL.
+how_to_read: |
+  The source files read correctly with current GDAL; each has its own case for
+  the remaining issues (aviso-mercator-as-lonlat, oscar-pacific-0-360-dateline,
+  argo-profiles-char-dim-dropped, topex-ssh-noncf-fill-sentinels).
+  Verified with GDAL 3.14.0dev on 2026-11-07:
+    gdalinfo 'NETCDF:"oscar_gdr_5d1993.nc":u'
+      -> Size 170 x 70, Origin (120, 35), Pixel Size (1, -1)
+    gdalinfo 'NETCDF:"ssh05d19921006.nc":sea_level'
+      -> Size 720 x 360, Origin (0, 90), Pixel Size (0.5, -0.5)
+  The derived *.nc TIFFs open as GTiff in any reader that probes content. Their
+  geotransforms carry the 2007 errors above, so don't use them as references.
+links:
+  - "issues/004.md"
+  - "issues/005.md"
+findings:
+  - OPEN_FAILED
+  - AXES_X_BEFORE_Y
+  - Y_ASCENDING

@@ -1,3 +1,6 @@
 machine,root,prefix,note
 ecostats,~/ncd,extdata/nc-to-cog/,"working folder of the nc-to-cog example (2019-05-15); 1889.daily_rain.nc confirmed by fingerprint"
 ecostats,~/Git/ncmeta/inst/extdata,derived/ncmeta/,"cut-down derivatives of rasterwise files shipped as test data in the ncmeta R package"
+raad,acecrc.org.au/legacy-site/~/public_html/R/nc,legacy/R/nc/,"2007 working folder: rgdal/GDAL 1.4 attempts at the first four problem netCDF files (nctrouble.R), with gdalinfo captures and outputs"
+raad,acecrc.org.au/legacy-site/~/public_html/nc,legacy/nc/,"2007-era public web copies of the same files, with GIS projection preset .xml files"
+raad,acecrc.org.au/legacy-site/~/bluenet/bluenet/IMOS/DataExamples/Argo,legacy/argo/,"IMOS data example folder holding R13352.nc and its notes"

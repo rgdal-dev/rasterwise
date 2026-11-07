@@ -195,7 +195,8 @@ def in_scope(r, pats):
             continue
         neg = p.startswith("!")
         pat = p[1:] if neg else p
-        if fnmatch.fnmatch(name, pat):
+        # match the content's own name, and for archive members also the archive's path
+        if fnmatch.fnmatch(name, pat) or (r["kind"] == "archive-member" and fnmatch.fnmatch(r["relpath"], pat)):
             return neg  # "!pat" = force include; "pat" = exclude
     return True
 

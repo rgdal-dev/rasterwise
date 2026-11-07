@@ -26,6 +26,10 @@ R/weird_update.R
 ISSUE_TEMPLATE
 PULL_REQUEST_TEMPLATE
 raster.png
+# third-party software and manuals found beside data (kept in sightings only)
+software/*
+*.pdf
+*.lnk
 # personal R session history
 .Rhistory
 */.Rhistory
