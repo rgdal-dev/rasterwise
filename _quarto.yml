@@ -1,0 +1,42 @@
+project:
+  type: website
+  output-dir: _site
+  # explicit list. Quarto never renders README.md, so `curate.py pages` writes an
+  # index.qmd beside each case README (and issues/README.md) that includes it.
+  # tools/, ledger/ and TODO.md are repo internals and are not rendered.
+  render:
+    - index.qmd
+    - cases/index.md
+    - cases/*/index.qmd
+    - issues/index.qmd
+    - files.md
+    - missing.md
+    - issues/*.md
+  resources:
+    - manifest.csv
+    - missing.csv
+    - sightings.csv
+    - fingerprints/
+    - cases/*/case.yaml
+
+website:
+  title: "rasterwise"
+  description: "An archive of problem raster files and the lessons attached to them"
+  navbar:
+    left:
+      - text: "Cases"
+        href: cases/index.md
+      - text: "Files"
+        href: files.md
+      - text: "Missing"
+        href: missing.md
+      - text: "Issues archive"
+        href: issues/index.qmd
+  page-footer:
+    center: "Generated from manifest.csv and cases/ by tools/curate.py pages and Quarto."
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    code-copy: true

@@ -10,6 +10,8 @@ curate.py -- maintain this repo's tables from harvest deltas. Standard library o
   issues JSONDIR         write issues/NNN.md from `gh issue view --json` dumps
   stage DEST             copy every manifest file this machine has a sighting of
                          into DEST/files/<aa>/<sha256>, re-hashing each
+  pages                  write the generated site pages (cases/index.md,
+                         files.md, missing.md) for the Quarto site
   set-url SHA URL        download URL, re-hash, and only if it matches set the
                          manifest url (rule: no url without a verified fetch)
 
@@ -406,6 +408,8 @@ def check():
         yaml = None
     seen_ids = set()
     for slug in sorted(os.listdir(P("cases"))) if os.path.isdir(P("cases")) else []:
+        if not os.path.isdir(P("cases", slug)):
+            continue  # e.g. the generated cases/index.md
         y = P("cases", slug, "case.yaml")
         if not os.path.isfile(y):
             errs.append("cases/%s: no case.yaml" % slug)
@@ -677,6 +681,69 @@ def set_url(sha, url):
     return 0
 
 
+# ------------------------------------------------------------------ site pages
+# Generated markdown for the Quarto site (not committed; CI runs `pages` before
+# `quarto render`). Everything here is derived from the tables and cases.
+
+def md_cell(v):
+    return str(v).replace("|", "/").replace("\n", " ")
+
+
+def pages():
+    cases = load_cases()
+    man = read_csv(P("manifest.csv"))
+    miss = read_csv(P("missing.csv"))
+    by_sha = {r["sha256"]: r for r in man}
+    order = {"open": 0, "understood": 1, "fixed-upstream": 2}
+    out = ["---", 'title: "Cases"', "---", "",
+           "Each case is one lesson: what is wrong with a file and how to read it correctly. "
+           "`status` is `understood` when the case gives a working read, `open` when something "
+           "is not yet determined, `fixed-upstream` when current software handles it.", "",
+           "%d cases: %s." % (len(cases), ", ".join("%d %s" % (sum(1 for c in cases.values() if c.get("status") == st), st)
+                                                     for st in ("understood", "open", "fixed-upstream"))), "",
+           "| case | status | findings | summary |", "|---|---|---|---|"]
+    for slug, c in sorted(cases.items(), key=lambda kv: (kv[1].get("title", "").lower())):
+        if c.get("retired") is True:
+            continue
+        out.append("| [%s](%s/index.qmd) | %s | %s | %s |" % (
+            md_cell(c.get("title", slug)), slug, c.get("status", ""),
+            " ".join("`%s`" % f for f in (c.get("findings") or [])), md_cell(c.get("summary", ""))))
+    with open(P("cases", "index.md"), "w", encoding="ascii", newline="\n") as f:
+        f.write("\n".join(out) + "\n")
+    # Quarto never renders README.md files, so each one gets a wrapper page that includes it
+    for d in [P("cases", slug) for slug in cases] + [P("issues")]:
+        if os.path.isfile(os.path.join(d, "README.md")):
+            t = cases.get(os.path.basename(d), {}).get("title", "Issues archive")
+            with open(os.path.join(d, "index.qmd"), "w", encoding="ascii", newline="\n") as f:
+                f.write('---\npagetitle: "%s"\n---\n\n{{< include README.md >}}\n' % t.replace('"', "'"))
+
+    out = ["---", 'title: "Files"', "---", "",
+           "Every file in the archive, keyed by sha256 (the full table is [manifest.csv](manifest.csv)). "
+           "Download urls will appear once the content-addressed store is published.", "",
+           "| name | format | status | size | sha256 | case |", "|---|---|---|---:|---|---|"]
+    for r in man:
+        cs = " ".join("[%s](cases/%s/index.qmd)" % (c, c) for c in r["case"].split(";") if c)
+        out.append("| `%s` | %s | %s | %s | `%s` | %s |" % (
+            md_cell(r["canonical_path"]), r["format"] or "?", r["status"], r["size"], r["sha256"][:12], cs))
+    with open(P("files.md"), "w", encoding="ascii", newline="\n") as f:
+        f.write("\n".join(out) + "\n")
+
+    out = ["---", 'title: "Missing files"', "---", "",
+           "Files listed in the old bundles (2018-2020) for which no intact bytes have been found on "
+           "any machine searched. Most were only in the v0.5.0 release tarball, whose upload was cut "
+           "off. Where the old README recorded an `ncdump -h`, a fingerprint survives and can confirm a "
+           "copy if one turns up (`tools/readme_headers.py compare`). The table is [missing.csv](missing.csv).", "",
+           "| path | listed | fingerprint | partial copy |", "|---|---|---|---|"]
+    for m in miss:
+        fp = "[yes](fingerprints/%s.cdl)" % m["path"] if m["fingerprint"] == "yes" else "no"
+        part = ("`%s` (%s bytes)" % (m["best_partial"][:12], by_sha.get(m["best_partial"], {}).get("size", "?"))
+                if m["best_partial"] else "")
+        out.append("| `%s` | %s to %s | %s | %s |" % (md_cell(m["path"]), m["first_listed"], m["last_listed"], fp, part))
+    with open(P("missing.md"), "w", encoding="ascii", newline="\n") as f:
+        f.write("\n".join(out) + "\n")
+    log("pages: cases/index.md, files.md, missing.md, and an index.qmd beside each README.md")
+
+
 def main(argv):
     if not argv or argv[0] in ("-h", "--help"):
         print(__doc__)
@@ -690,6 +757,8 @@ def main(argv):
         return check()
     elif cmd == "issues":
         issues(args[0])
+    elif cmd == "pages":
+        pages()
     elif cmd == "stage":
         stage(args[0])
     elif cmd == "set-url":
