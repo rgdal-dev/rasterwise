@@ -262,29 +262,29 @@ def nc3_expected(f):
     atts()
     tag = r("I", 4)
     nv = num()
-    end_fixed, rec_begin, recsize, nrecvars = 0, None, 0, 0
+    fixed, recs = [], []
     for _ in range(nv if tag else 0):
         name()
         ndims = num()
         dimids = [num() for _ in range(ndims)]
         atts()
-        r("I", 4)  # nc_type
+        t = r("I", 4)
         vsize = num()
         begin = r("Q", 8) if off_big else r("I", 4)
         is_rec = ndims > 0 and dims[dimids[0]] == 0
-        if is_rec:
-            nrecvars += 1
-            recsize += vsize
-            rec_begin = begin if rec_begin is None else min(rec_begin, begin)
-        else:
-            if vsize in (0xFFFFFFFF,):
-                return None
-            end_fixed = max(end_fixed, begin + vsize)
+        # the bytes the variable really occupies (vsize is padded to 4, and may be
+        # capped for very large variables); a file may end without padding
+        nel = 1
+        for d in (dimids[1:] if is_rec else dimids):
+            nel *= dims[d]
+        (recs if is_rec else fixed).append((begin, nel * tsize[t], vsize))
     if numrecs == (0xFFFFFFFFFFFFFFFF if big else 0xFFFFFFFF):
         return None  # streaming
-    exp = end_fixed
-    if rec_begin is not None and numrecs:
-        exp = max(exp, rec_begin + numrecs * recsize)
+    exp = max((b + n for b, n, _ in fixed), default=0)
+    if recs and numrecs:
+        # one record variable: records are not padded; otherwise each record is the sum of padded vsizes
+        recsize = recs[0][1] if len(recs) == 1 else sum(v for _, _, v in recs)
+        exp = max(exp, max(b + (numrecs - 1) * recsize + n for b, n, _ in recs))
     return exp
 
 
