@@ -1,0 +1,46 @@
+id: cryosat2-sea-ice-cryptic-curvilinear
+title: "CryoSat-2 Antarctic sea ice: the NSIDC 25 km polar stereographic grid stored as 2D lon/lat"
+status: understood
+costume:
+  - E
+summary: "Only 2D lat/lon (332 x 316) and no CRS, but the positions are the NSIDC 25 km south grid (EPSG:3412) to within 40 m; GDAL reads it upside down by default, and EPSG:3031 is wrong by up to 13 km."
+files:
+  - 13cc4140fb59f5a42dd525303e0ca42ed50cb64018b9ac9808241724cf5afe70  # issue-attachments/020/CS2WFA_25km_201007.nc
+whats_wrong: |
+  Checked on the bytes, 2026-11-07.
+  1. The grid is regular, but nothing in the file says so. There are no 1D
+     coordinates and no grid_mapping: only lat(y, x) and lon(y, x), 332 x 316
+     doubles, alongside freeboard, snow depth, concentration and (in the
+     sea_ice_thickness group) thickness variables. Projected into EPSG:3412
+     (NSIDC sea ice polar stereographic south, true scale at 70 S, Hughes 1980
+     ellipsoid), every cell centre lies within 40.3 m (x) and 38.1 m (y) of an
+     exact 25 km grid with NSIDC's extent: x -3950000 to 3950000, y -3950000 to
+     4350000. That is 0.16% of a cell, so 2 x 104,912 stored numbers reduce to
+     an extent and a CRS. This is what regular-in-what calls cryptic
+     curvilinear (costume E).
+  2. The CRS matters. The fix first posted in issues/020.md assigned EPSG:3031
+     (WGS84, true scale at 71 S); against the file's own lon/lat that is off by
+     up to 11.8 km in x and 13.0 km in y, about half a cell. EPSG:3976 (NSIDC's
+     WGS84 variant) is within 125 m. EPSG:3412 is the right one.
+  3. The arrays are stored north-up (row 0 is the northern edge), but GDAL's
+     netCDF driver assumes bottom-up storage when there are no 1D coordinates to
+     tell it otherwise, so its default read is the stored rows reversed.
+     Verified: GDAL's default read of lat equals the stored array flipped.
+how_to_read: |
+  Verified with GDAL 3.14.0dev on 2026-11-07 (the output reproduces the file's
+  own lon/lat to within 41 m at sampled cells, and its rows equal the stored
+  order):
+    gdal_translate --config GDAL_NETCDF_BOTTOMUP NO \
+      -a_srs EPSG:3412 -a_ullr -3950000 4350000 3950000 -3950000 \
+      NETCDF:"CS2WFA_25km_201007.nc":sea_ice_concentration out.tif
+  Variables in the sea_ice_thickness group are addressed as
+  NETCDF:"CS2WFA_25km_201007.nc":/sea_ice_thickness/sea_ice_thickness.
+  The same assignment without the config option (for example terra's rast()
+  followed by a vertical flip, as in issues/020.md) also works, provided the
+  CRS is EPSG:3412.
+links:
+  - "issues/020.md"
+  - "https://hypertidy.github.io/regular-in-what/07-cases.html#sec-case-cryosat"
+  - "https://hypertidy.github.io/regular-in-what/01-problem.html"
+findings:
+  - GRID_2D_LONLAT_ONLY
