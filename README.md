@@ -148,6 +148,17 @@ missing:                     # optional: lost files from missing.csv this case i
 Quote any scalar that contains `: ` or `#`. Then run `python3 tools/curate.py build`
 to fill the manifest's `case` column, and `check`.
 
+## Related
+
+* [regular-in-what](https://hypertidy.github.io/regular-in-what/): the argument
+  these cases are evidence for; the `costume:` letters come from its costumes table.
+* [storecard](https://github.com/hypertidy/storecard): metadata cards keyed to
+  this manifest's sha256s.
+* [gproj](https://github.com/mdsumner/gproj): grid detection, for recovering
+  the regular grid behind 2D coordinates.
+* [L3bin](https://github.com/hypertidy/L3bin): the home for binned (L3BIN)
+  ocean-colour formats, which sit off the grid ladder.
+
 ## Conventions
 
 * No data files in git (`check` enforces this).

@@ -23,6 +23,35 @@ Approach, to keep it read-only and cheap at petabyte scale:
    so problem-class counts can be made without reading the data.
 4. Hash and harvest only what is to be adopted into the manifest.
 
+## Owner's items (from the collection survey, 2026-11-07)
+
+* **GMT classic grids** (yours): netCDF in GMT's old layout, a 1-D `z(xysize)` with
+  the grid in `x_range`/`y_range`/`spacing`/`dimension`; an interesting
+  non-degenerate transform case in netCDF. GDAL's GMT driver is gone, so
+  current GDAL reports them as unrecognised. Seen: NGDC ETOPO1
+  `ETOPO1_Ice_g_gdal.grd` (whose `x_range` has units "Latitude") and IBCSO v1
+  `ibcso_v1_bed.grd` / `ibcso_v1_is.grd`. It also belongs in regular-in-what's
+  costumes chapter, as a storage form of a regular grid.
+* **L3BIN** (yours): binned ocean-colour files (MODIS-A, SeaWiFS, VIIRS
+  `*.L3b.*.nc`), which classic GDAL can't open. Their home is
+  [hypertidy/L3bin](https://github.com/hypertidy/L3bin), which links the
+  related projects; rasterwise links there rather than duplicating.
+
+## For interest later (survey findings, not yet cases)
+
+* ~80 cryptic-curvilinear candidates (2D lon/lat only): AMPS WRF polar
+  domains, ROMS ESPRESSO, ASI AMSR-E 6.25 km (integer lat/lon scaled by
+  1e-5), Bremen polar stereographic grid files. Each needs a fit.
+* Metadata that isn't UTF-8 (Latin-1 bytes in attributes) makes GDAL's
+  Python JSON info fail: AAD environmental climatologies, ASI AMSR-E.
+* Projected coordinates without a grid_mapping (27 samples), e.g. CICE
+  concatenated output.
+* Formats changing within a series: REMA tiles, OSI SAF ice drift, ASI
+  AMSR-E, Argo SD vs SR profiles.
+* The collection mirrors GDAL's autotest data, a corpus of deliberately odd
+  files, better linked than copied.
+* Not sampled yet: `.gz`/`.bz2` (81 k) and raw `.bin` (90 k) files.
+
 ## Other loose ends
 
 * cliotop3: 14 working files (MYD09A1 HDF4, gauss/, jimshady/, CAMS, ffdi,
