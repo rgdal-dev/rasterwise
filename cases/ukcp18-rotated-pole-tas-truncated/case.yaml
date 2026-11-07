@@ -31,7 +31,7 @@ whats_wrong: |
   (fingerprints/ceda/tas_rcp85_land-rcm_eur_12km_01_mon_198012-208011.nc.cdl):
   - tas(ensemble_member = 1, time = 1200, grid_latitude = 406,
     grid_longitude = 418), float, units degC, cell_methods "time: mean";
-    a degenerate leading ensemble_member dimension makes it 4D.
+    a length-1 leading ensemble_member dimension makes it 4D.
   - grid_mapping rotated_latitude_longitude, grid_north_pole_latitude
     39.25, grid_north_pole_longitude 198, earth_radius 6371229; axes
     grid_latitude / grid_longitude in rotated degrees with bounds. No 2D

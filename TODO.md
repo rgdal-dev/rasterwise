@@ -33,9 +33,24 @@ Approach, to keep it read-only and cheap at petabyte scale:
   product. It may belong in `aviso-mercator-as-lonlat` as the contrast.
 * Findings vocabulary: the cases use about 15 codes beyond storecard's
   first-pass set. Write one `findings.md` (code, definition, cases using it)
-  and align it with storecard, e.g. confirmed fits could use
-  `GRID_CRYPTIC_CURVILINEAR` (with the fitted CRS) rather than the heuristic
-  `GRID_2D_LONLAT_ONLY`.
+  and align it with storecard and the regular-in-what terms:
+  - *degenerate rectilinear*: regular 1-D coordinate arrays that are really
+    just an offset and scale (a geotransform); storing them is redundant.
+  - *cryptic*: the grid is regular, but in a CRS other than the one declared
+    or implied.
+  - *cryptic curvilinear*: 2-D lon/lat arrays that are exactly a regular grid
+    in some projected CRS (four numbers and a CRS string replace them).
+    Cases: nhsce-polar-stereo-labelled-longlat, mesan-rotated-pole-as-curvilinear,
+    cordex-rotated-pole-stripped, regional-climate-grid-encodings (example1),
+    laea-globe-transposed-inf-lonlat.
+  - Mercator published as lon/lat (aviso-mercator-as-lonlat,
+    acc-fronts-mercator) sits between degenerate rectilinear and cryptic
+    curvilinear: 1-D axes that would be an offset and scale in Mercator, but
+    are declared as lon/lat (so latitude is irregular). Not curvilinear in any
+    sense. How to classify it is still open.
+  Confirmed fits could carry the fitted CRS and a code such as
+  `GRID_CRYPTIC_CURVILINEAR` rather than the heuristic `GRID_2D_LONLAT_ONLY`.
+  Place each case on the A-H ladder from regular-in-what.
 * `acc-fronts-mercator`: GDAL 3.14.0dev's classic API returned 0 for cells
   stored as NaN, while the multidimensional API returned NaN. Not reproduced
   with a synthetic file. Possibly a GDAL bug; worth a minimal reproducer.
