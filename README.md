@@ -167,7 +167,8 @@ to fill the manifest's `case` column, and `check`.
   these cases are evidence for; the `costume:` letters come from its costumes table.
 * [storecard](https://github.com/hypertidy/storecard): metadata cards keyed to
   this manifest's sha256s.
-* [gproj](https://github.com/mdsumner/gproj): grid detection, for recovering
+* [degredation](https://github.com/hypertidy/degredation) (formerly gproj):
+  grid detection, for recovering
   the regular grid behind 2D coordinates.
 * [L3bin](https://github.com/hypertidy/L3bin): the home for binned (L3BIN)
   ocean-colour formats, which sit off the grid ladder.

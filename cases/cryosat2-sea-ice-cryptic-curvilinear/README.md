@@ -4,7 +4,7 @@ A monthly CryoSat-2 sea ice file (CS2WFA algorithm, July 2010) that carries only
 2D latitude and longitude arrays and no CRS. Those arrays are the NSIDC 25 km
 south polar stereographic grid, exact to within 40 m, so the whole georeferencing
 is an extent and EPSG:3412. This is the file regular-in-what opens with, and the
-one gproj's detector is built on. It came to this archive as the attachment to
+one degredation's detector (formerly gproj) is built on. It came to this archive as the attachment to
 issue 20.
 
 | canonical_path | sha256 | size |
