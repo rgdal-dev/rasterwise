@@ -48,3 +48,4 @@ links:
   - "fingerprints/hmr_ita.nc.cdl"
 findings:
   - GRID_2D_LONLAT_ONLY
+  - GRID_CRYPTIC_CURVILINEAR

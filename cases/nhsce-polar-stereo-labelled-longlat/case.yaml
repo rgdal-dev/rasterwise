@@ -48,4 +48,5 @@ links:
   - "fingerprints/nhsce_v01r01_19661004_20140203.nc.cdl"
 findings:
   - GRID_2D_LONLAT_ONLY
+  - GRID_CRYPTIC_CURVILINEAR
   - GRID_MAPPING_MISLABELLED

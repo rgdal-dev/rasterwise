@@ -22,6 +22,7 @@ this manifest). Nothing downstream writes to it.
 | `issues/` | this repo's GitHub issues, archived as markdown |
 | `fingerprints/` | `ncdump -h` headers of 50 files, recovered from the old generated README; used to recognise lost files when they turn up |
 | `ledger/` | the old file lists (`listed.csv`), confirmed aliases, and known working folders |
+| `findings.csv` | the finding codes cases may use: code, group, source, costume, definition |
 | `tools/` | harvest and curation scripts, Python standard library only |
 
 There are no data files in git. The bytes live in content-addressed storage
@@ -139,7 +140,7 @@ links:
   - "https://github.com/r-spatial/stars/issues/62"
 costume:                     # optional: storage form(s), A-H/E2/E3 or none, as in
   - D                        #   regular-in-what's costumes table
-findings:                    # optional codes, e.g. LAT_MERCATOR_SPACED
+findings:                    # optional codes defined in findings.csv
   - LAT_MERCATOR_SPACED
 missing:                     # optional: lost files from missing.csv this case is about
   - "chunking/wrfout_hist_prcp_2002-09-01.nc4"

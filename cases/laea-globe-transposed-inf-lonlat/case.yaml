@@ -72,5 +72,6 @@ how_to_read: |
 links: []
 findings:
   - GRID_2D_LONLAT_ONLY
+  - GRID_CRYPTIC_CURVILINEAR
   - COORD_NONFINITE
   - ARRAY_TRANSPOSED

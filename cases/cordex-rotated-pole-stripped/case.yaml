@@ -49,3 +49,4 @@ links:
   - "https://github.com/r-spatial/stars/issues/64"
 findings:
   - GRID_2D_LONLAT_ONLY
+  - GRID_CRYPTIC_CURVILINEAR

@@ -11,11 +11,13 @@ project:
     - issues/index.qmd
     - files.md
     - missing.md
+    - findings.md
     - issues/*.md
   resources:
     - manifest.csv
     - missing.csv
     - sightings.csv
+    - findings.csv
     - fingerprints/
     - cases/*/case.yaml
 
@@ -30,6 +32,8 @@ website:
         href: files.md
       - text: "Missing"
         href: missing.md
+      - text: "Findings"
+        href: findings.md
       - text: "Issues archive"
         href: issues/index.qmd
   page-footer:

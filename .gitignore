@@ -28,3 +28,4 @@ _site/
 **/*.quarto_ipynb
 /cases/*/index.qmd
 /issues/index.qmd
+/findings.md

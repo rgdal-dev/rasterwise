@@ -8,10 +8,14 @@ curate.py -- maintain this repo's tables from harvest deltas. Standard library o
                          curated columns already in manifest.csv)
   check                  validate tables, cases, ASCII, no data files in git
   issues JSONDIR         write issues/NNN.md from `gh issue view --json` dumps
-  stage DEST             copy every manifest file this machine has a sighting of
-                         into DEST/files/<aa>/<sha256>, re-hashing each
+  stage DEST             copy every manifest file this machine can reach into
+                         DEST/files/<aa>/<sha256>, re-hashing each; skips
+                         redistributable=no. Uses $RW_ROOTS (a private CSV,
+                         never committed) to map sighting roots to local paths
   pages                  write the generated site pages (cases/index.md,
                          files.md, missing.md) for the Quarto site
+  release TAG STORE      upload staged blobs to this repo's GitHub release TAG as
+                         <sha256>.<ext>, then set-url each (verified download)
   set-url SHA URL        download URL, re-hash, and only if it matches set the
                          manifest url (rule: no url without a verified fetch)
 
@@ -411,6 +415,7 @@ def check():
         import yaml  # optional cross-check only
     except ImportError:
         yaml = None
+    FINDINGS = {r["code"] for r in read_csv(P("findings.csv"))}
     seen_ids = set()
     for slug in sorted(os.listdir(P("cases"))) if os.path.isdir(P("cases")) else []:
         if not os.path.isdir(P("cases", slug)):
@@ -452,6 +457,9 @@ def check():
         for mp in c.get("missing", []) or []:
             if mp not in listed_paths:
                 errs.append("cases/%s: missing entry %r is not in ledger/listed.csv" % (slug, mp))
+        for fc in c.get("findings", []) or []:
+            if fc not in FINDINGS:
+                errs.append("cases/%s: finding %r is not defined in findings.csv" % (slug, fc))
         for cc in c.get("costume", []) or []:
             if cc not in COSTUMES:
                 errs.append("cases/%s: costume %r not one of %s" % (slug, cc, ", ".join(sorted(COSTUMES))))
@@ -587,12 +595,29 @@ def issues(jsondir):
 
 # ------------------------------------------------------------------ bytes
 
-def local_sources(sha, sights, me):
+def load_root_map():
+    """Optional private map (never committed) from sighting roots to local paths:
+    a CSV with columns machine,volume,root,local, named by $RW_ROOTS. Needed when
+    sightings record a public label (e.g. a redacted or source-domain root)
+    rather than the path the bytes are at on this machine."""
+    p = os.environ.get("RW_ROOTS")
+    m = {}
+    if p and os.path.exists(p):
+        for r in read_csv(p):
+            m[(r["machine"], r["volume"], r["root"])] = os.path.expanduser(r["local"])
+    return m
+
+
+def local_sources(sha, sights, me, roots=None):
+    roots = roots or {}
     for s in sights:
-        if s["sha256"] != sha or s["machine"] != me:
+        if s["sha256"] != sha:
             continue
-        root = os.path.expanduser(s["root"])
-        yield s, root
+        key = (s["machine"], s["volume"], s["root"])
+        if key in roots:
+            yield s, roots[key]
+        elif s["machine"] == me:
+            yield s, os.path.expanduser(s["root"])
 
 
 def open_sighting(s, root):
@@ -626,19 +651,22 @@ def open_sighting(s, root):
     return f
 
 
-def stage(dest):
+def stage(dest, include_no=False):
     import socket
     me = socket.gethostname().split(".")[0]
     sights = read_csv(P("sightings.csv"))
     man = read_csv(P("manifest.csv"))
+    roots = load_root_map()
     done = 0
     for r in man:
+        if r["redistributable"] == "no" and not include_no:
+            continue
         h = r["sha256"]
         out = os.path.join(dest, "files", h[:2], h)
         if os.path.exists(out):
             done += 1
             continue
-        for s, root in local_sources(h, sights, me):
+        for s, root in local_sources(h, sights, me, roots):
             try:
                 src = open_sighting(s, root)
                 os.makedirs(os.path.dirname(out), exist_ok=True)
@@ -658,7 +686,11 @@ def stage(dest):
                 break
             except Exception as e:
                 log("  [warn] %s from %s: %s" % (h[:12], source_label(s), e))
-    log("staged %d of %d manifest files under %s/files/" % (done, len(man), dest))
+        else:
+            if not os.path.exists(out):
+                log("  [miss] %s %s: no reachable sighting" % (h[:12], r["canonical_path"]))
+    log("staged %d of %d manifest files under %s/files/ (redistributable=no %s)" %
+        (done, len(man), dest, "included" if include_no else "skipped"))
 
 
 def set_url(sha, url):
@@ -754,7 +786,81 @@ def pages():
         out.append("| `%s` | %s to %s | %s | %s |" % (md_cell(m["path"]), m["first_listed"], m["last_listed"], fp, part))
     with open(P("missing.md"), "w", encoding="ascii", newline="\n") as f:
         f.write("\n".join(out) + "\n")
-    log("pages: cases/index.md, files.md, missing.md, and an index.qmd beside each README.md")
+    use = {}
+    for slug, c in cases.items():
+        for f in c.get("findings") or []:
+            use.setdefault(f, []).append(slug)
+    out = ["---", 'title: "Findings"', "---", "",
+           "The codes cases use to name what is wrong, defined in [findings.csv](findings.csv) "
+           "(code, group, source, costume, definition). `source` says where a code comes from: "
+           "storecard's card extractor, or proposed here by a case. `costume` relates grid-frame "
+           "codes to the [costumes table](%s)." % COSTUME_TABLE, ""]
+    groups = {}
+    for r in read_csv(P("findings.csv")):
+        groups.setdefault(r["group"], []).append(r)
+    for g, rs in groups.items():
+        out += ["## %s" % g, "", "| code | definition | source | costume | cases |", "|---|---|---|---|---|"]
+        for r in rs:
+            cs = " ".join("[%s](cases/%s/index.qmd)" % (x, x) for x in sorted(use.get(r["code"], [])))
+            out.append("| `%s` | %s | %s | %s | %s |" % (r["code"], md_cell(r["definition"]), r["source"], r["costume"], cs))
+        out.append("")
+    with open(P("findings.md"), "w", encoding="ascii", newline="\n") as f:
+        f.write("\n".join(out) + "\n")
+    log("pages: cases/index.md, files.md, missing.md, findings.md, and an index.qmd beside each README.md")
+
+
+# ------------------------------------------------------------------ publishing to a release
+
+def asset_name(r):
+    """<sha256>.<ext>: content-addressed, with the extension kept so readers that
+    look at names (and people) know what the bytes are."""
+    base = os.path.basename(r["canonical_path"].split("~")[0])
+    ext = base.rsplit(".", 1)[1] if "." in base.strip(".") else ""
+    return r["sha256"] + ("." + ext if ext and len(ext) <= 12 and ext.isalnum() else "")
+
+
+def gh(*args, **kw):
+    return subprocess.run(["gh"] + list(args), stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                          check=kw.get("check", True)).stdout.decode()
+
+
+def release(tag, store):
+    """Upload staged blobs (STORE/files/<aa>/<sha256>) to the GitHub release TAG
+    of this repo, as <sha256>.<ext>, then set each url only after a verified
+    download (set-url). Skips redistributable=no and anything not staged."""
+    import json, tempfile
+    base = repo_web_url()
+    slug = base.split("github.com/", 1)[-1]
+    if gh("release", "view", tag, "-R", slug, check=False).strip() == "":
+        gh("release", "create", tag, "-R", slug, "--title", "File store: %s" % tag, "--notes",
+           "Content-addressed copies of the files in manifest.csv: each asset is named "
+           "<sha256>.<ext>, and manifest.csv's url column points here once a download of "
+           "the asset has been verified against its sha256. Third-party files keep their "
+           "providers' terms; see each file's note in manifest.csv.")
+    have = {a["name"] for a in json.loads(gh("release", "view", tag, "-R", slug, "--json", "assets"))["assets"]}
+    man = read_csv(P("manifest.csv"))
+    todo = []
+    for r in man:
+        if r["redistributable"] == "no" or r["url"]:
+            continue
+        blob = os.path.join(store, "files", r["sha256"][:2], r["sha256"])
+        if not os.path.exists(blob):
+            continue
+        todo.append((r, blob, asset_name(r)))
+    tmp = tempfile.mkdtemp()
+    for r, blob, name in todo:
+        if name not in have:
+            link = os.path.join(tmp, name)
+            os.symlink(blob, link)
+            gh("release", "upload", tag, link, "-R", slug)
+            os.remove(link)
+            log("  uploaded %s (%s)" % (name, r["canonical_path"]))
+    ok = 0
+    for r, blob, name in todo:
+        url = "%s/releases/download/%s/%s" % (base, tag, name)
+        if set_url(r["sha256"], url) == 0:
+            ok += 1
+    log("release %s: %d urls set after verified download" % (tag, ok))
 
 
 def main(argv):
@@ -770,6 +876,8 @@ def main(argv):
         return check()
     elif cmd == "issues":
         issues(args[0])
+    elif cmd == "release":
+        release(args[0], args[1])
     elif cmd == "pages":
         pages()
     elif cmd == "stage":

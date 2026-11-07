@@ -60,4 +60,5 @@ links:
   - "https://github.com/r-spatial/stars/issues/62"
 findings:
   - GRID_2D_LONLAT_ONLY
+  - GRID_CRYPTIC_CURVILINEAR
   - GRID_2D_WITH_PROJECTED_1D

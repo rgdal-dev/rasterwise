@@ -44,3 +44,4 @@ links:
   - "https://hypertidy.github.io/regular-in-what/01-problem.html"
 findings:
   - GRID_2D_LONLAT_ONLY
+  - GRID_CRYPTIC_CURVILINEAR
