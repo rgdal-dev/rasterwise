@@ -1,6 +1,8 @@
 id: gpm-dpr-swapped-axes
 title: "GPM DPR 3A-DAY via OPeNDAP: (nlon, nlat) order gives GDAL a grid with latitude as x"
 status: understood
+costume:
+  - C
 summary: "A GPM DPR daily grid subset from a Hyrax OPeNDAP server with dimensions (AD, chn, nlon, nlat); GDAL's classic view makes latitude the x axis and longitude the y axis, so it has to be transposed."
 files:
   - df20ee33704c86265fdd85de3254f5061649fd95ccb1cb7d5851cf824ac534e7  # extdata/swapped/3A-DAY.nc

@@ -1,6 +1,8 @@
 id: cm21-tripolar-nominal-axes
 title: "GFDL CM2.1 ocean: 1D lon/lat axes are nominal; true positions are 2D (tripolar north of 65N)"
 status: understood
+costume:
+  - H
 summary: "A CM2.1 ocean region mask with nominal 1D axes plus true 2D geolon/geolat, and an SST file on the same grid whose 1D xt/yt are neither the nominal nor the true positions; use the mask file's geolon_t/geolat_t as geolocation for the SST."
 files:
   - 10b6eb4ff393722069f2c38ef2ea37971b8c091460f65fbcd1bd10d7a0f43453  # extdata/rectilinear/CM2.1_regionmask.nc

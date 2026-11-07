@@ -1,6 +1,8 @@
 id: silo-rain-year-chunks-slow-band-reads
 title: "SILO daily rain: chunks span the whole year, so GDAL reads the full file once per band"
 status: understood
+costume:
+  - C
 summary: "A SILO annual daily_rain netCDF-4 file is chunked (365, 30, 50); GDAL's band-by-band read pulls every chunk for every day, about 428 MB per band, which made nc-to-GeoTIFF conversion take tens of minutes in 2019."
 files:
   - ba6453ee94605a850fed6ac328f74218dafd97e7fe1140f4ca2ca35fa2ae4159  # extdata/nc-to-cog/1889.daily_rain.nc

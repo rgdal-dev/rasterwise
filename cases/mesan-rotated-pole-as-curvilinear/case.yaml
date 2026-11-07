@@ -1,6 +1,8 @@
 id: mesan-rotated-pole-as-curvilinear
 title: "MESAN precipitation over Italy: a rotated-pole grid flattened to 2-D lon/lat by cdo"
 status: understood
+costume:
+  - E
 summary: "cdo setgridtype,curvilinear replaced the native rotated lat/lon axes with 2-D lon/lat; the grid is exactly regular (0.05 degree) in a rotated pole at lon -165, lat 29."
 files:
   - cc8761e5b094dcbeaa7e8b00e59082fbe95aa5c6721acf467db952ad50f3fe49  # extdata/hmr_ita.nc
@@ -42,6 +44,7 @@ how_to_read: |
   result (gdalwarp -t_srs EPSG:4326) rather than treating lon/lat as
   rectilinear.
 links:
+  - "https://hypertidy.github.io/regular-in-what/07-cases.html#sec-case-cordex"
   - "fingerprints/hmr_ita.nc.cdl"
 findings:
   - GRID_2D_LONLAT_ONLY

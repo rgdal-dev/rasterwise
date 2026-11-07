@@ -1,6 +1,8 @@
 id: nsidc-polar-grid-no-coords-flipped
 title: "SSM/I sea ice on the NSIDC south polar grid with no coordinates; GDAL reads it upside down"
 status: understood
+costume:
+  - A
 summary: "No coordinate variables and no CRS, only grid = NSIDC in a global attribute; rows are stored top-down but GDAL assumes bottom-up and flips them."
 files:
   - 549a1b01dda6aa14aaa58037d5458d7d257834185f1e875d7f4fbc41e7e40477  # extdata/19911203.nc

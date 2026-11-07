@@ -1,6 +1,8 @@
 id: regcm-lcc-cross-dot-points
 title: "RegCM domain file: proper LCC grid with two staggered 2D lon/lat sets (cross and dot points)"
 status: understood
+costume:
+  - E2
 summary: "A RegCM 4.6.1 EURO-CORDEX terrain/domain file on a 12 km Lambert conformal conic grid; GDAL georeferences it from jx/iy and crs, the cross-point xlon/xlat are the cell centres, and the dot-point dlon/dlat sit half a cell (6 km) to the south-west."
 files:
   - 0ca0d4aa0124af62f2ded9f6893024b876fb72b602bbc88230dc39eeb6124aec  # extdata/EURO-CORDEX_81_DOMAIN000_54/EURO-CORDEX_81_DOMAIN000.nc

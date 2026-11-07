@@ -1,6 +1,8 @@
 id: laea-globe-transposed-inf-lonlat
 title: "Whole-globe Lambert azimuthal disk stored transposed, with Inf lon/lat off the disk"
 status: understood
+costume:
+  - E
 summary: "A 128 x 128 GEBCO elevation image of the whole sphere in Lambert azimuthal equal-area, described only by 2D lon/lat arrays that are Inf outside the disk; the array is transposed (north to the left) and GDAL's geolocation warp fails."
 files:
   - da47930e9aba281b200020455f44351f055227fe0267a95d63301e4194e42977  # data-raw/spherical.nc

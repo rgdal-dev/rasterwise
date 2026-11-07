@@ -1,6 +1,8 @@
 id: topex-ssh-noncf-fill-sentinels
 title: "TOPEX/POSEIDON sea level: land and no-data sentinels declared under non-CF attribute names"
 status: understood
+costume:
+  - C
 summary: "sea_level marks land as 32766 and no data as 32767 via attributes land_value and fill_value, which CF readers ignore; only valid_min/valid_max catches them. Grid is 0-360, latitude ascending."
 files:
   - 0bc799977131422574b2603943d88cf965b9e9201f6e56007ca57e14eaa0b753  # extdata/ssh05d19921006.nc

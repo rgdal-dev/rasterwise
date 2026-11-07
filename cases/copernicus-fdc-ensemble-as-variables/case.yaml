@@ -1,6 +1,8 @@
 id: copernicus-fdc-ensemble-as-variables
 title: "C3S flow-duration indicators on a 0.5 degree grid: ensemble members as value1..value12"
 status: understood
+costume:
+  - C
 summary: "Gridded companions of the catchment files: a regular 0.5 degree grid with ascending latitude that GDAL reads correctly, but the 12 ensemble members are separate variables identified only by global-attribute strings, with inconsistent units."
 files:
   - 8ad498d2332470f0371e64562f3f8abf2b5bf66d54c81d5a53d328d2097ccf18  # extdata/copernicus/cout-perc1_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap0.5.nc

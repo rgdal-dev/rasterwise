@@ -1,6 +1,8 @@
 id: wod-profile-cast-not-a-grid
 title: "World Ocean Database single-cast profile: 1D in depth, not a raster"
 status: understood
+costume:
+  - none
 summary: "A WOD CF featureType=Profile file holds one ocean cast (scalar lon/lat/time, 12 depth levels); GDAL's raster open fails and its subdatasets are 12 x 1 strips."
 files:
   - 5e5e6e71163d8eb49dde1b74b64f096d7326b72b896bd4fb5c920bb1eec9f6cf  # extdata/1D/test.nc

@@ -1,6 +1,8 @@
 id: regcm-ascending-lat-south-up
 title: "RegCM exceedance grid stored south-to-north (latitude ascending)"
 status: understood
+costume:
+  - C
 summary: "Rows are stored with latitude ascending, so any reader that takes array order as image order shows it upside down; GDAL's netCDF driver flips it correctly."
 files:
   - 7ac6cca2ea001ab25a80795237bfcdc12d3b2456daaebf2c6e325ab8117f38c4  # extdata/inverted_73/regcm-nn-2100_reg4_22.nc

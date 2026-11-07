@@ -1,6 +1,9 @@
 id: regional-climate-grid-encodings
 title: "Three regional climate files, three grid encodings: 2D lon/lat only, rotated pole without 2D lon/lat, projected LAEA"
 status: understood
+costume:
+  - E
+  - C
 summary: "Examples sent to stars issue 62. A PROMES MED-44 file with only 2D lon/lat and no CRS, a CCLM MED-44 rotated-pole file, and an EURO4M-APGD LAEA file; current GDAL georeferences the last two, and the first reads through its geolocation arrays."
 files:
   - 6fc294f033288a26318a9a557d2c6787c0ff05a7d41d4e3bc1a330506ddac006  # extdata/bad_examples_62/example1.nc

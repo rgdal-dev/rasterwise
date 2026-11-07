@@ -137,6 +137,8 @@ how_to_read: |
 links:
   - "issues/013.md"
   - "https://github.com/r-spatial/stars/issues/62"
+costume:                     # optional: storage form(s), A-H/E2/E3 or none, as in
+  - D                        #   regular-in-what's costumes table
 findings:                    # optional codes, e.g. LAT_MERCATOR_SPACED
   - LAT_MERCATOR_SPACED
 missing:                     # optional: lost files from missing.csv this case is about

@@ -1,6 +1,8 @@
 id: raster-pkg-generic-z-no-crs
 title: "R raster writeRaster output: generic z layer dimension and CRS only in a global attribute"
 status: open
+costume:
+  - C
 summary: "A clean 0.25 degree lon/lat grid around Tasmania; the only awkward features found are a z dimension with units unknown and a PROJ.4 crs global attribute that CF readers ignore. Why it was collected is not recorded."
 files:
   - aee3480029732d72666c15403dcfa5881e212f9b1531a8588b724fb375413594  # extdata/file.nc

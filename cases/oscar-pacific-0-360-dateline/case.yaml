@@ -1,6 +1,8 @@
 id: oscar-pacific-0-360-dateline
 title: "OSCAR tropical Pacific currents: a 0-360 grid that spans the antimeridian"
 status: open
+costume:
+  - C
 summary: "Reads correctly in GDAL; the only awkward features found are longitudes 120.5-289.5 E across the antimeridian, non-CF unit spellings and no CRS. Why it was collected is not recorded."
 files:
   - 01bf16d9b390122be82844c9994aacab9c8ddd0d9b771d3518eaebb03cec8ae6  # extdata/oscar_gdr_5d1993.nc

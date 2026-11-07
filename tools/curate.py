@@ -47,7 +47,11 @@ MAN_COLS = ["sha256", "size", "canonical_path", "aliases", "case", "format", "st
 CURATED = ("canonical_path", "url", "redistributable", "note")
 MISS_COLS = ["path", "first_listed", "last_listed", "fingerprint", "best_partial", "note"]
 CASE_REQUIRED = ["id", "title", "status", "summary", "files", "whats_wrong", "how_to_read", "links"]
-# optional: findings (codes), missing (paths from ledger/listed.csv), retired (true/false).
+# optional: findings (codes), missing (paths from ledger/listed.csv), retired (true/false),
+# costume (list): the storage form(s) of the case's grid(s), as in the costumes table of
+# regular-in-what (A-H, E2, E3), or "none" for data that is not a grid at all.
+COSTUMES = {"A", "B", "C", "D", "E", "E2", "E3", "F", "G", "H", "none"}
+COSTUME_TABLE = "https://hypertidy.github.io/regular-in-what/03-costumes.html#tbl-costumes"
 # A case is never deleted or renamed; set retired: true instead.
 CASE_STATUS = {"open", "understood", "fixed-upstream"}
 SLUG = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
@@ -447,6 +451,9 @@ def check():
         for mp in c.get("missing", []) or []:
             if mp not in listed_paths:
                 errs.append("cases/%s: missing entry %r is not in ledger/listed.csv" % (slug, mp))
+        for cc in c.get("costume", []) or []:
+            if cc not in COSTUMES:
+                errs.append("cases/%s: costume %r not one of %s" % (slug, cc, ", ".join(sorted(COSTUMES))))
         if "retired" in c and not isinstance(c["retired"], bool):
             errs.append("cases/%s: retired must be true or false" % slug)
         if not os.path.isfile(P("cases", slug, "README.md")):
@@ -701,12 +708,17 @@ def pages():
            "is not yet determined, `fixed-upstream` when current software handles it.", "",
            "%d cases: %s." % (len(cases), ", ".join("%d %s" % (sum(1 for c in cases.values() if c.get("status") == st), st)
                                                      for st in ("understood", "open", "fixed-upstream"))), "",
-           "| case | status | findings | summary |", "|---|---|---|---|"]
+           "Costume is the storage form of the grid, from the [costumes table](%s) in "
+           "*regular-in-what*: what was stored versus what the grid really is. "
+           "`none` means the data is not a grid." % COSTUME_TABLE, "",
+           "Costumes: %s." % ", ".join("%s %d" % (k, v) for k, v in sorted(
+               __import__("collections").Counter(x for c in cases.values() for x in (c.get("costume") or ["?"])).items())), "",
+           "| case | costume | status | findings | summary |", "|---|---|---|---|---|"]
     for slug, c in sorted(cases.items(), key=lambda kv: (kv[1].get("title", "").lower())):
         if c.get("retired") is True:
             continue
-        out.append("| [%s](%s/index.qmd) | %s | %s | %s |" % (
-            md_cell(c.get("title", slug)), slug, c.get("status", ""),
+        out.append("| [%s](%s/index.qmd) | %s | %s | %s | %s |" % (
+            md_cell(c.get("title", slug)), slug, " ".join(c.get("costume") or []), c.get("status", ""),
             " ".join("`%s`" % f for f in (c.get("findings") or [])), md_cell(c.get("summary", ""))))
     with open(P("cases", "index.md"), "w", encoding="ascii", newline="\n") as f:
         f.write("\n".join(out) + "\n")

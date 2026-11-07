@@ -1,6 +1,8 @@
 id: cordex-rotated-pole-stripped
 title: "CORDEX EUR-11 file with the rotated-pole CRS and rlon/rlat stripped, leaving only 2D lon/lat"
 status: understood
+costume:
+  - E
 summary: "A DMI-HIRHAM5 EUR-11 precipitation field, post-processed with cdo/nco, that has lost its rlon/rlat axes and rotated_pole grid_mapping; the 2D lon/lat match the standard EUR-11 rotated grid exactly, so the regular grid can be restored."
 files:
   - cfe075db7f203ab1c970b819888d513f83bdff5d100e616fc337b84645482814  # extdata/get1index_64/test.nc
@@ -42,6 +44,7 @@ how_to_read: |
   cases/rotated-pole-as-lonlat). Alternatively, gdalwarp -geoloc works on
   the 2D arrays, but it resamples a grid that is regular to begin with.
 links:
+  - "https://hypertidy.github.io/regular-in-what/07-cases.html#sec-case-cordex"
   - "https://github.com/r-spatial/stars/issues/60"
   - "https://github.com/r-spatial/stars/issues/64"
 findings:

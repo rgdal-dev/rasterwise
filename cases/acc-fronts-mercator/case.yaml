@@ -1,6 +1,8 @@
 id: acc-fronts-mercator
 title: "ACC frontal indices on the AVISO Mercator grid, with a duplicated seam and no time coordinate"
 status: understood
+costume:
+  - D
 summary: "Weekly Southern Ocean front classes 1992-2009 on the Southern Ocean part of the old AVISO Mercator grid; lat is Mercator-spaced, lon 0..360 repeats the seam column, time is split into year/month/day variables, and GDAL's classic view returns 0 where the file stores NaN."
 files:
   - bec3c3cf8baa9a8d24066cf47022ebbc1ddff9b0d956af626d7443ab126c547f  # extdata/rectilinear/ACCfronts_nc4.nc
@@ -57,7 +59,8 @@ how_to_read: |
   cell with the matching value, NaN included. Band k is week k. Build
   dates from year/month/day, e.g. in Python:
   [datetime.date(int(y), int(m), int(d)) for y, m, d in zip(year, month, day)].
-links: []
+links:
+  - "https://hypertidy.github.io/regular-in-what/07-cases.html#sec-case-aviso"
 findings:
   - LAT_MERCATOR_SPACED
   - Y_ASCENDING

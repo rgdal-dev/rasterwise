@@ -1,6 +1,8 @@
 id: ukcp18-rotated-pole-tas-truncated
 title: "UKCP18 12 km rotated-pole tas: full file lost, only 48 MiB truncated copies survive"
 status: open
+costume:
+  - C
 summary: "A 4D UKCP18 regional tas file (ensemble_member, time, grid_latitude, grid_longitude) on a rotated pole grid was listed for its dimensions; the 814,764,140-byte file is lost and the surviving copies are cut off at about 50 MB."
 files:
   - 86d3b131192adc921c1fc6fe029878edbff14fd2abc8aea582da1590d2b538df  # extdata/ceda/ceda_dims.readme

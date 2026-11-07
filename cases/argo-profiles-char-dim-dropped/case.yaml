@@ -1,6 +1,8 @@
 id: argo-profiles-char-dim-dropped
 title: "Argo float profiles: not a grid, and char variables whose string dimension gets dropped"
 status: understood
+costume:
+  - none
 summary: "Float profile data (profile x depth) with per-profile lon/lat, plus char flag variables with a length-1 string dimension that R readers silently drop, breaking dimension bookkeeping."
 files:
   - 5d49cbcda73866fba063e0f821d4b802924d77b0201de3bb9ee560dc66884ee7  # extdata/R13352.nc

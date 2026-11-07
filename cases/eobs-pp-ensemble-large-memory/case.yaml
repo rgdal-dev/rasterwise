@@ -1,6 +1,8 @@
 id: eobs-pp-ensemble-large-memory
 title: "E-OBS v19.0e sea-level pressure ensemble mean: 25202 daily grids, too big to read whole"
 status: open
+costume:
+  - C
 summary: "A download script for the E-OBS 0.25 degree pp ensemble-mean file survives; the data file is lost but its header shows 25202 x 201 x 464 int16, about 4.7 GB unpacked, listed as a large-memory example."
 files:
   - 61cf44d9e37463b08ec0595f44bbeff07d8981c01a7c4c014d1dab15e9e8a09e  # data-raw/large-mem.R

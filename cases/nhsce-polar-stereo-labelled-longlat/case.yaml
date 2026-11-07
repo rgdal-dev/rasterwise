@@ -1,6 +1,8 @@
 id: nhsce-polar-stereo-labelled-longlat
 title: "NOAA snow cover CDR: a polar stereographic grid labelled latitude_longitude"
 status: understood
+costume:
+  - E
 summary: "The 88 x 88 grid carries only 2-D lon/lat and a grid_mapping that says latitude_longitude, but it is an exact polar stereographic grid (lat_ts 60, lon_0 -80) recoverable as a geotransform."
 files:
   - f43715f25daf39e50cc896be98ccee7f12a792ed7f4e359396321e01246d131d  # extdata/nhsce_v01r01_19661004_20140203.nc

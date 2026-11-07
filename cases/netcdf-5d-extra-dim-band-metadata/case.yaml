@@ -1,6 +1,8 @@
 id: netcdf-5d-extra-dim-band-metadata
 title: "5D netCDF test file: GDAL band metadata for more than one extra dimension"
 status: fixed-upstream
+costume:
+  - C
 summary: "A tiny 5D variable a(c5, c4, c3, y, x) built in 2009 to test a GDAL netCDF patch; old GDAL labelled bands with wrong c3/c4 values, GDAL 3.14 labels all 12 bands correctly."
 files:
   - fae2e2fc0b30d100a75bb3d6c0ad6a051649f2dff5394bcd066d955e9c6eb411  # extdata/high-dim/test-1.nc

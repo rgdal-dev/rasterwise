@@ -1,6 +1,8 @@
 id: cf-dsg-timeseries-read-as-grid
 title: "CF timeSeries station file that GDAL opens as a 20 x 10 raster"
 status: understood
+costume:
+  - none
 summary: "A CF-1.7 featureType=timeSeries file (10 stations x 20 days) is not a grid, but GDAL presents it as a time-by-station image with no geolocation."
 files:
   - 33765f301d00219ae7bff2e404c8bb94b29c49d38b29ec7fb0ec5a51304df1d7  # extdata/timeseries.nc

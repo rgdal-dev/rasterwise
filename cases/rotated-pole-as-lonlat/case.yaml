@@ -1,6 +1,9 @@
 id: rotated-pole-as-lonlat
 title: "CORDEX EUR-44 rotated-pole grids, and a GeoTIFF that labels rotated coordinates as WGS84"
 status: understood
+costume:
+  - E2
+  - B
 summary: "Two CF rotated_latitude_longitude files that current GDAL reads correctly, plus out.tif, a copy of the first whose rotated rlon/rlat extent is tagged EPSG:4326, which puts European data in the tropical Atlantic."
 files:
   - 9e5bac9b61351cf130295b86b28d0fe0c7521d202b67259e2458cb4b806af876  # extdata/ob_tran/example_ob_tran.nc
@@ -51,6 +54,7 @@ how_to_read: |
   example_ob_tran.nc to within 8e-6 degrees. As above, the CRS goes into
   fixed.tif.aux.xml, so keep the sidecar.
 links:
+  - "https://hypertidy.github.io/regular-in-what/07-cases.html#sec-case-cordex"
   - "https://github.com/r-spatial/stars/issues/52"
 findings:
   - GRID_2D_WITH_PROJECTED_1D

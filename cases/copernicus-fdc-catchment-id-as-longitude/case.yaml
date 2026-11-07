@@ -1,6 +1,8 @@
 id: copernicus-fdc-catchment-id-as-longitude
 title: "C3S flow-duration indicators per catchment: SUBID codes labelled as longitude"
 status: understood
+costume:
+  - none
 summary: "The remap215 files hold one value per E-HYPE catchment, but the catchment id coordinate claims standard_name longitude, units degrees, axis X; there is no grid and no geometry in the file."
 files:
   - 077840ba933a0d4ba2651b68206a9f1602cb69ece899b44f2e0ac591c6188348  # extdata/copernicus/cout-perc1_ref_EUR-44_rcp85_IMPACT2C_QM-EOBS_1971-2000_remap215.nc
