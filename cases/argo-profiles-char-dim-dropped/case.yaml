@@ -4,6 +4,7 @@ status: understood
 summary: "Float profile data (profile x depth) with per-profile lon/lat, plus char flag variables with a length-1 string dimension that R readers silently drop, breaking dimension bookkeeping."
 files:
   - 5d49cbcda73866fba063e0f821d4b802924d77b0201de3bb9ee560dc66884ee7  # extdata/R13352.nc
+  - f977f8c2f2a066001c71d7b26594da4bade84b80f97785494ac0e6e136d3b4c4  # ranch/weird_nc/p_calibrate.nc
 whats_wrong: |
   Two separate traps, both checked on the bytes.
   1. It is not a raster. Global title "ARGO-CSIRO dataset": 54 profiles from

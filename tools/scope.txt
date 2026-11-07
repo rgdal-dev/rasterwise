@@ -22,6 +22,10 @@ weirdlist.txt
 weird_update.R
 weird_update.Rout
 R/weird_update.R
+# GitHub templates and illustrations from other repos (e.g. ranch)
+ISSUE_TEMPLATE
+PULL_REQUEST_TEMPLATE
+raster.png
 # personal R session history
 .Rhistory
 */.Rhistory

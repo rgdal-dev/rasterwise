@@ -179,7 +179,7 @@ def full_name(r):
 
 
 def in_scope(r, pats):
-    if r["kind"] == "file" and r["format"] in ("tar", "gzip") and r.get("_has_members"):
+    if r.get("_has_members"):
         return False  # an archive shell whose members are listed in their own right
     name = full_name(r)
     for p in pats:
@@ -248,6 +248,11 @@ def build():
     shells = {(s["machine"], s["volume"], s["root"], s["relpath"]) for s in sights if s["kind"] == "archive-member"}
     for s in sights:
         s["_has_members"] = s["kind"] == "file" and (s["machine"], s["volume"], s["root"], s["relpath"]) in shells
+    # an archive whose members were read anywhere is a shell everywhere (e.g. the same zip as a git blob)
+    shell_shas = {s["sha256"] for s in sights if s["_has_members"]}
+    for s in sights:
+        if s["sha256"] in shell_shas:
+            s["_has_members"] = True
     by_sha = {}
     for s in sights:
         if s["sha256"] and in_scope(s, pats):

@@ -61,3 +61,17 @@ Use `(lon + 180) % 360 - 180` for a continuous track across 0 degrees.
 
 - issues/004.md
 - issues/005.md
+
+## Companion file: p_calibrate.nc (a GeoTIFF named .nc)
+
+The predecessor repo ranch (2016-2018) shipped R13352.nc in a `weird_nc.zip`
+whose first version (2018-09-12, "weird NetCDF files") also held
+`p_calibrate.nc`. Despite the name it is a GeoTIFF: 51 x 54 Float64, no
+georeferencing, every pixel nodata. Its shape is R13352.nc's
+`p_calibrate(profile=54, depth=51)`, which is entirely 99999 fill, so it is
+that variable written out as an image with the wrong extension. It was
+dropped from the zip later the same day. The lesson is small but real: the
+extension says netCDF, the bytes say TIFF. Readers that go by content, as
+GDAL does, open it as GTiff without complaint; readers that dispatch on the
+extension fail. The manifest records it as format `tiff`, status `ok`, and the
+harvest notes `extension-mismatch`.

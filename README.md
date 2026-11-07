@@ -44,7 +44,7 @@ they are never renamed or reused, and a retired case is marked
 | `aliases` | other names it has been seen under, `;`-separated |
 | `case` | slug(s) of the cases that use it, from `cases/*/case.yaml` |
 | `format` | sniffed from the bytes: `netcdf3`, `netcdf4/hdf5`, `hdf4`, `geotiff`, `tiff`, `zip`, `grib`, `vrt`, `script`, `text`; empty if the bytes have not been sniffed |
-| `status` | `ok`, `truncated` (shorter than its own header or archive entry says), or `unreadable` (signature doesn't match the file type) |
+| `status` | `ok`, `truncated` (shorter than its own header or archive entry says), or `unreadable` (no known format matches the bytes, e.g. text named `.nc`). A file in a known format under the wrong extension is `ok`: readers such as GDAL identify files by content, and `sightings.csv` records `extension-mismatch` in its `check` column. |
 | `sources` | every place it was seen, `machine:volume:root:path (date)`, `;`-separated |
 | `url` | where the bytes can be fetched now. Set only after a verified download (see below). |
 | `redistributable` | `yes`, `no` or `unknown` |

@@ -165,6 +165,10 @@ def sniff(head, name):
         return "bzip2"
     if head[:6] == b"\xfd7zXZ\x00":
         return "xz"
+    if head[:8] == b"\x89PNG\r\n\x1a\n":
+        return "png"
+    if head[:3] == b"\xff\xd8\xff":
+        return "jpeg"
     if b"<VRTDataset" in head[:512]:
         return "vrt"
     if head and b"\x00" not in head[:8192]:
@@ -380,8 +384,12 @@ def assess(path_or_fobj, name, size):
            (low.endswith((".h5", ".hdf5", ".he5")) and fmt != "netcdf4/hdf5") or \
            (low.endswith(".hdf") and fmt not in ("hdf4", "netcdf4/hdf5")) or \
            (low.endswith((".tif", ".tiff")) and fmt not in ("geotiff", "tiff")):
-            status = "unreadable"
-            check = "signature"
+            # Readers like GDAL identify files by their bytes, not their names: a TIFF
+            # called .nc is still readable. Only bytes no known format matches are unreadable.
+            if fmt in ("text", "binary", "empty"):
+                status, check = "unreadable", "signature"
+            else:
+                check = (check + ";" if check != "none" else "") + "extension-mismatch"
         return fmt, status, check, "" if exp is None else str(exp)
     finally:
         if own:
