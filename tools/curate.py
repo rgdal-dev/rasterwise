@@ -764,12 +764,16 @@ def pages():
 
     out = ["---", 'title: "Files"', "---", "",
            "Every file in the archive, keyed by sha256 (the full table is [manifest.csv](manifest.csv)). "
-           "Download urls will appear once the content-addressed store is published.", "",
-           "| name | format | status | size | sha256 | case |", "|---|---|---|---:|---|---|"]
+           "Where a file is published, `url` links its content-addressed copy; each url was set only "
+           "after downloading it and checking its sha256. The urls support HTTP range requests, so "
+           "GDAL can read them directly as `/vsicurl/<url>` (HDF4 files excepted: that library needs "
+           "a local file). Files without a url are private copies or not yet reachable.", "",
+           "| name | format | status | size | sha256 | url | case |", "|---|---|---|---:|---|---|---|"]
     for r in man:
         cs = " ".join("[%s](cases/%s/index.qmd)" % (c, c) for c in r["case"].split(";") if c)
-        out.append("| `%s` | %s | %s | %s | `%s` | %s |" % (
-            md_cell(r["canonical_path"]), r["format"] or "?", r["status"], r["size"], r["sha256"][:12], cs))
+        link = "[get](%s)" % r["url"] if r["url"] else ""
+        out.append("| `%s` | %s | %s | %s | `%s` | %s | %s |" % (
+            md_cell(r["canonical_path"]), r["format"] or "?", r["status"], r["size"], r["sha256"][:12], link, cs))
     with open(P("files.md"), "w", encoding="ascii", newline="\n") as f:
         f.write("\n".join(out) + "\n")
 

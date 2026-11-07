@@ -58,7 +58,19 @@ and on the case slugs. Keep those stable.
 
 ## Getting the files
 
-The blob store is not published yet, so `url` is empty for now. Until it is:
+Published files are assets of this repo's `blobs-1` release, named
+`<sha256>.<ext>`; `manifest.csv`'s `url` column links each one, and every url
+was set only after a download of it hashed to the right sha256. The urls
+redirect to storage that honours HTTP range requests, so GDAL reads them
+directly:
+
+```sh
+gdalinfo /vsicurl/<url>
+```
+
+HDF4 files are the exception (that library needs a local file). Private-only
+copies (`redistributable=no`) and files whose bytes aren't reachable from the
+archive's machines have no url. Older ways in:
 
 * The intact release bundles v0.0.6, v0.0.8, v0.0.10 and v0.0.12 are on this
   repo's GitHub releases (`weird.tar.gz`). Their members are in the manifest.
