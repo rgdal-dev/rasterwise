@@ -7,6 +7,7 @@ summary: "A RegCM 4.6.1 EURO-CORDEX terrain/domain file on a 12 km Lambert confo
 files:
   - 0ca0d4aa0124af62f2ded9f6893024b876fb72b602bbc88230dc39eeb6124aec  # extdata/EURO-CORDEX_81_DOMAIN000_54/EURO-CORDEX_81_DOMAIN000.nc
   - 7f0316eeb1b1ffa4b69a3eeebed7f823ca90360a6e587607b4715bfbb2d2f8c7  # extdata/EURO-CORDEX_81_DOMAIN000_54/issue_54.R
+  - 9c7cad9b153061b2f005ce3d090419a92fe5e8fa58c0cef20e4ac827ff37d55d  # extdata/EURO-CORDEX_81_DOMAIN000_54/EURO-CORDEX_81_DOMAIN000_mask_int.nc.zip!EURO-CORDEX_81_DOMAIN000_mask_int.nc
 whats_wrong: |
   EURO-CORDEX_81_DOMAIN000.nc ("Created by RegCM terrain program",
   model_revision tag-4.6.1) is 530 x 530 at 12 km. jx/iy are regular,
@@ -32,7 +33,16 @@ whats_wrong: |
 
   issue_54.R (from stars issue 54) builds a curvilinear stars object from
   xlon/xlat for topo. That works, but it ignores the regular LCC grid the
-  file already defines. What stars issue 54 reported about this file is not
+  file already defines.
+
+  EURO-CORDEX_81_DOMAIN000_mask_int.nc (in a zip, 2019-08-12) is derived
+  from the domain file by NCO, per its history attribute: `ncks -v mask`,
+  then `ncap2 -3 -s mask=int(mask);xlat=int(xlat);xlon=int(xlon)`. It keeps
+  jx/iy and crs intact but stores xlat/xlon as int, truncated to whole
+  degrees (15, 15, ..., 16, ...). A reader that prefers the 2D coordinates
+  over grid_mapping gets a staircase; the 1D projected axes are still right.
+
+  What stars issue 54 reported about this file is not
   archived here.
 how_to_read: |
   Verified with GDAL 3.14.0dev on 2026-11-07. Open a field subdataset and
