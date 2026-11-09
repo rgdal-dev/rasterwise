@@ -23,6 +23,13 @@ Approach, to keep it read-only and cheap at petabyte scale:
    so problem-class counts can be made without reading the data.
 4. Hash and harvest only what is to be adopted into the manifest.
 
+## Requests from downstream
+
+* raadtools dataset contract: [requests/raadtools-contract.md](requests/raadtools-contract.md).
+  One row per dataset (crs, extent, dim, source finder, date contract)
+  harvested here, through storecard, into raad.virtualize for raadtools to
+  pull from.
+
 ## Owner's items (from the collection survey, 2026-11-07)
 
 * **GMT classic grids** (yours): netCDF in GMT's old layout, a 1-D `z(xysize)` with
