@@ -49,7 +49,10 @@ sighting before it becomes a case.
   month index from 1981-09.
 - NSIDC sea ice concentration (CDR and older NSIDC-0051): raadtools sets the
   CRS explicitly (south EPSG:3976, north EPSG:3413) because older files lack
-  it. Values above 1 are flag codes (land, coast, missing, pole hole); the
+  it. It does so only when the file declares none, so for G02202 v6 the CRS
+  may be `declared`. The rasterwise case nsidc-polar-grid-no-coords-flipped
+  and storecard's f03d assertion use EPSG:3412 (Hughes 1980) for the same
+  grid; the contract needs one answer per dataset, with evidence. Values above 1 are flag codes (land, coast, missing, pole hole); the
   valid range is [0, 1], and the mask must be applied before any
   interpolating resample.
 - AVISO/CMEMS FSLE: the extent reads as -1.057e-09, 360 (floating point noise
@@ -76,7 +79,8 @@ default result reads:
 | read_oisst_monthly | PSL OISST `sst.mon.mean.nc`, band per month | asserted EPSG:4326 | 1440 x 720, 0-360 |
 | readice, read_nsidc_cdr_daily | NSIDC CDR daily, south | set: EPSG:3976 | 316 x 332 |
 | readice(hemisphere = "north") | NSIDC CDR daily, north | set: EPSG:3413 | 304 x 448 |
-| read_amsr2_ice | AMSR2 ASI 3.125 km, south | declared | 1264 x 1328 |
+| read_amsr2_ice | AMSR2 ASI 6.25 km (s6250 GeoTIFF), south | declared | 1264 x 1328 |
+| read_amsr_ice_3k_daily | AMSR2 ASI 3.125 km, south | declared | 2528 x 2656 |
 | readssh, read_adt_daily, readcurr | CMEMS SEALEVEL_GLO_PHY_L4 daily, vars adt, ugos, vgos | declared | 2880 x 1440, -180-180 |
 | readwind | NCEP2 6-hourly u/v | declared | 192 x 94, 0-360 |
 | read_ccmp | CCMP v3.1 daily, uwnd/vwnd | declared | 1440 x 720, 0-360 |
@@ -97,3 +101,14 @@ For each dataset: sampled files across its date range open with
 asserted, and give the contract's crs, extent and dim; dates are ordered and
 unique, and each date resolves to exactly one file and band. When raad.virtualize
 publishes the table, raadtools reads its rows instead of its own constants.
+
+## Ledger
+
+`ledger/raadtools.csv` maps each raadtools reader (and the arguments that
+select a source) to its raadfiles finder, listing-corpus source, dataset,
+era and any rasterwise case. One contract row is one (dataset, era), keyed
+by the raad.virtualize dataset id (decided 2026-11-09); readers and finders
+join to it through the ledger and are never the key. `dataset_status` is
+`built` where raad.virtualize publishes the dataset, `proposed` for an id not
+built yet, `none` where no store is planned. `tier` is 1 (store exists), 2
+(corpus listing, no store) or 3 (neither).
