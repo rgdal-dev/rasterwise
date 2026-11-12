@@ -28,7 +28,8 @@ Approach, to keep it read-only and cheap at petabyte scale:
 * raadtools dataset contract: [requests/raadtools-contract.md](requests/raadtools-contract.md).
   One row per dataset (crs, extent, dim, source finder, date contract)
   harvested here, through storecard, into raad.virtualize for raadtools to
-  pull from.
+  pull from. Readers mapped to finders, datasets, eras and cases in
+  [ledger/raadtools.csv](ledger/raadtools.csv).
 
 ## Owner's items (from the collection survey, 2026-11-07)
 
