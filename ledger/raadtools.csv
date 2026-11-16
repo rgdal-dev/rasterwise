@@ -1,0 +1,53 @@
+reader,args,raadfiles_finder,corpus_source_id,dataset,dataset_status,era,group,tier,case,note
+readsst,"time.resolution = ""daily""",oisst_daily_files,noaa_oisst_daily;noaa_oisst_v21_s3,oisst-v2.1-daily,built,final,oisst,1,,"no grid_mapping in the files; raadtools asserts EPSG:4326, 0-360"
+readsst,"time.resolution = ""daily""",oisst_daily_files,noaa_oisst_daily;noaa_oisst_v21_s3,oisst-v2.1-daily,built,preliminary,oisst,1,,the store holds finals only; prelim era not indexed
+read_oisst_daily,,oisst_daily_files,noaa_oisst_daily;noaa_oisst_v21_s3,oisst-v2.1-daily,built,final,oisst,1,,alias of readsst daily
+readsst,"time.resolution = ""monthly""",oisst_monthly_files,,oisst-v2-monthly-psl,proposed,all,oisst,3,,"PSL sst.mon.mean.nc, one file, band per month from 1981-09"
+read_oisst_monthly,,oisst_monthly_files,,oisst-v2-monthly-psl,proposed,all,oisst,3,,
+readice,"hemisphere = ""south""",nsidc_cdr_south_daily_files,cdr_sic_G02202_V6,g02202-v6-daily-south,built,v06r00,seaice,1,,"CRS: raadtools sets EPSG:3976 only when the file declares none; check what v6 declares (D4: 3412 or 3976)"
+readice,"hemisphere = ""north""",nsidc_cdr_north_daily_files,cdr_sic_G02202_V6,g02202-v6-daily-north,built,v06r00,seaice,1,,"CRS: raadtools falls back to EPSG:3413"
+read_nsidc_cdr_daily,,nsidc_cdr_south_daily_files;nsidc_cdr_north_daily_files,cdr_sic_G02202_V6,g02202-v6-daily-south;g02202-v6-daily-north,built,v06r00,seaice,1,,by hemisphere
+read_nsidc_ice_monthly,,nsidc_south_monthly_files;nsidc_north_monthly_files,cdr_sic_G02202_V6,g02202-v6-monthly-south;g02202-v6-monthly-north,proposed,all,seaice,2,,rows commented out in raad.virtualize products/seaice/datasets.tsv
+readice_monthly,,nsidc_south_monthly_files;nsidc_north_monthly_files,cdr_sic_G02202_V6,g02202-v6-monthly-south;g02202-v6-monthly-north,proposed,all,seaice,2,,
+read_nsidc_ice_daily,,nsidc_south_daily_files;nsidc_north_daily_files,,nsidc0051-daily-south;nsidc0051-daily-north,proposed,all,seaice,3,,"NSIDC-0051 flat binary, Earthdata"
+read_amsr_ice_3k_daily,,amsr2_3k_daily_files,amsr2_asi_s3125,asi-amsr2-v5.4-daily-south,built,v5.4,seaice,1,,3.125 km
+read_amsr2_ice,,amsr2_daily_files,,asi-amsr2-6250-daily-south,proposed,all,seaice,3,,"6.25 km s6250 GeoTIFF, 1264 x 1328; not the 3.125 km store"
+read_amsre_ice,,amsre_daily_files;amsr2_daily_files,,asi-amsre-6250-daily-south;asi-amsr2-6250-daily-south,proposed,all,seaice,3,,AMSR-E HDF then AMSR2 GeoTIFF: two eras
+read_amsr_ice_daily,,amsr_daily_files,,asi-amsre-6250-daily-south;asi-amsr2-6250-daily-south,proposed,all,seaice,3,,
+read_cersat_ice_daily,,cersat_daily_files,,cersat-ssmi-daily-south,proposed,all,seaice,3,nsidc-polar-grid-no-coords-flipped,rows stored top-down; needs GDAL_NETCDF_BOTTOMUP=NO
+readfastice,,fraser_fasticefiles,,aad-fastice-fraser,proposed,all,seaice,3,aad-fast-ice-raw-cea-grid-as-lonlat-arrays,
+readfastice_circum,,fasticefiles,,aad-fastice-fraser,proposed,all,seaice,3,aad-fast-ice-raw-cea-grid-as-lonlat-arrays,
+readghrsst,,ghrsst_daily_files,ausantarctic-ghrsst-mur-v2,ghrsst-mur-cog-analysed_sst,built,all,ghrsst,1,,finder already reads the source.coop COGs
+read_topo,"topo = ""ibcso""",ibcso_files,pangaea_937574_ibcso_v2,ibcso-v2,built,all,ibcso,1,,ice surface
+read_topo,"topo = ""ibcso_bed""",ibcso_bed_files,pangaea_937574_ibcso_v2,ibcso-v2,built,all,ibcso,1,,bed
+read_bathy,"topo = ""gebco_23""",gebco23_files,bodc_gebco,gebco-2023,proposed,all,gebco,1,,stores hold gebco-2024..2026; 2023 is the raadtools default
+read_topo,"topo = ""etopo1""",etopo1_files,,etopo1,proposed,all,topography,3,,
+readtopo,"topo = ""etopo2""",etopo2_files,,etopo2,proposed,all,topography,3,,read through a VRT
+read_topo,"topo = ""smith_sandwell""",smith_sandwell_files,,smith-sandwell,proposed,all,topography,3,ucsd-topo-raw-mercator-headers-disagree,
+read_topo,"topo = ""rema_*""",rema_100m_files;rema_200m_files;rema_1km_files,pgc_rema_v2,,none,all,,2,,listing only by decision
+readssh,,altimetry_daily_files,,cmems-sealevel-glo-l4-daily,proposed,all,altimetry,3,,credentialed
+readcurr,,altimetry_daily_files,,cmems-sealevel-glo-l4-daily,proposed,all,altimetry,3,,"ugos, vgos"
+read_cmems_adt_daily,,altimetry_daily_files,,cmems-sealevel-glo-l4-daily,proposed,all,altimetry,3,,one of nine variable readers on this file set
+read_cmems_sla_daily,,altimetry_daily_files,,cmems-sealevel-glo-l4-daily,proposed,all,altimetry,3,,
+read_cmems_err_daily,,altimetry_daily_files,,cmems-sealevel-glo-l4-daily,proposed,all,altimetry,3,,
+read_cmems_ugos_daily,,altimetry_daily_files,,cmems-sealevel-glo-l4-daily,proposed,all,altimetry,3,,
+read_cmems_vgos_daily,,altimetry_daily_files,,cmems-sealevel-glo-l4-daily,proposed,all,altimetry,3,,
+read_cmems_ugosa_daily,,altimetry_daily_files,,cmems-sealevel-glo-l4-daily,proposed,all,altimetry,3,,
+read_cmems_vgosa_daily,,altimetry_daily_files,,cmems-sealevel-glo-l4-daily,proposed,all,altimetry,3,,
+read_cmems_current_speed_daily,,altimetry_daily_files,,cmems-sealevel-glo-l4-daily,proposed,all,altimetry,3,,derived from ugos and vgos
+read_cmems_current_direction_daily,,altimetry_daily_files,,cmems-sealevel-glo-l4-daily,proposed,all,altimetry,3,,derived from ugos and vgos
+read_copernicus_current_daily,,altimetry_daily_files,,cmems-sealevel-glo-l4-daily,proposed,all,altimetry,3,,
+readfsle,,fsle_files,,aviso-fsle-daily,proposed,all,altimetry,3,aviso-mercator-as-lonlat,"credentialed; extent reads -1.057e-09, 360"
+read_fsle_daily,,fsle_files,,aviso-fsle-daily,proposed,all,altimetry,3,,
+readfronts,,allfiles pattern,,acc-fronts,proposed,all,altimetry,3,acc-fronts-mercator,
+readwind,,ncep2_uwnd_6hr_files;ncep2_vwnd_6hr_files,,ncep2-gaussian-6hourly,proposed,all,atmosphere,3,,"0-360, Gaussian latitudes"
+read_ncep2_wind_6hourly,,ncep2_uwnd_6hr_files;ncep2_vwnd_6hr_files,,ncep2-gaussian-6hourly,proposed,all,atmosphere,3,,
+read_ccmp,,ccmp_6hourly_files,,ccmp-v3.1-6hourly,proposed,all,atmosphere,3,,
+read_ccmp_wind_6hourly,,ccmp_6hourly_files,,ccmp-v3.1-6hourly,proposed,all,atmosphere,3,,
+readchla,,ocfiles,,nasa-oc-l3m-chl-4km,proposed,MODISA;VIIRS;SeaWiFS,oceancolour,3,,credentialed (Earthdata); one era per sensor
+read_oc_chl_daily,,ocfiles,,nasa-oc-l3m-chl-4km,proposed,MODISA;VIIRS;SeaWiFS,oceancolour,3,,
+read_oc_chl_8day,,ocfiles,,nasa-oc-l3m-chl-4km,proposed,MODISA;VIIRS;SeaWiFS,oceancolour,3,,
+read_oc_chl_monthly,,ocfiles,,nasa-oc-l3m-chl-4km,proposed,MODISA;VIIRS;SeaWiFS,oceancolour,3,,
+read_oc_par_8day,,par_files,,nasa-oc-l3m-par-4km,proposed,MODISA,oceancolour,3,,
+readmld,,get_raad_filenames pattern,,mld-climatology,proposed,all,,3,,".Rdata RasterBrick: convert once to a COG"
+read_mld_climatology,,get_raad_filenames pattern,,mld-climatology,proposed,all,,3,,
